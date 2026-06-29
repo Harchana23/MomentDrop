@@ -1,33 +1,21 @@
 import Link from "next/link";
+import { isSupabaseConfigured } from "@/lib/supabase";
+import { getDashboardStats, getRecentUploads, type UploadRecord } from "@/lib/db";
 
-const uploads = [
-  {
-    guest: "Maya",
-    files: "8 photos",
-    status: "Ready",
-    folder: "Photos",
-  },
-  {
-    guest: "Arun",
-    files: "1 video",
-    status: "Processing",
-    folder: "Videos",
-  },
-  {
-    guest: "Leela",
-    files: "12 photos",
-    status: "Ready",
-    folder: "Photos",
-  },
-];
+// Always read fresh data on each request.
+export const dynamic = "force-dynamic";
 
-const stats = [
-  { label: "Uploads", value: "21" },
-  { label: "Guests", value: "3" },
-  { label: "Drive", value: "Ready" },
-];
+export default async function AdminPage() {
+  const configured = isSupabaseConfigured();
+  const data = configured ? await getDashboardStats() : null;
+  const uploads: UploadRecord[] = configured ? await getRecentUploads(undefined, 10) : [];
 
-export default function AdminPage() {
+  const stats = [
+    { label: "Uploads", value: data ? String(data.uploads) : "—" },
+    { label: "Guests", value: data ? String(data.guests) : "—" },
+    { label: "Database", value: configured ? "Connected" : "Not set" },
+  ];
+
   return (
     <main className="min-h-screen bg-[#f7f4ee] px-5 py-6 text-[#25211b] md:px-8">
       <div className="mx-auto max-w-6xl">
@@ -63,25 +51,42 @@ export default function AdminPage() {
               <h2 className="text-xl font-semibold">Recent uploads</h2>
             </div>
             <div className="divide-y divide-[#eee6da]">
-              {uploads.map((upload) => (
-                <div
-                  key={upload.guest}
-                  className="grid gap-3 p-5 sm:grid-cols-[1fr_120px_120px]"
-                >
-                  <div>
-                    <p className="font-semibold">{upload.guest}</p>
-                    <p className="mt-1 text-sm text-[#74664f]">
-                      {upload.files} to {upload.folder}
-                    </p>
-                  </div>
-                  <p className="text-sm font-medium text-[#5f513d]">
-                    {upload.status}
-                  </p>
-                  <button className="h-10 border border-[#d8cdbb] text-sm font-semibold text-[#5c4a2e]">
-                    View
-                  </button>
+              {uploads.length === 0 ? (
+                <div className="p-5 text-sm text-[#74664f]">
+                  {configured
+                    ? "No uploads yet — they'll appear here as guests upload."
+                    : "Connect Supabase to see live uploads."}
                 </div>
-              ))}
+              ) : (
+                uploads.map((upload) => (
+                  <div
+                    key={upload.id}
+                    className="grid gap-3 p-5 sm:grid-cols-[1fr_120px_120px]"
+                  >
+                    <div>
+                      <p className="font-semibold">{upload.guestName}</p>
+                      <p className="mt-1 text-sm text-[#74664f]">
+                        {upload.originalFileName ?? upload.mediaType ?? "file"}
+                      </p>
+                    </div>
+                    <p className="text-sm font-medium text-[#5f513d]">{upload.status}</p>
+                    {upload.driveWebViewLink ? (
+                      <a
+                        href={upload.driveWebViewLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex h-10 items-center justify-center border border-[#d8cdbb] text-sm font-semibold text-[#5c4a2e]"
+                      >
+                        View
+                      </a>
+                    ) : (
+                      <span className="flex h-10 items-center justify-center border border-[#eadfce] text-sm text-[#a99a82]">
+                        —
+                      </span>
+                    )}
+                  </div>
+                ))
+              )}
             </div>
           </div>
 
@@ -89,8 +94,10 @@ export default function AdminPage() {
             <h2 className="text-xl font-semibold">Setup</h2>
             <div className="mt-5 space-y-4">
               <div className="border border-[#eee6da] p-4">
-                <p className="text-sm font-semibold">Firebase</p>
-                <p className="mt-2 text-sm text-[#74664f]">Not connected</p>
+                <p className="text-sm font-semibold">Supabase</p>
+                <p className={`mt-2 text-sm ${configured ? "text-[#3b7a4f]" : "text-[#74664f]"}`}>
+                  {configured ? "Connected" : "Not connected"}
+                </p>
               </div>
               <div className="border border-[#eee6da] p-4">
                 <p className="text-sm font-semibold">Google Drive</p>
