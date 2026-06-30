@@ -35,9 +35,16 @@ function uploadToSignedUrl(
   });
 }
 
-export default function GuestUploader({ eventSlug }: { eventSlug: string }) {
+export default function GuestUploader({
+  eventSlug,
+  albums = [],
+}: {
+  eventSlug: string;
+  albums?: { id: string; title: string }[];
+}) {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+  const [albumId, setAlbumId] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [phase, setPhase] = useState<Phase>("idle");
   const [pct, setPct] = useState(0);
@@ -105,6 +112,7 @@ export default function GuestUploader({ eventSlug }: { eventSlug: string }) {
           eventSlug,
           guestName: name.trim(),
           message: message.trim(),
+          albumId,
           files: done,
         }),
       });
@@ -173,6 +181,25 @@ export default function GuestUploader({ eventSlug }: { eventSlug: string }) {
           onChange={(e) => setMessage(e.target.value)}
         />
       </label>
+
+      {albums.length > 0 && (
+        <label className="block">
+          <span className="text-sm font-medium text-[#4a4035]">Album</span>
+          <select
+            value={albumId}
+            onChange={(e) => setAlbumId(e.target.value)}
+            disabled={busy}
+            className="mt-2 h-12 w-full border border-[#d8cdbb] bg-[#fffdf9] px-4 text-base outline-none transition focus:border-[#8f7245] disabled:opacity-60"
+          >
+            <option value="">General</option>
+            {albums.map((a) => (
+              <option key={a.id} value={a.id}>
+                {a.title}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
 
       <label className="grid min-h-40 cursor-pointer place-items-center border border-dashed border-[#bda77f] bg-[#fbf7ef] px-4 text-center transition hover:border-[#8f7245]">
         <input

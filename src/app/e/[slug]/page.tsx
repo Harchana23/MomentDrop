@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { getPublicEventBySlug, getPublicGallery, uploadsOpen } from "@/lib/events/public";
 import { getCountdownPublic, countingDown } from "@/lib/events/countdown";
+import { getGuestAlbums } from "@/lib/albums";
 import { cookieToken } from "@/lib/password";
 import { verifyEventPassword } from "@/lib/events/guest-actions";
 import GuestUploader from "./guest-uploader";
@@ -57,6 +58,7 @@ export default async function GuestEventPage({
   }
 
   const open = uploadsOpen(event);
+  const albums = open.open ? await getGuestAlbums(event.id) : [];
   const gallery = event.allow_downloads ? await getPublicGallery(event.id) : [];
 
   return (
@@ -82,7 +84,7 @@ export default async function GuestEventPage({
 
         <div className="mx-auto mt-8 max-w-md border border-[#e1d8ca] bg-white p-5 shadow-[0_24px_80px_rgba(70,55,35,0.12)] md:p-7">
           {open.open ? (
-            <GuestUploader eventSlug={event.slug} />
+            <GuestUploader eventSlug={event.slug} albums={albums} />
           ) : (
             <div className="py-8 text-center">
               <h2 className="text-xl font-semibold tracking-tight">Uploads closed</h2>

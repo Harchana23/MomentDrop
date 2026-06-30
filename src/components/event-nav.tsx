@@ -3,6 +3,7 @@ import Link from "next/link";
 const ITEMS = [
   { key: "overview", label: "Overview", path: "" },
   { key: "media", label: "Media", path: "/media" },
+  { key: "albums", label: "Albums", path: "/albums" },
   { key: "guests", label: "Guests", path: "/guests" },
   { key: "countdown", label: "Countdown", path: "/countdown" },
   { key: "print", label: "Print", path: "/print" },

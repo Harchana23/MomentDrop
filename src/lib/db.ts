@@ -18,6 +18,7 @@ export async function recordUploads(
   guestName: string,
   files: UploadedFileInput[],
   reviewStatus: "published" | "pending" = "published",
+  albumId?: string | null,
 ): Promise<number> {
   const sb = getSupabaseAdmin();
   if (!sb || files.length === 0) return 0;
@@ -31,6 +32,8 @@ export async function recordUploads(
     size_bytes: f.size,
     storage_path: f.storagePath,
     review_status: reviewStatus,
+    // album_id only included when set, so inserts work before the 005 migration.
+    ...(albumId ? { album_id: albumId } : {}),
   }));
 
   const { error } = await sb.from("uploads").insert(rows);

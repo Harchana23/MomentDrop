@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { recordUploads, type UploadedFileInput } from "@/lib/db";
 import { isSupabaseConfigured } from "@/lib/supabase/admin";
 import { getPublicEventBySlug } from "@/lib/events/public";
+import { isEventAlbum } from "@/lib/albums";
 
 export const runtime = "nodejs";
 
@@ -18,7 +19,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Storage is not configured." }, { status: 503 });
   }
 
-  let body: { eventSlug?: unknown; guestName?: unknown; message?: unknown; files?: unknown };
+  let body: {
+    eventSlug?: unknown;
+    guestName?: unknown;
+    message?: unknown;
+    albumId?: unknown;
+    files?: unknown;
+  };
   try {
     body = await request.json();
   } catch {
@@ -33,6 +40,9 @@ export async function POST(request: Request) {
 
   const event = slug ? await getPublicEventBySlug(slug) : null;
   if (!event) return NextResponse.json({ error: "Event not found." }, { status: 404 });
+
+  const rawAlbumId = typeof body.albumId === "string" ? body.albumId : "";
+  const albumId = rawAlbumId && (await isEventAlbum(event.id, rawAlbumId)) ? rawAlbumId : null;
 
   const raw = Array.isArray(body.files) ? (body.files as IncomingFile[]) : [];
   const files: UploadedFileInput[] = raw
@@ -50,7 +60,7 @@ export async function POST(request: Request) {
 
   const reviewStatus = event.require_approval ? "pending" : "published";
   try {
-    const count = await recordUploads(event.id, guestName, files, reviewStatus);
+    const count = await recordUploads(event.id, guestName, files, reviewStatus, albumId);
     return NextResponse.json({ recorded: count, pending: event.require_approval });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Could not save upload.";
