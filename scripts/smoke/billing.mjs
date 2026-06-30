@@ -1,0 +1,16 @@
+import { readFileSync } from "node:fs";
+const env = Object.fromEntries(readFileSync(".env.local","utf8").split(/\r?\n/).filter(l=>l&&!l.trimStart().startsWith("#")&&l.includes("=")).map(l=>{const i=l.indexOf("=");return[l.slice(0,i).trim(),l.slice(i+1).trim().replace(/^["']|["']$/g,"")];}));
+const { createClient } = await import("@supabase/supabase-js");
+const admin = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, { auth:{persistSession:false} });
+const stamp = Date.now();
+const { data:u } = await admin.auth.admin.createUser({ email:`bill-${stamp}@example.com`, password:"Password123!", email_confirm:true });
+const { data:ev } = await admin.from("events").insert({ owner_id:u.user.id, slug:`bill-${stamp}`, title:"Bill" }).select("id, plan, file_limit").single();
+console.log("before:", ev.plan, ev.file_limit);
+const activeUntil = new Date(Date.now()+60*864e5).toISOString();
+await admin.from("events").update({ plan:"event", file_limit:1000, active_until:activeUntil, status:"active" }).eq("id", ev.id);
+const { data:after } = await admin.from("events").select("plan, file_limit, active_until").eq("id", ev.id).single();
+const days = Math.round((new Date(after.active_until)-Date.now())/864e5);
+console.log("after grant:", after.plan==="event"&&after.file_limit===1000&&days>=59 ? `ok (event, 1000 files, ~${days}d)` : "FAIL "+JSON.stringify(after));
+await admin.from("events").delete().eq("id", ev.id);
+await admin.auth.admin.deleteUser(u.user.id);
+console.log("cleaned up");
