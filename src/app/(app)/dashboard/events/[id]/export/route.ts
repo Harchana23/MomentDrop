@@ -53,7 +53,7 @@ export async function GET(
     await finished;
 
     const zip = Buffer.concat(chunks);
-    const fileName = `${event.slug}-photos-${new Date().toISOString().slice(0, 10)}.zip`;
+    const fileName = `${safe(event.title)} - photos - ${new Date().toISOString().slice(0, 10)}.zip`;
     return new Response(new Uint8Array(zip), {
       headers: {
         "Content-Type": "application/zip",
