@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { getPublicEventBySlug, getPublicGallery, uploadsOpen } from "@/lib/events/public";
+import { getCountdownPublic, countingDown } from "@/lib/events/countdown";
 import { cookieToken } from "@/lib/password";
 import { verifyEventPassword } from "@/lib/events/guest-actions";
 import GuestUploader from "./guest-uploader";
+import CountdownScreen from "./countdown-screen";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +20,11 @@ export default async function GuestEventPage({
   const sp = await searchParams;
   const event = await getPublicEventBySlug(slug);
   if (!event) notFound();
+
+  const cd = await getCountdownPublic(event.id);
+  if (countingDown(cd)) {
+    return <CountdownScreen title={cd.title || event.title} until={cd.until as string} />;
+  }
 
   if (event.password_hash) {
     const store = await cookies();

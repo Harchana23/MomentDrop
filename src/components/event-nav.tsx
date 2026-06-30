@@ -4,6 +4,7 @@ const ITEMS = [
   { key: "overview", label: "Overview", path: "" },
   { key: "media", label: "Media", path: "/media" },
   { key: "guests", label: "Guests", path: "/guests" },
+  { key: "countdown", label: "Countdown", path: "/countdown" },
   { key: "print", label: "Print", path: "/print" },
   { key: "access", label: "Access", path: "/access" },
   { key: "settings", label: "Settings", path: "/settings" },
