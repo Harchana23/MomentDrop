@@ -28,8 +28,11 @@ create table if not exists uploads (
   original_file_name  text,
   media_type          text,
   status              text not null default 'Ready',
-  drive_file_id       text,
-  drive_web_view_link text,
+  storage_path        text,                          -- object path in the 'event-media' bucket
+  mime_type           text,
+  size_bytes          bigint,
+  drive_file_id       text,                          -- legacy; unused with Supabase Storage
+  drive_web_view_link text,                          -- legacy; unused with Supabase Storage
   created_at          timestamptz not null default now()
 );
 

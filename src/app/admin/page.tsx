@@ -28,12 +28,22 @@ export default async function AdminPage() {
               Harchana Wedding
             </h1>
           </div>
-          <Link
-            className="inline-flex h-11 items-center justify-center bg-[#1f1b16] px-5 text-sm font-semibold text-white"
-            href="/"
-          >
-            Open guest page
-          </Link>
+          <div className="flex gap-3">
+            {configured && (data?.uploads ?? 0) > 0 && (
+              <a
+                className="inline-flex h-11 items-center justify-center border border-[#c2a86f] bg-[#8d7147] px-5 text-sm font-semibold text-white"
+                href="/api/admin/export"
+              >
+                Download all (ZIP)
+              </a>
+            )}
+            <Link
+              className="inline-flex h-11 items-center justify-center bg-[#1f1b16] px-5 text-sm font-semibold text-white"
+              href="/"
+            >
+              Open guest page
+            </Link>
+          </div>
         </header>
 
         <section className="mt-8 grid gap-4 md:grid-cols-3">
@@ -70,9 +80,9 @@ export default async function AdminPage() {
                       </p>
                     </div>
                     <p className="text-sm font-medium text-[#5f513d]">{upload.status}</p>
-                    {upload.driveWebViewLink ? (
+                    {upload.storagePath ? (
                       <a
-                        href={upload.driveWebViewLink}
+                        href={`/api/admin/file?path=${encodeURIComponent(upload.storagePath)}`}
                         target="_blank"
                         rel="noreferrer"
                         className="flex h-10 items-center justify-center border border-[#d8cdbb] text-sm font-semibold text-[#5c4a2e]"
@@ -100,8 +110,10 @@ export default async function AdminPage() {
                 </p>
               </div>
               <div className="border border-[#eee6da] p-4">
-                <p className="text-sm font-semibold">Google Drive</p>
-                <p className="mt-2 text-sm text-[#74664f]">Not connected</p>
+                <p className="text-sm font-semibold">Media storage</p>
+                <p className={`mt-2 text-sm ${configured ? "text-[#3b7a4f]" : "text-[#74664f]"}`}>
+                  {configured ? "Supabase Storage · event-media" : "Not connected"}
+                </p>
               </div>
               <div className="border border-[#eee6da] p-4">
                 <p className="text-sm font-semibold">QR link</p>
