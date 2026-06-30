@@ -143,6 +143,26 @@ export default async function EventOverviewPage({
             </a>
           </div>
         </section>
+
+        <section className="mt-6 border border-[#ded4c4] bg-white p-6">
+          <h2 className="text-xl font-semibold">Photo Wall</h2>
+          <p className="mt-1 text-sm text-[#74664f]">
+            A live slideshow of published photos for a screen or projector at your event.
+          </p>
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <code className="flex-1 break-all border border-[#e6ddcf] bg-[#fbf7ef] px-3 py-2 text-sm text-[#5c4a2e]">
+              {shareUrl}/wall
+            </code>
+            <a
+              href={`/e/${event.slug}/wall`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex h-11 items-center justify-center bg-[#1f1b16] px-5 text-sm font-semibold text-white hover:bg-[#3a3127]"
+            >
+              Open photo wall
+            </a>
+          </div>
+        </section>
       </div>
     </main>
   );
