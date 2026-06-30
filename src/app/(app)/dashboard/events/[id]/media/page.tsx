@@ -8,6 +8,7 @@ import {
 } from "@/lib/uploads/queries";
 import { createSignedDownloadUrl } from "@/lib/storage";
 import { setUploadStatus } from "@/lib/uploads/actions";
+import { EventNav } from "@/components/event-nav";
 
 export const dynamic = "force-dynamic";
 
@@ -81,7 +82,8 @@ export default async function MediaPage({
           <Link href={`/dashboard/events/${id}`} className="text-sm text-[#8b6e3f]">
             ← {event.title}
           </Link>
-          <div className="mt-2 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <EventNav eventId={id} active="media" />
+          <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <h1 className="text-3xl font-semibold tracking-tight">Media</h1>
             {hasAny && (
               <a

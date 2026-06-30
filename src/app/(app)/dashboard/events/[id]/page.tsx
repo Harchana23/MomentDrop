@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getEventForOwner, getEventStats } from "@/lib/events/queries";
 import { getSiteUrl } from "@/lib/site-url";
 import { qrDataUrl } from "@/lib/qr";
+import { EventNav } from "@/components/event-nav";
 
 export const dynamic = "force-dynamic";
 
@@ -23,23 +24,16 @@ export default async function EventOverviewPage({
   return (
     <main className="min-h-screen bg-[#f7f4ee] px-5 py-6 text-[#25211b] md:px-8">
       <div className="mx-auto max-w-5xl">
-        <header className="flex flex-col gap-3 border-b border-[#ded4c4] pb-6 md:flex-row md:items-center md:justify-between">
-          <div>
-            <Link href="/dashboard" className="text-sm text-[#8b6e3f]">
-              ← All events
-            </Link>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight">{event.title}</h1>
-            <p className="mt-1 text-sm text-[#74664f]">
-              {event.event_type}
-              {event.event_date ? ` · ${event.event_date}` : ""} · {event.plan} plan
-            </p>
-          </div>
-          <Link
-            href={`/dashboard/events/${event.id}/media`}
-            className="inline-flex h-11 w-fit items-center justify-center bg-[#1f1b16] px-5 text-sm font-semibold text-white"
-          >
-            View &amp; download photos
+        <header>
+          <Link href="/dashboard" className="text-sm text-[#8b6e3f]">
+            ← All events
           </Link>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight">{event.title}</h1>
+          <p className="mt-1 text-sm text-[#74664f]">
+            {event.event_type}
+            {event.event_date ? ` · ${event.event_date}` : ""} · {event.plan} plan
+          </p>
+          <EventNav eventId={event.id} active="overview" />
         </header>
 
         <section className="mt-8 grid gap-4 sm:grid-cols-3">
