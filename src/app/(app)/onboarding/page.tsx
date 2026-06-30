@@ -28,7 +28,7 @@ export default async function OnboardingPage({
               name="title"
               type="text"
               required
-              placeholder="e.g. Harchana & Vikram's Wedding"
+              placeholder="e.g. Summer Wedding 2026"
               className="mt-2 h-12 w-full border border-[#d8cdbb] bg-[#fffdf9] px-4 outline-none focus:border-[#8f7245]"
             />
           </label>
