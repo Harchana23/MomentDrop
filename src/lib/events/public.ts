@@ -1,4 +1,5 @@
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
+import { createSignedDownloadUrl } from "@/lib/storage";
 
 export type PublicEvent = {
   id: string;
@@ -7,6 +8,7 @@ export type PublicEvent = {
   eyebrow: string | null;
   host_message: string | null;
   allow_uploads: boolean;
+  allow_downloads: boolean;
   require_approval: boolean;
   active_until: string;
   status: string;
@@ -20,7 +22,7 @@ export async function getPublicEventBySlug(slug: string): Promise<PublicEvent | 
   const { data } = await sb
     .from("events")
     .select(
-      "id, slug, title, eyebrow, host_message, allow_uploads, require_approval, active_until, status, file_limit",
+      "id, slug, title, eyebrow, host_message, allow_uploads, allow_downloads, require_approval, active_until, status, file_limit",
     )
     .eq("slug", slug)
     .maybeSingle();
@@ -44,4 +46,37 @@ export function uploadsOpen(e: PublicEvent): { open: boolean; reason?: string } 
   if (new Date(e.active_until).getTime() < Date.now())
     return { open: false, reason: "This event has ended." };
   return { open: true };
+}
+
+export type GalleryItem = {
+  id: string;
+  url: string | null;
+  mediaType: string | null;
+  originalFileName: string | null;
+  guestName: string;
+};
+
+/** Published photos/videos for an event's public gallery, newest first (signed URLs). */
+export async function getPublicGallery(eventId: string, max = 200): Promise<GalleryItem[]> {
+  const sb = getSupabaseAdmin();
+  if (!sb) return [];
+  const { data } = await sb
+    .from("uploads")
+    .select("id, storage_path, media_type, original_file_name, guest_name")
+    .eq("event_id", eventId)
+    .eq("review_status", "published")
+    .order("created_at", { ascending: false })
+    .limit(max);
+
+  return Promise.all(
+    (data ?? [])
+      .filter((r) => r.storage_path)
+      .map(async (r) => ({
+        id: r.id as string,
+        url: await createSignedDownloadUrl(r.storage_path as string, 3600),
+        mediaType: (r.media_type as string) ?? null,
+        originalFileName: (r.original_file_name as string) ?? null,
+        guestName: (r.guest_name as string) ?? "Guest",
+      })),
+  );
 }
