@@ -1,17 +1,53 @@
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import { getPublicEventBySlug, getPublicGallery, uploadsOpen } from "@/lib/events/public";
+import { cookieToken } from "@/lib/password";
+import { verifyEventPassword } from "@/lib/events/guest-actions";
 import GuestUploader from "./guest-uploader";
 
 export const dynamic = "force-dynamic";
 
 export default async function GuestEventPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ pwerror?: string }>;
 }) {
   const { slug } = await params;
+  const sp = await searchParams;
   const event = await getPublicEventBySlug(slug);
   if (!event) notFound();
+
+  if (event.password_hash) {
+    const store = await cookies();
+    if (store.get(`md_pw_${event.id}`)?.value !== cookieToken(event.password_hash)) {
+      return (
+        <main className="grid min-h-screen place-items-center bg-[#fbfaf7] px-5 text-[#22211f]">
+          <div className="w-full max-w-sm border border-[#e1d8ca] bg-white p-7 text-center shadow-[0_24px_80px_rgba(70,55,35,0.12)]">
+            <h1 className="text-2xl font-semibold tracking-tight">{event.title}</h1>
+            <p className="mt-2 text-sm text-[#695b49]">This event is password protected.</p>
+            {sp.pwerror && (
+              <p className="mt-4 text-sm text-[#9a3b2b]">Wrong password — try again.</p>
+            )}
+            <form action={verifyEventPassword} className="mt-5 space-y-3">
+              <input type="hidden" name="slug" value={event.slug} />
+              <input
+                name="password"
+                type="password"
+                required
+                placeholder="Event password"
+                className="h-12 w-full border border-[#d8cdbb] bg-[#fffdf9] px-4 outline-none focus:border-[#8f7245]"
+              />
+              <button className="h-12 w-full bg-[#1f1b16] text-base font-semibold text-white">
+                Enter
+              </button>
+            </form>
+          </div>
+        </main>
+      );
+    }
+  }
 
   const open = uploadsOpen(event);
   const gallery = event.allow_downloads ? await getPublicGallery(event.id) : [];

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getEventForOwner } from "@/lib/events/queries";
 import { EventNav } from "@/components/event-nav";
-import { updateAccessControl } from "@/lib/events/actions";
+import { updateAccessControl, setEventPassword } from "@/lib/events/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -81,6 +81,34 @@ export default async function AccessPage({
             </button>
           </div>
         </form>
+
+        <section className="mt-6 border border-[#ded4c4] bg-white p-6">
+          <h2 className="text-xl font-semibold">Password protection</h2>
+          <p className="mt-1 text-sm text-[#74664f]">
+            {event.password_hash
+              ? "Guests must enter a password to open this event."
+              : "Add a password guests must enter to open the event."}
+          </p>
+          <form action={setEventPassword} className="mt-4 flex flex-col gap-3 sm:flex-row">
+            <input type="hidden" name="id" value={id} />
+            <input
+              name="password"
+              type="text"
+              placeholder={event.password_hash ? "New password" : "Set a password"}
+              className="h-12 flex-1 border border-[#d8cdbb] bg-[#fffdf9] px-4 outline-none focus:border-[#8f7245]"
+            />
+            <button className="h-12 bg-[#1f1b16] px-5 text-sm font-semibold text-white hover:bg-[#3a3127]">
+              {event.password_hash ? "Update password" : "Set password"}
+            </button>
+          </form>
+          {event.password_hash && (
+            <form action={setEventPassword} className="mt-3">
+              <input type="hidden" name="id" value={id} />
+              <input type="hidden" name="password" value="" />
+              <button className="text-sm text-[#9a3b2b] underline">Remove password</button>
+            </form>
+          )}
+        </section>
       </div>
     </main>
   );

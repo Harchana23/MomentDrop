@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { makeEventSlug, slugify } from "@/lib/slug";
+import { hashPassword } from "@/lib/password";
 
 export async function createEvent(formData: FormData) {
   const sb = await supabaseServer();
@@ -86,6 +87,18 @@ export async function updateAccessControl(formData: FormData) {
   };
   const sb = await supabaseServer();
   await sb.from("events").update(patch).eq("id", id);
+  revalidatePath(`/dashboard/events/${id}/access`);
+  redirect(`/dashboard/events/${id}/access?saved=1`);
+}
+
+export async function setEventPassword(formData: FormData) {
+  const id = String(formData.get("id") ?? "");
+  const password = String(formData.get("password") ?? "").trim();
+  const sb = await supabaseServer();
+  await sb
+    .from("events")
+    .update({ password_hash: password ? hashPassword(password) : null })
+    .eq("id", id);
   revalidatePath(`/dashboard/events/${id}/access`);
   redirect(`/dashboard/events/${id}/access?saved=1`);
 }

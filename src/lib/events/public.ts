@@ -13,6 +13,7 @@ export type PublicEvent = {
   active_until: string;
   status: string;
   file_limit: number;
+  password_hash: string | null;
 };
 
 /** Public event config by slug, read with the service-role client (guests are anonymous). */
@@ -22,7 +23,7 @@ export async function getPublicEventBySlug(slug: string): Promise<PublicEvent | 
   const { data } = await sb
     .from("events")
     .select(
-      "id, slug, title, eyebrow, host_message, allow_uploads, allow_downloads, require_approval, active_until, status, file_limit",
+      "id, slug, title, eyebrow, host_message, allow_uploads, allow_downloads, require_approval, active_until, status, file_limit, password_hash",
     )
     .eq("slug", slug)
     .maybeSingle();

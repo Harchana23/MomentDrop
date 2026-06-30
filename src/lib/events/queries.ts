@@ -16,6 +16,7 @@ export type EventRow = {
   allow_downloads: boolean;
   require_approval: boolean;
   guests_see_only_own: boolean;
+  password_hash: string | null;
 };
 
 /** The event if it belongs to the signed-in owner, else null (RLS-enforced). */
@@ -24,7 +25,7 @@ export async function getEventForOwner(id: string): Promise<EventRow | null> {
   const { data } = await sb
     .from("events")
     .select(
-      "id, slug, title, event_type, event_date, eyebrow, host_message, plan, file_limit, active_until, status, allow_uploads, allow_downloads, require_approval, guests_see_only_own",
+      "id, slug, title, event_type, event_date, eyebrow, host_message, plan, file_limit, active_until, status, allow_uploads, allow_downloads, require_approval, guests_see_only_own, password_hash",
     )
     .eq("id", id)
     .maybeSingle();
