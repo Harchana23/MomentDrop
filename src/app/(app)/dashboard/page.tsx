@@ -55,11 +55,16 @@ export default async function DashboardPage() {
         ) : (
           <ul className="mt-8 grid gap-4 md:grid-cols-2">
             {(events ?? []).map((e) => (
-              <li key={e.id as string} className="border border-[#ded4c4] bg-white p-5">
-                <p className="text-lg font-semibold">{e.title as string}</p>
-                <p className="mt-1 text-sm text-[#74664f]">
-                  /e/{e.slug as string} · {String(e.plan)}
-                </p>
+              <li key={e.id as string}>
+                <Link
+                  href={`/dashboard/events/${e.id as string}`}
+                  className="block border border-[#ded4c4] bg-white p-5 transition hover:border-[#8d7147]"
+                >
+                  <p className="text-lg font-semibold">{e.title as string}</p>
+                  <p className="mt-1 text-sm text-[#74664f]">
+                    /e/{e.slug as string} · {String(e.plan)}
+                  </p>
+                </Link>
               </li>
             ))}
           </ul>
