@@ -34,6 +34,12 @@ export default async function EventOverviewPage({
               {event.event_date ? ` · ${event.event_date}` : ""} · {event.plan} plan
             </p>
           </div>
+          <Link
+            href={`/dashboard/events/${event.id}/media`}
+            className="inline-flex h-11 w-fit items-center justify-center bg-[#1f1b16] px-5 text-sm font-semibold text-white"
+          >
+            View &amp; download photos
+          </Link>
         </header>
 
         <section className="mt-8 grid gap-4 sm:grid-cols-3">
