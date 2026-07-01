@@ -142,8 +142,9 @@ export default function GuestUploader({
         </div>
         <h2 className="mt-5 text-2xl font-semibold tracking-tight">Thank you!</h2>
         <p className="mt-2 text-sm text-[#695b49]">
-          Your {files.length} {files.length === 1 ? "memory is" : "memories are"} in the
-          couple&apos;s album.
+          {files.length === 1
+            ? "Your memory is now in the album."
+            : `Your ${files.length} memories are now in the album.`}
         </p>
         <button
           onClick={reset}
