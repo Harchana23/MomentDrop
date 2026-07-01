@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
-import { PhoneMock, PhotoWallMock, QrCardMock, Faq } from "@/components/marketing";
+import { PhoneMock, PhotoGrid, QrCardMock, Faq, Photo } from "@/components/marketing";
 
 export const metadata: Metadata = {
   title: "MomentDrop — collect every guest's photos with one QR scan",
@@ -29,6 +29,13 @@ const USE_CASES = [
   { t: "Birthdays", d: "Candids from every guest.", href: "/use-cases/birthday" },
   { t: "Parties", d: "The whole night, crowdsourced.", href: "/use-cases/party" },
   { t: "Corporate", d: "Conferences, launches, off-sites.", href: "/use-cases/corporate" },
+];
+
+const MALAYSIA = [
+  { t: "Malay weddings", d: "From the kenduri to the pelamin.", src: "/marketing/wedding-malay.jpg" },
+  { t: "Chinese weddings", d: "Tea ceremony to the banquet.", src: "/marketing/wedding-chinese.jpg" },
+  { t: "Indian weddings", d: "Every colour, every ritual.", src: "/marketing/wedding-indian.jpg" },
+  { t: "Church weddings", d: "The aisle and the after-party.", src: "/marketing/wedding-christian.jpg" },
 ];
 
 const FAQS = [
@@ -71,12 +78,18 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-        <div className="relative flex items-center justify-center">
-          <div className="absolute -right-2 top-2 hidden rotate-3 sm:block">
-            <QrCardMock />
-          </div>
-          <div className="-rotate-2">
+        <div className="relative pb-10 md:pb-0">
+          <Photo
+            src="/marketing/hero.jpg"
+            alt="Guests taking photos at a Malaysian celebration"
+            fallback="#d8c3a3"
+            className="aspect-[4/3] w-full border border-[#e6ddcf] shadow-[0_30px_80px_rgba(70,55,35,0.15)]"
+          />
+          <div className="absolute -bottom-4 -left-3 hidden -rotate-2 sm:block">
             <PhoneMock />
+          </div>
+          <div className="absolute -right-3 -top-6 hidden rotate-3 md:block">
+            <QrCardMock />
           </div>
         </div>
       </section>
@@ -120,7 +133,7 @@ export default function HomePage() {
         <div className="grid items-center gap-12 md:grid-cols-[0.9fr_1.1fr]">
           <div className="order-2 md:order-1">
             <div className="border border-[#e6ddcf] bg-white p-4">
-              <PhotoWallMock count={9} />
+              <PhotoGrid count={6} />
               <p className="mt-3 text-center text-xs uppercase tracking-[0.2em] text-[#a18e73]">
                 The shared album
               </p>
@@ -166,13 +179,52 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Malaysian celebrations */}
+      <section className="mx-auto max-w-6xl px-5 py-8">
+        <div className="text-center">
+          <p className="text-sm font-medium uppercase tracking-[0.24em] text-[#7f6a46]">
+            Proudly Malaysian
+          </p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+            Every tradition, every table
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-[#695b49]">
+            From a Malay kenduri to a Chinese tea ceremony, an Indian wedding to a church
+            celebration — MomentDrop gathers every guest&apos;s view of the day.
+          </p>
+        </div>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {MALAYSIA.map((m) => (
+            <div key={m.t} className="overflow-hidden border border-[#e6ddcf] bg-white">
+              <Photo src={m.src} alt={m.t} className="aspect-[4/5] w-full" />
+              <div className="p-4">
+                <h3 className="text-base font-semibold">{m.t}</h3>
+                <p className="mt-1 text-sm text-[#695b49]">{m.d}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Testimonial */}
-      <section className="mx-auto max-w-3xl px-5 py-12 text-center">
-        <p className="text-2xl font-medium leading-relaxed text-[#3a3127]">
-          &ldquo;We got hundreds of photos we&apos;d never have seen otherwise — the dance floor,
-          the kids&apos; table, all of it. The QR on every table just worked.&rdquo;
-        </p>
-        <p className="mt-5 text-sm uppercase tracking-[0.2em] text-[#8d7147]">A happy couple</p>
+      <section className="mx-auto max-w-4xl px-5 py-16">
+        <div className="grid items-center gap-8 sm:grid-cols-[auto_1fr]">
+          <Photo
+            src="/marketing/testimonial.jpg"
+            alt="A happy couple"
+            fallback="#cdb39a"
+            className="mx-auto h-28 w-28 rounded-full"
+          />
+          <div>
+            <p className="text-2xl font-medium leading-relaxed text-[#3a3127]">
+              &ldquo;We got hundreds of photos we&apos;d never have seen otherwise — the dance
+              floor, the kids&apos; table, all of it. The QR on every table just worked.&rdquo;
+            </p>
+            <p className="mt-4 text-sm uppercase tracking-[0.2em] text-[#8d7147]">
+              Aisyah &amp; Daniel · KL wedding
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* FAQ */}

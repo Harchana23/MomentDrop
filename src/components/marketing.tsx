@@ -18,6 +18,48 @@ export function PhotoWallMock({ count = 9, className = "" }: { count?: number; c
   );
 }
 
+/**
+ * A real photo (from /public/marketing) with a graceful warm fallback colour, so
+ * the page still looks intentional before the image files are added.
+ */
+export function Photo({
+  src,
+  alt,
+  className = "",
+  fallback = "#e3d3bd",
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  fallback?: string;
+}) {
+  return (
+    <div
+      role="img"
+      aria-label={alt}
+      className={`bg-cover bg-center ${className}`}
+      style={{ backgroundImage: `url(${src})`, backgroundColor: fallback }}
+    />
+  );
+}
+
+/** Grid of real event photos: /marketing/gallery-1..N.jpg, warm fallbacks. */
+export function PhotoGrid({ count = 6, className = "" }: { count?: number; className?: string }) {
+  return (
+    <div className={`grid grid-cols-3 gap-2 ${className}`}>
+      {Array.from({ length: count }, (_, i) => (
+        <Photo
+          key={i}
+          src={`/marketing/gallery-${i + 1}.jpg`}
+          alt="A guest's event photo"
+          fallback={PHOTO_FILLS[i % PHOTO_FILLS.length]}
+          className="aspect-square"
+        />
+      ))}
+    </div>
+  );
+}
+
 /** A phone showing the guest upload screen. */
 export function PhoneMock({ title = "Sarah & James" }: { title?: string }) {
   return (
