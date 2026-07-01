@@ -65,22 +65,29 @@ export async function ensureEventFolder(key: string): Promise<string> {
   return id ?? "";
 }
 
-/** Start a resumable upload; returns the session URI the browser PUTs the file to. */
+/**
+ * Start a resumable upload; returns the session URI the browser PUTs the file to.
+ * `origin` MUST be the page's origin — Google only enables CORS on the session
+ * (so the browser's cross-origin PUT is allowed) when the init request carries it.
+ */
 export async function initResumableUpload(
   folderId: string,
   name: string,
   mimeType: string,
   size: number,
+  origin: string,
 ): Promise<string | null> {
   const h = await authHeaders();
+  const headers: Record<string, string> = {
+    ...h,
+    "Content-Type": "application/json; charset=UTF-8",
+    "X-Upload-Content-Type": mimeType || "application/octet-stream",
+    "X-Upload-Content-Length": String(size),
+  };
+  if (origin) headers["Origin"] = origin;
   const r = await fetch(`${UPLOAD}/files?uploadType=resumable&fields=id`, {
     method: "POST",
-    headers: {
-      ...h,
-      "Content-Type": "application/json; charset=UTF-8",
-      "X-Upload-Content-Type": mimeType || "application/octet-stream",
-      "X-Upload-Content-Length": String(size),
-    },
+    headers,
     body: JSON.stringify({ name, parents: [folderId] }),
   });
   return r.headers.get("location");

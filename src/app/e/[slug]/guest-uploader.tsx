@@ -216,7 +216,7 @@ export default function GuestUploader({
               : "Choose photos or videos"}
           </span>
           <span className="mt-2 block text-sm text-[#7a6b58]">
-            JPG, PNG, HEIC, MP4, MOV · up to 50MB each
+            JPG, PNG, HEIC, MP4, MOV · up to 100MB each
           </span>
         </span>
       </label>

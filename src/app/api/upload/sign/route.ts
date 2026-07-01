@@ -62,6 +62,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Could not prepare storage." }, { status: 500 });
   }
 
+  // The browser will PUT to Drive from this origin — Drive needs it to enable CORS.
+  const origin = request.headers.get("origin") ?? process.env.NEXT_PUBLIC_SITE_URL ?? "";
+
   const signed = [];
   for (const f of files) {
     const name = typeof f.name === "string" && f.name ? f.name : "file";
@@ -75,7 +78,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: `"${name}" is larger than the ${MAX_MB}MB limit.` }, { status: 400 });
     }
 
-    const sessionUri = await initResumableUpload(folderId, safeFileName(name), type, size);
+    const sessionUri = await initResumableUpload(folderId, safeFileName(name), type, size, origin);
     if (!sessionUri) {
       return NextResponse.json({ error: "Could not start upload." }, { status: 500 });
     }
