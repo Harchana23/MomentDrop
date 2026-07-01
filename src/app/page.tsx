@@ -197,7 +197,7 @@ export default function HomePage() {
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {MALAYSIA.map((m) => (
             <div key={m.t} className="overflow-hidden border border-[#e6ddcf] bg-white">
-              <Photo src={m.src} alt={m.t} className="aspect-[4/5] w-full" />
+              <Photo src={m.src} alt={m.t} className="aspect-[3/4] w-full" />
               <div className="p-4">
                 <h3 className="text-base font-semibold">{m.t}</h3>
                 <p className="mt-1 text-sm text-[#695b49]">{m.d}</p>
