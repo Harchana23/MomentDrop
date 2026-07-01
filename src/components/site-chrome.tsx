@@ -4,11 +4,8 @@ export function SiteHeader() {
   return (
     <header className="border-b border-[#e6ddcf]">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-        <Link
-          href="/"
-          className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7f6a46]"
-        >
-          MomentDrop
+        <Link href="/" className="text-lg font-bold tracking-tight text-[#231a12]">
+          Moment<span className="text-[#e0734f]">Drop</span>
         </Link>
         <nav className="flex items-center gap-5 text-sm">
           <Link href="/how-it-works" className="hidden text-[#5c4a2e] hover:underline sm:inline">
@@ -25,7 +22,7 @@ export function SiteHeader() {
           </Link>
           <Link
             href="/signup"
-            className="inline-flex h-9 items-center bg-[#1f1b16] px-4 font-semibold text-white hover:bg-[#3a3127]"
+            className="inline-flex h-9 items-center rounded-full bg-[#e0734f] px-4 font-bold text-white hover:bg-[#cf6541]"
           >
             Create event
           </Link>

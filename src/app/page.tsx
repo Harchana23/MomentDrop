@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
-import { PhoneMock, PhotoGrid, QrCardMock, Faq, Photo } from "@/components/marketing";
+import { PhotoGrid, Faq, Photo } from "@/components/marketing";
+import { JoyfulHero } from "@/components/joyful-hero";
 
 export const metadata: Metadata = {
   title: "MomentDrop — collect every guest's photos with one QR scan",
@@ -10,9 +11,9 @@ export const metadata: Metadata = {
 };
 
 const STEPS = [
-  { n: "1", t: "Create your event", d: "Sign up, name your event, and get a QR code + link in seconds." },
-  { n: "2", t: "Guests scan & upload", d: "They open a web page on their phone and add photos and videos — no app, no account." },
-  { n: "3", t: "Download everything", d: "View, approve, and download every memory as one ZIP when the day is done." },
+  { n: "1", t: "Create your event", d: "Sign up, name it, and get a QR code + link in seconds." },
+  { n: "2", t: "Guests scan & upload", d: "They open a web page and add photos and videos — no app, no account." },
+  { n: "3", t: "Download everything", d: "View, approve, and download every memory as one ZIP." },
 ];
 
 const FEATURES = [
@@ -20,7 +21,7 @@ const FEATURES = [
   { t: "Your photos, private", d: "Uploads land in private storage only you control — never a public feed." },
   { t: "Approve before it shows", d: "Optionally review uploads before they appear in the album." },
   { t: "Live Photo Wall", d: "Put a slideshow of photos on the big screen as guests upload." },
-  { t: "Organize into albums", d: "Ceremony, reception, photobooth — guests upload to the right album." },
+  { t: "Organize into albums", d: "Ceremony, reception, photobooth — guests upload to the right one." },
   { t: "Download as one ZIP", d: "Every photo and video, organized by guest, in a single download." },
 ];
 
@@ -47,109 +48,65 @@ const FAQS = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#fbfaf7] text-[#22211f]">
+    <div className="min-h-screen bg-[#fbf6ee] text-[#24201a]">
       <SiteHeader />
 
-      {/* Hero */}
-      <section className="mx-auto grid max-w-6xl items-center gap-12 px-5 pt-16 md:grid-cols-[1.05fr_0.95fr] md:pt-24">
-        <div>
-          <p className="text-sm font-medium uppercase tracking-[0.24em] text-[#7f6a46]">
-            Scan · Drop · Remember
-          </p>
-          <h1 className="mt-4 text-5xl font-semibold leading-[1.02] tracking-tight text-[#26211b] md:text-7xl">
-            Every guest&apos;s photos, in one place.
-          </h1>
-          <p className="mt-6 max-w-xl text-lg leading-8 text-[#695b49]">
-            Create an event, share a QR code, and let guests upload photos and videos straight
-            from their phones — no app, no account. You download everything when the day is done.
-          </p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/signup"
-              className="inline-flex h-12 items-center justify-center bg-[#1f1b16] px-7 text-base font-semibold text-white hover:bg-[#3a3127]"
-            >
-              Create your event — free
-            </Link>
-            <Link
-              href="/how-it-works"
-              className="inline-flex h-12 items-center justify-center border border-[#d8cdbb] px-7 text-base font-semibold text-[#5c4a2e] hover:border-[#8d7147]"
-            >
-              See how it works
-            </Link>
-          </div>
-        </div>
-        <div className="relative pb-10 md:pb-0">
-          <Photo
-            src="/marketing/hero.jpg"
-            alt="Guests taking photos at a Malaysian celebration"
-            fallback="#d8c3a3"
-            className="aspect-[4/3] w-full border border-[#e6ddcf] shadow-[0_30px_80px_rgba(70,55,35,0.15)]"
-          />
-          <div className="absolute -bottom-4 -left-3 hidden -rotate-2 sm:block">
-            <PhoneMock />
-          </div>
-          <div className="absolute -right-3 -top-6 hidden rotate-3 md:block">
-            <QrCardMock />
-          </div>
-        </div>
-      </section>
+      <JoyfulHero />
 
-      {/* Stats band */}
-      <section className="mx-auto mt-16 max-w-6xl px-5">
-        <div className="grid gap-6 border-y border-[#e6ddcf] py-8 text-center sm:grid-cols-3">
-          {[
-            { k: "No app", v: "for your guests" },
-            { k: "1 QR", v: "to collect it all" },
-            { k: "1 ZIP", v: "to take it home" },
-          ].map((s) => (
-            <div key={s.k}>
-              <p className="text-3xl font-semibold text-[#26211b]">{s.k}</p>
-              <p className="mt-1 text-sm text-[#74664f]">{s.v}</p>
-            </div>
-          ))}
+      {/* Trust strip */}
+      <section className="mx-auto mt-6 max-w-6xl px-5">
+        <div className="flex flex-wrap justify-center gap-x-7 gap-y-2 border-y border-[#efe2d0] py-5 text-sm font-medium text-[#8a755c]">
+          <span>💍 Weddings</span>
+          <span>🪔 Festivals &amp; open houses</span>
+          <span>🎂 Birthdays</span>
+          <span>🏢 Company events</span>
+          <span>🏝️ Trips</span>
         </div>
       </section>
 
       {/* How it works */}
-      <section className="mx-auto max-w-6xl px-5 py-16">
-        <h2 className="text-center text-3xl font-semibold tracking-tight md:text-4xl">
+      <section className="md-reveal mx-auto max-w-6xl px-5 py-16">
+        <h2 className="font-serif text-center text-4xl font-bold tracking-tight text-[#231a12] md:text-5xl">
           From QR to album in three steps
         </h2>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {STEPS.map((s) => (
-            <div key={s.n} className="border border-[#e6ddcf] bg-white p-6">
-              <div className="grid h-9 w-9 place-items-center rounded-full bg-[#f3ecdc] text-sm font-semibold text-[#8d7147]">
+            <div
+              key={s.n}
+              className="rounded-2xl border border-[#eaddca] bg-white p-6 transition hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(80,50,20,0.10)]"
+            >
+              <div className="grid h-10 w-10 place-items-center rounded-full bg-[#fbeadf] text-base font-bold text-[#e0734f]">
                 {s.n}
               </div>
-              <h3 className="mt-4 text-lg font-semibold">{s.t}</h3>
-              <p className="mt-2 text-sm leading-6 text-[#695b49]">{s.d}</p>
+              <h3 className="mt-4 text-lg font-bold">{s.t}</h3>
+              <p className="mt-2 text-sm leading-6 text-[#6f5c46]">{s.d}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Features + gallery visual */}
-      <section className="mx-auto max-w-6xl px-5 py-8">
+      {/* Features + gallery */}
+      <section className="md-reveal mx-auto max-w-6xl px-5 py-8">
         <div className="grid items-center gap-12 md:grid-cols-[0.9fr_1.1fr]">
           <div className="order-2 md:order-1">
-            <div className="border border-[#e6ddcf] bg-white p-4">
+            <div className="rounded-3xl border border-[#eaddca] bg-white p-4">
               <PhotoGrid count={6} />
-              <p className="mt-3 text-center text-xs uppercase tracking-[0.2em] text-[#a18e73]">
+              <p className="mt-3 text-center text-xs uppercase tracking-[0.2em] text-[#a97e46]">
                 The shared album
               </p>
             </div>
           </div>
           <div className="order-1 md:order-2">
-            <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
+            <h2 className="font-serif text-4xl font-bold tracking-tight text-[#231a12] md:text-5xl">
               Everything you need to keep the memories
             </h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {FEATURES.map((f) => (
                 <div key={f.t}>
-                  <h3 className="flex items-center gap-2 text-base font-semibold">
-                    <span className="text-[#8d7147]">✓</span> {f.t}
+                  <h3 className="flex items-center gap-2 text-base font-bold">
+                    <span className="text-[#e0734f]">✓</span> {f.t}
                   </h3>
-                  <p className="mt-1 text-sm leading-6 text-[#695b49]">{f.d}</p>
+                  <p className="mt-1 text-sm leading-6 text-[#6f5c46]">{f.d}</p>
                 </div>
               ))}
             </div>
@@ -157,21 +114,46 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Use cases */}
-      <section className="mx-auto max-w-6xl px-5 py-16">
-        <h2 className="text-center text-3xl font-semibold tracking-tight md:text-4xl">
-          Made for every celebration
-        </h2>
+      {/* Malaysian celebrations */}
+      <section className="md-reveal mx-auto max-w-6xl px-5 py-16">
+        <div className="text-center">
+          <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#c85f3c]">Proudly Malaysian</p>
+          <h2 className="font-serif mt-3 text-4xl font-bold tracking-tight text-[#231a12] md:text-5xl">
+            For every celebration
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-[#6f5c46]">
+            From a Malay wedding to a Deepavali open house, a birthday bash to your company&apos;s
+            annual dinner — MomentDrop gathers every guest&apos;s photos, across every community.
+          </p>
+        </div>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {MALAYSIA.map((m) => (
+            <div
+              key={m.t}
+              className="overflow-hidden rounded-2xl border border-[#eaddca] bg-white transition hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(80,50,20,0.12)]"
+            >
+              <Photo src={m.src} alt={m.t} className="aspect-[3/4] w-full" />
+              <div className="p-4">
+                <h3 className="text-base font-bold">{m.t}</h3>
+                <p className="mt-1 text-sm text-[#6f5c46]">{m.d}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Use cases */}
+      <section className="md-reveal mx-auto max-w-6xl px-5 pb-8">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {USE_CASES.map((u) => (
             <Link
               key={u.t}
               href={u.href}
-              className="group border border-[#e6ddcf] bg-white p-6 transition hover:border-[#8d7147]"
+              className="group rounded-2xl border border-[#eaddca] bg-white p-6 transition hover:-translate-y-1 hover:border-[#e0734f] hover:shadow-[0_16px_40px_rgba(80,50,20,0.10)]"
             >
-              <h3 className="text-lg font-semibold">{u.t}</h3>
-              <p className="mt-2 text-sm text-[#695b49]">{u.d}</p>
-              <span className="mt-4 inline-block text-sm font-semibold text-[#8d7147] group-hover:underline">
+              <h3 className="text-lg font-bold">{u.t}</h3>
+              <p className="mt-2 text-sm text-[#6f5c46]">{u.d}</p>
+              <span className="mt-4 inline-block text-sm font-bold text-[#e0734f] group-hover:underline">
                 Learn more →
               </span>
             </Link>
@@ -179,36 +161,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Malaysian celebrations */}
-      <section className="mx-auto max-w-6xl px-5 py-8">
-        <div className="text-center">
-          <p className="text-sm font-medium uppercase tracking-[0.24em] text-[#7f6a46]">
-            Proudly Malaysian
-          </p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-            For every Malaysian celebration
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-[#695b49]">
-            From a Malay wedding to a Deepavali open house, a birthday bash to your company&apos;s
-            annual dinner — MomentDrop gathers every guest&apos;s photos, across every community
-            and every kind of event.
-          </p>
-        </div>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {MALAYSIA.map((m) => (
-            <div key={m.t} className="overflow-hidden border border-[#e6ddcf] bg-white">
-              <Photo src={m.src} alt={m.t} className="aspect-[3/4] w-full" />
-              <div className="p-4">
-                <h3 className="text-base font-semibold">{m.t}</h3>
-                <p className="mt-1 text-sm text-[#695b49]">{m.d}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* Testimonial */}
-      <section className="mx-auto max-w-4xl px-5 py-16">
+      <section className="md-reveal mx-auto max-w-4xl px-5 py-16">
         <div className="grid items-center gap-8 sm:grid-cols-[auto_1fr]">
           <Photo
             src="/marketing/testimonial.jpg"
@@ -217,11 +171,11 @@ export default function HomePage() {
             className="mx-auto h-28 w-28 rounded-full"
           />
           <div>
-            <p className="text-2xl font-medium leading-relaxed text-[#3a3127]">
+            <p className="font-serif text-2xl font-medium leading-relaxed text-[#3a2c1e]">
               &ldquo;We got hundreds of photos we&apos;d never have seen otherwise — the dance
               floor, the kids&apos; table, all of it. The QR on every table just worked.&rdquo;
             </p>
-            <p className="mt-4 text-sm uppercase tracking-[0.2em] text-[#8d7147]">
+            <p className="mt-4 text-sm font-bold uppercase tracking-[0.16em] text-[#c85f3c]">
               Aisyah &amp; Daniel · KL wedding
             </p>
           </div>
@@ -229,30 +183,36 @@ export default function HomePage() {
       </section>
 
       {/* FAQ */}
-      <section className="mx-auto max-w-3xl px-5 py-12">
-        <h2 className="text-center text-3xl font-semibold tracking-tight">Questions, answered</h2>
+      <section className="md-reveal mx-auto max-w-3xl px-5 py-12">
+        <h2 className="font-serif text-center text-4xl font-bold tracking-tight text-[#231a12]">
+          Questions, answered
+        </h2>
         <div className="mt-8">
           <Faq items={FAQS} />
         </div>
-        <p className="mt-6 text-center text-sm text-[#74664f]">
-          More on the <Link href="/faq" className="font-semibold text-[#5c4a2e] underline">FAQ page</Link>.
+        <p className="mt-6 text-center text-sm text-[#6f5c46]">
+          More on the{" "}
+          <Link href="/faq" className="font-bold text-[#c85f3c] underline">
+            FAQ page
+          </Link>
+          .
         </p>
       </section>
 
       {/* Final CTA */}
-      <section className="mx-auto max-w-6xl px-5 pb-6">
-        <div className="border border-[#e1d8ca] bg-white p-10 text-center md:p-14">
-          <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
+      <section className="mx-auto max-w-6xl px-5 pb-8">
+        <div className="rounded-3xl border border-[#f0d3c4] bg-[#fbeadf] p-10 text-center md:p-14">
+          <h2 className="font-serif text-4xl font-bold tracking-tight text-[#231a12] md:text-5xl">
             Start collecting in two minutes
           </h2>
-          <p className="mx-auto mt-3 max-w-md text-[#695b49]">
+          <p className="mx-auto mt-3 max-w-md text-[#6f5c46]">
             Create an event, print the QR, and watch the photos roll in.
           </p>
           <Link
             href="/signup"
-            className="mt-7 inline-flex h-12 items-center justify-center bg-[#1f1b16] px-7 text-base font-semibold text-white hover:bg-[#3a3127]"
+            className="md-cta mt-7 inline-flex h-12 items-center justify-center rounded-full bg-[#e0734f] px-8 text-base font-bold text-white hover:bg-[#cf6541]"
           >
-            Create your event
+            Create your event — free →
           </Link>
         </div>
       </section>
