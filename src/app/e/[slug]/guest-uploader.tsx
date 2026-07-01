@@ -2,36 +2,35 @@
 
 import { useRef, useState } from "react";
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-
-type SignedFile = { originalFileName: string; path: string; token: string };
+type SignedFile = { originalFileName: string; sessionUri: string };
 type Phase = "idle" | "uploading" | "done" | "error";
 
-function uploadToSignedUrl(
+/** PUT the file straight to the Google Drive resumable session; returns the Drive file id. */
+function uploadToDrive(
   file: File,
-  bucket: string,
-  signed: SignedFile,
+  sessionUri: string,
   onProgress: (fraction: number) => void,
-): Promise<void> {
+): Promise<string> {
   return new Promise((resolve, reject) => {
-    const endpoint =
-      `${SUPABASE_URL}/storage/v1/object/upload/sign/${bucket}/` +
-      `${signed.path}?token=${encodeURIComponent(signed.token)}`;
-    const form = new FormData();
-    form.append("cacheControl", "3600");
-    form.append("", file, signed.originalFileName);
-
     const xhr = new XMLHttpRequest();
-    xhr.open("PUT", endpoint);
+    xhr.open("PUT", sessionUri);
+    if (file.type) xhr.setRequestHeader("Content-Type", file.type);
     xhr.upload.onprogress = (e) => {
       if (e.lengthComputable) onProgress(e.loaded / e.total);
     };
-    xhr.onload = () =>
-      xhr.status >= 200 && xhr.status < 300
-        ? resolve()
-        : reject(new Error(`Upload failed (${xhr.status})`));
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          const id = JSON.parse(xhr.responseText).id;
+          if (id) return resolve(id);
+        } catch {}
+        reject(new Error("Upload succeeded but no file id returned"));
+      } else {
+        reject(new Error(`Upload failed (${xhr.status})`));
+      }
+    };
     xhr.onerror = () => reject(new Error("Network error during upload"));
-    xhr.send(form);
+    xhr.send(file);
   });
 }
 
@@ -81,10 +80,9 @@ export default function GuestUploader({
       if (!signRes.ok) throw new Error(signData.error ?? "Could not start upload.");
 
       const signed: SignedFile[] = signData.files;
-      const bucket: string = signData.bucket;
       const total = files.length;
       const done: {
-        storagePath: string;
+        driveFileId: string;
         originalFileName: string;
         mimeType: string;
         size: number;
@@ -93,11 +91,11 @@ export default function GuestUploader({
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const sgn = signed[i];
-        await uploadToSignedUrl(file, bucket, sgn, (frac) => {
+        const driveFileId = await uploadToDrive(file, sgn.sessionUri, (frac) => {
           setPct(Math.round(((i + frac) / total) * 100));
         });
         done.push({
-          storagePath: sgn.path,
+          driveFileId,
           originalFileName: file.name,
           mimeType: file.type,
           size: file.size,

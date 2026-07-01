@@ -1,5 +1,5 @@
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
-import { createSignedDownloadUrl } from "@/lib/storage";
+import { driveThumbUrl } from "@/lib/gdrive";
 
 export type PublicEvent = {
   id: string;
@@ -69,15 +69,13 @@ export async function getPublicGallery(eventId: string, max = 200): Promise<Gall
     .order("created_at", { ascending: false })
     .limit(max);
 
-  return Promise.all(
-    (data ?? [])
-      .filter((r) => r.storage_path)
-      .map(async (r) => ({
-        id: r.id as string,
-        url: await createSignedDownloadUrl(r.storage_path as string, 3600),
-        mediaType: (r.media_type as string) ?? null,
-        originalFileName: (r.original_file_name as string) ?? null,
-        guestName: (r.guest_name as string) ?? "Guest",
-      })),
-  );
+  return (data ?? [])
+    .filter((r) => r.storage_path)
+    .map((r) => ({
+      id: r.id as string,
+      url: driveThumbUrl(r.storage_path as string, 1600),
+      mediaType: (r.media_type as string) ?? null,
+      originalFileName: (r.original_file_name as string) ?? null,
+      guestName: (r.guest_name as string) ?? "Guest",
+    }));
 }

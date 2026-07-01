@@ -2,7 +2,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
-import { getSupabaseAdmin } from "@/lib/supabase/admin";
+import { deleteEventFolder } from "@/lib/gdrive";
 import { makeEventSlug, slugify } from "@/lib/slug";
 import { hashPassword } from "@/lib/password";
 
@@ -106,28 +106,13 @@ export async function setEventPassword(formData: FormData) {
 export async function deleteEvent(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const sb = await supabaseServer();
-  const { data: ev } = await sb.from("events").select("id").eq("id", id).maybeSingle();
+  const { data: ev } = await sb.from("events").select("id, slug").eq("id", id).maybeSingle();
   if (!ev) redirect("/dashboard");
 
-  // Remove the event's stored media (DB rows cascade on the event delete).
-  const admin = getSupabaseAdmin();
-  if (admin) {
-    try {
-      const { data: dateFolders } = await admin.storage.from("event-media").list(id, { limit: 1000 });
-      const paths: string[] = [];
-      for (const entry of dateFolders ?? []) {
-        if (entry.id === null) {
-          const { data: inner } = await admin.storage
-            .from("event-media")
-            .list(`${id}/${entry.name}`, { limit: 1000 });
-          for (const f of inner ?? []) paths.push(`${id}/${entry.name}/${f.name}`);
-        } else {
-          paths.push(`${id}/${entry.name}`);
-        }
-      }
-      if (paths.length) await admin.storage.from("event-media").remove(paths);
-    } catch {}
-  }
+  // Remove the event's Drive folder + files (DB rows cascade on the event delete).
+  try {
+    await deleteEventFolder(ev.slug as string);
+  } catch {}
 
   await sb.from("events").delete().eq("id", id);
   redirect("/dashboard");

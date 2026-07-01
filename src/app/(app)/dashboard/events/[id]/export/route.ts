@@ -1,7 +1,7 @@
 import archiver from "archiver";
 import { getEventForOwner } from "@/lib/events/queries";
 import { getEventUploads } from "@/lib/uploads/queries";
-import { downloadObject } from "@/lib/storage";
+import { downloadDriveFile } from "@/lib/gdrive";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -34,8 +34,8 @@ export async function GET(
 
     const used = new Set<string>();
     for (const f of files) {
-      const blob = await downloadObject(f.storagePath as string);
-      if (!blob) continue;
+      const buf = await downloadDriveFile(f.storagePath as string);
+      if (!buf) continue;
       const folder = safe(f.guestName);
       let entry = `${folder}/${safe(f.originalFileName ?? "file")}`;
       if (used.has(entry)) {
@@ -47,7 +47,7 @@ export async function GET(
         entry = `${stem}-${n}${ext}`;
       }
       used.add(entry);
-      archive.append(Buffer.from(await blob.arrayBuffer()), { name: entry });
+      archive.append(buf, { name: entry });
     }
     await archive.finalize();
     await finished;

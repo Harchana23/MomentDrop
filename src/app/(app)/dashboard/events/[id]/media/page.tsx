@@ -6,7 +6,7 @@ import {
   getUploadCounts,
   type ReviewStatus,
 } from "@/lib/uploads/queries";
-import { createSignedDownloadUrl } from "@/lib/storage";
+import { driveThumbUrl, driveViewUrl } from "@/lib/gdrive";
 import { setUploadStatus } from "@/lib/uploads/actions";
 import { EventNav } from "@/components/event-nav";
 
@@ -67,12 +67,11 @@ export default async function MediaPage({
 
   const counts = await getUploadCounts(id);
   const uploads = await getEventUploads(id, tab);
-  const items = await Promise.all(
-    uploads.map(async (u) => ({
-      ...u,
-      url: u.storagePath ? await createSignedDownloadUrl(u.storagePath, 3600) : null,
-    })),
-  );
+  const items = uploads.map((u) => ({
+    ...u,
+    url: u.storagePath ? driveThumbUrl(u.storagePath, 600) : null,
+    viewUrl: u.storagePath ? driveViewUrl(u.storagePath) : null,
+  }));
   const hasAny = counts.published + counts.pending > 0;
 
   return (
@@ -128,7 +127,7 @@ export default async function MediaPage({
             {items.map((u) => (
               <li key={u.id} className="border border-[#ded4c4] bg-white">
                 <a
-                  href={u.url ?? "#"}
+                  href={u.viewUrl ?? "#"}
                   target="_blank"
                   rel="noreferrer"
                   className="block aspect-square overflow-hidden bg-[#efe9df]"

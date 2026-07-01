@@ -2,8 +2,8 @@ import { getSupabaseAdmin } from "./supabase";
 
 export const MEDIA_BUCKET = "event-media";
 
-/** Per-file ceiling. Free tier caps the project at 50MB; Pro can raise it. */
-export const MAX_FILE_BYTES = 50 * 1000 * 1000;
+/** Per-file ceiling. Stored on Google Drive, so we allow larger files (incl. video). */
+export const MAX_FILE_BYTES = 100 * 1000 * 1000;
 
 export const ALLOWED_MIME_PREFIXES = ["image/", "video/"] as const;
 

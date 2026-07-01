@@ -1,11 +1,6 @@
 import { NextResponse } from "next/server";
-import {
-  MAX_FILE_BYTES,
-  buildStoragePath,
-  createSignedUpload,
-  isAllowedMime,
-} from "@/lib/storage";
-import { isSupabaseConfigured } from "@/lib/supabase/admin";
+import { MAX_FILE_BYTES, isAllowedMime, safeFileName } from "@/lib/storage";
+import { driveConfigured, ensureEventFolder, initResumableUpload } from "@/lib/gdrive";
 import { countEventUploads, getPublicEventBySlug, uploadsOpen } from "@/lib/events/public";
 
 export const runtime = "nodejs";
@@ -13,14 +8,14 @@ export const runtime = "nodejs";
 type IncomingFile = { name?: unknown; type?: unknown; size?: unknown };
 
 const MAX_FILES_PER_REQUEST = 30;
+const MAX_MB = Math.round(MAX_FILE_BYTES / 1_000_000);
 
 /**
- * Give the browser one-time signed upload URLs for a specific event's guests.
- * Validates the event is open + within its file limit, and each file's mime/size.
- * The service-role key never leaves the server.
+ * Start a Google Drive resumable upload per file and hand the browser the session
+ * URIs. Guests then upload directly to Drive (no proxying through the server).
  */
 export async function POST(request: Request) {
-  if (!isSupabaseConfigured()) {
+  if (!driveConfigured()) {
     return NextResponse.json({ error: "Storage is not configured." }, { status: 503 });
   }
 
@@ -62,6 +57,11 @@ export async function POST(request: Request) {
     );
   }
 
+  const folderId = await ensureEventFolder(event.slug);
+  if (!folderId) {
+    return NextResponse.json({ error: "Could not prepare storage." }, { status: 500 });
+  }
+
   const signed = [];
   for (const f of files) {
     const name = typeof f.name === "string" && f.name ? f.name : "file";
@@ -72,16 +72,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: `"${name}" is not a photo or video.` }, { status: 400 });
     }
     if (size > MAX_FILE_BYTES) {
-      return NextResponse.json({ error: `"${name}" is larger than the 50MB limit.` }, { status: 400 });
+      return NextResponse.json({ error: `"${name}" is larger than the ${MAX_MB}MB limit.` }, { status: 400 });
     }
 
-    const path = buildStoragePath(event.id, name);
-    const upload = await createSignedUpload(path);
-    if (!upload) {
+    const sessionUri = await initResumableUpload(folderId, safeFileName(name), type, size);
+    if (!sessionUri) {
       return NextResponse.json({ error: "Could not start upload." }, { status: 500 });
     }
-    signed.push({ originalFileName: name, path: upload.path, token: upload.token });
+    signed.push({ originalFileName: name, sessionUri });
   }
 
-  return NextResponse.json({ bucket: "event-media", files: signed });
+  return NextResponse.json({ files: signed });
 }
