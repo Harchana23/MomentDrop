@@ -32,10 +32,10 @@ const USE_CASES = [
 ];
 
 const MALAYSIA = [
-  { t: "Malay weddings", d: "From the kenduri to the pelamin.", src: "/marketing/wedding-malay.jpg" },
-  { t: "Chinese weddings", d: "Tea ceremony to the banquet.", src: "/marketing/wedding-chinese.jpg" },
-  { t: "Indian weddings", d: "Every colour, every ritual.", src: "/marketing/wedding-indian.jpg" },
-  { t: "Church weddings", d: "The aisle and the after-party.", src: "/marketing/wedding-christian.jpg" },
+  { t: "Weddings", d: "Malay, Chinese, Indian, church — every tradition.", src: "/marketing/event-wedding.jpg" },
+  { t: "Festivals & open houses", d: "Raya, CNY, Deepavali, Christmas.", src: "/marketing/event-festival.jpg" },
+  { t: "Birthdays & parties", d: "Every candid from the night.", src: "/marketing/event-party.jpg" },
+  { t: "Company events", d: "Annual dinners, launches, team days.", src: "/marketing/event-corporate.jpg" },
 ];
 
 const FAQS = [
@@ -186,11 +186,12 @@ export default function HomePage() {
             Proudly Malaysian
           </p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-            Every tradition, every table
+            For every Malaysian celebration
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-[#695b49]">
-            From a Malay kenduri to a Chinese tea ceremony, an Indian wedding to a church
-            celebration — MomentDrop gathers every guest&apos;s view of the day.
+          <p className="mx-auto mt-3 max-w-2xl text-[#695b49]">
+            From a Malay wedding to a Deepavali open house, a birthday bash to your company&apos;s
+            annual dinner — MomentDrop gathers every guest&apos;s photos, across every community
+            and every kind of event.
           </p>
         </div>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
