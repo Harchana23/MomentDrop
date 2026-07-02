@@ -36,7 +36,10 @@ export async function signInGoogle() {
   const origin = (await headers()).get("origin") ?? "";
   const { data, error } = await sb.auth.signInWithOAuth({
     provider: "google",
-    options: { redirectTo: `${origin}/auth/callback` },
+    options: {
+      redirectTo: `${origin}/auth/callback`,
+      queryParams: { prompt: "select_account" },
+    },
   });
   if (error) fail("/login", error.message);
   redirect(data.url);
