@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { getPublicEventBySlug, getPublicGallery, uploadsOpen } from "@/lib/events/public";
@@ -129,7 +130,10 @@ export default async function GuestEventPage({
         )}
 
         <p className="mt-12 text-center text-xs uppercase tracking-[0.18em] text-[#a18e73]">
-          Powered by MomentDrop
+          Powered by{" "}
+          <Link href="/" className="font-semibold text-[#c08a54] hover:underline">
+            MomentDrop
+          </Link>
         </p>
       </div>
     </main>

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { supabaseServer } from "@/lib/supabase/server";
-import { signOut } from "@/lib/auth/actions";
 import { getDashboardData, type DashboardEvent } from "@/lib/events/queries";
 import { getSiteUrl } from "@/lib/site-url";
 import { driveThumbUrl } from "@/lib/gdrive";
@@ -127,27 +126,19 @@ export default async function DashboardPage() {
   const [{ events, totals }, base] = await Promise.all([getDashboardData(), getSiteUrl()]);
 
   return (
-    <main className="min-h-screen bg-[#fbf6ee] px-5 py-6 text-[#24201a] md:px-8">
+    <main className="bg-[#fbf6ee] px-5 py-6 text-[#24201a] md:px-8">
       <div className="mx-auto max-w-5xl">
-        <header className="flex flex-wrap items-center justify-between gap-4 border-b border-[#e6ddcf] pb-6">
+        <header className="flex flex-wrap items-end justify-between gap-4 border-b border-[#e6ddcf] pb-6">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-[#c85f3c]">MomentDrop</p>
-            <h1 className="font-serif mt-2 text-4xl font-bold tracking-tight">Your events</h1>
+            <h1 className="font-serif text-4xl font-bold tracking-tight">Your events</h1>
             <p className="mt-1 text-sm text-[#74664f]">{email}</p>
           </div>
-          <div className="flex gap-3">
-            <Link
-              href="/onboarding"
-              className="inline-flex h-11 items-center rounded-full bg-[#e0734f] px-5 text-sm font-bold text-white hover:bg-[#cf6541]"
-            >
-              Create event
-            </Link>
-            <form action={signOut}>
-              <button className="h-11 rounded-full border border-[#d8cdbb] px-4 text-sm font-semibold text-[#5c4a2e] hover:border-[#8d7147]">
-                Sign out
-              </button>
-            </form>
-          </div>
+          <Link
+            href="/onboarding"
+            className="inline-flex h-11 items-center rounded-full bg-[#e0734f] px-5 text-sm font-bold text-white hover:bg-[#cf6541]"
+          >
+            Create event
+          </Link>
         </header>
 
         {events.length === 0 ? (
