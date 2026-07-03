@@ -86,12 +86,30 @@ export default function DemoPage() {
               Help us capture the whole day — from every angle. No app, no account.
             </p>
 
-            <div className="mt-5 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#f0c3ab] bg-[#fdf5ef] px-4 py-8">
+            <span className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#fbeadf] px-3 py-1.5 text-xs font-bold text-[#c85f3c]">
+              🔒 Your host allows up to 10 per guest
+            </span>
+
+            <div className="mt-4 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#f0c3ab] bg-[#fdf5ef] px-4 py-8">
               <div className="grid h-14 w-14 place-items-center rounded-full bg-[#fbeadf] text-2xl text-[#e0734f]">
                 ⬆
               </div>
               <p className="mt-3 font-semibold text-[#3a2c1e]">Tap to choose from your camera roll</p>
               <p className="mt-1 text-xs text-[#a18e73]">JPG · PNG · HEIC · MP4 · MOV</p>
+            </div>
+
+            {/* Per-guest quota */}
+            <div className="mt-4 text-left">
+              <div className="flex items-center justify-between text-xs font-semibold">
+                <span className="text-[#6f5c46]">Your uploads</span>
+                <span className="text-[#c85f3c]">3 of 10 added</span>
+              </div>
+              <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-[#f0e2d0]">
+                <div className="h-full rounded-full bg-[#e0734f]" style={{ width: "30%" }} />
+              </div>
+              <p className="mt-1.5 text-center text-xs text-[#a18e73]">
+                7 left — the host set a limit so every guest gets a turn
+              </p>
             </div>
 
             <input
@@ -163,6 +181,43 @@ export default function DemoPage() {
                 </figcaption>
               </figure>
             ))}
+          </div>
+        </section>
+
+        {/* Behind the scenes — the host control that sets the per-guest limit */}
+        <section className="mb-16 rounded-3xl border border-[#eaddca] bg-white p-6 md:p-8">
+          <div className="text-center">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f1ece2] px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-[#8a755c]">
+              👑 Host view
+            </span>
+            <h2 className="font-serif mt-3 text-2xl font-bold text-[#231a12]">You decide how many each guest can add</h2>
+            <p className="mx-auto mt-1 max-w-md text-sm text-[#6f5c46]">
+              Set a per-guest limit so no single phone floods the album — everyone gets a fair turn.
+            </p>
+          </div>
+
+          <div className="mx-auto mt-6 max-w-md rounded-2xl border border-[#eaddca] bg-[#fbf7ef] p-5">
+            <p className="text-sm font-semibold text-[#3a2c1e]">Photos &amp; videos per guest</p>
+            <div className="mt-3 flex items-center gap-4">
+              <button
+                disabled
+                className="grid h-11 w-11 place-items-center rounded-full border border-[#e0734f] text-xl font-bold text-[#c85f3c]"
+              >
+                −
+              </button>
+              <span className="font-serif text-4xl font-bold text-[#231a12]">10</span>
+              <button
+                disabled
+                className="grid h-11 w-11 place-items-center rounded-full bg-[#e0734f] text-xl font-bold text-white"
+              >
+                +
+              </button>
+              <span className="ml-auto text-xs text-[#a18e73]">
+                Unlimited on
+                <br />
+                Plus &amp; Pro
+              </span>
+            </div>
           </div>
         </section>
       </div>
