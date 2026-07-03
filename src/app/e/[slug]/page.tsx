@@ -82,22 +82,22 @@ export default async function GuestEventPage({
   return (
     <main className="min-h-screen bg-[#fbf6ee] text-[#24201a]">
       {/* Cover */}
-      <header className="relative overflow-hidden px-5 pb-16 pt-16 text-center text-white md:pt-20">
+      <header className="relative h-[360px] overflow-hidden md:h-[440px]">
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${coverSrc})` }} />
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(150deg, rgba(196,74,40,0.82) 0%, rgba(140,60,30,0.72) 45%, rgba(35,26,18,0.85) 100%)",
+              "linear-gradient(180deg, rgba(35,26,18,0.30) 0%, rgba(35,26,18,0.18) 42%, rgba(35,26,18,0.82) 100%)",
           }}
         />
-        <div className="relative">
+        <div className="relative flex h-full flex-col items-center justify-end px-5 pb-12 text-center text-white">
           {event.eyebrow ? (
-            <p className="font-script text-2xl text-[#ffd9c2] md:text-3xl">{event.eyebrow}</p>
+            <p className="font-script text-3xl text-[#ffd9c2] md:text-4xl">{event.eyebrow}</p>
           ) : (
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/80">You&apos;re invited</p>
           )}
-          <h1 className="font-serif mt-1 text-4xl font-bold leading-tight tracking-tight md:text-5xl">
+          <h1 className="font-serif mt-1 text-4xl font-bold leading-tight tracking-tight md:text-6xl">
             {event.title}
           </h1>
           <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-white/85 md:text-base">
