@@ -16,6 +16,15 @@ import CountdownScreen from "./countdown-screen";
 
 export const dynamic = "force-dynamic";
 
+function Stat({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="text-center">
+      <p className="font-serif text-2xl font-bold leading-none text-[#231a12]">{value}</p>
+      <p className="mt-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#a18e73]">{label}</p>
+    </div>
+  );
+}
+
 export default async function GuestEventPage({
   params,
   searchParams,
@@ -68,80 +77,73 @@ export default async function GuestEventPage({
   const gallery = event.allow_downloads ? await getPublicGallery(event.id) : [];
   const stats = await getPublicEventStats(event.id);
 
-  const AV_COLORS = ["#c98a5e", "#c9a86a", "#b47e86", "#8aa79a", "#b08968"];
+  const COVERS: Record<string, string> = {
+    wedding: "event-wedding",
+    birthday: "event-party",
+    party: "event-party",
+    corporate: "event-corporate",
+    festival: "event-festival",
+    trip: "hero",
+  };
+  const coverSrc = `/marketing/${COVERS[event.event_type ?? ""] ?? "hero"}.jpg`;
+  const AV_COLORS = ["#e0734f", "#e8a33c", "#c9738f", "#7fb2a1", "#b08968"];
+  const recentGuest = gallery[0]?.guestName ?? "";
 
   return (
     <main className="min-h-screen bg-[#fbf6ee] text-[#24201a]">
-      {/* Cover — elegant stationery */}
-      <header
-        className="relative overflow-hidden text-center"
-        style={{ background: "linear-gradient(180deg,#fdf8f1 0%,#f6e9db 100%)" }}
-      >
-        <div className="mx-auto max-w-xl px-5 pt-16 pb-16 md:pt-20">
+      {/* Cover */}
+      <header className="relative h-[360px] overflow-hidden md:h-[440px]">
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${coverSrc})` }} />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(35,26,18,0.28) 0%, rgba(35,26,18,0.15) 42%, rgba(35,26,18,0.82) 100%)",
+          }}
+        />
+        <div className="relative flex h-full flex-col items-center justify-end px-5 pb-10 text-center text-white">
+          <span className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-semibold backdrop-blur-sm">
+            {stats.guests > 0 ? (
+              <>
+                <span className="h-2 w-2 animate-pulse rounded-full bg-[#7fe0a1]" /> {stats.guests}{" "}
+                {stats.guests === 1 ? "guest" : "guests"} adding photos
+              </>
+            ) : (
+              "Be the first to add a photo"
+            )}
+          </span>
           {event.eyebrow ? (
-            <p className="font-script text-2xl text-[#b47e4f] md:text-3xl">{event.eyebrow}</p>
+            <p className="font-script text-3xl text-[#ffd9c2] md:text-4xl">{event.eyebrow}</p>
           ) : (
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#b08a5e]">
-              You&apos;re invited
-            </p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/80">You&apos;re invited</p>
           )}
-          <h1 className="font-serif mt-3 text-5xl font-bold leading-[1.05] tracking-tight text-[#2a2320] md:text-6xl">
+          <h1 className="font-serif text-5xl font-bold leading-tight tracking-tight md:text-6xl">
             {event.title}
           </h1>
-
-          <div className="mx-auto mt-6 flex items-center justify-center gap-3" aria-hidden="true">
-            <span className="h-px w-12 bg-[#cfa96a]" />
-            <span className="h-1.5 w-1.5 rotate-45 bg-[#cfa96a]" />
-            <span className="h-px w-12 bg-[#cfa96a]" />
-          </div>
-
-          <p className="mx-auto mt-6 max-w-md text-base leading-7 text-[#6f6157]">
+          <p className="mx-auto mt-3 max-w-md text-sm font-medium leading-6 text-white/85 md:text-base">
             {event.host_message || "Share your photos and videos — no app, no account."}
           </p>
-
-          {stats.photos + stats.videos > 0 && (
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-sm text-[#8a7c6c]">
-              {stats.initials.length > 0 && (
-                <div className="flex -space-x-2">
-                  {stats.initials.map((c, i) => (
-                    <span
-                      key={i}
-                      className="grid h-8 w-8 place-items-center rounded-full border-2 border-[#fdf8f1] text-xs font-semibold text-white"
-                      style={{ background: AV_COLORS[i % AV_COLORS.length] }}
-                    >
-                      {c}
-                    </span>
-                  ))}
-                </div>
-              )}
-              <span>
-                <b className="font-semibold text-[#2a2320]">{stats.photos}</b>{" "}
-                {stats.photos === 1 ? "photo" : "photos"}
-              </span>
-              <span className="text-[#d8c6ac]">·</span>
-              <span>
-                <b className="font-semibold text-[#2a2320]">{stats.videos}</b>{" "}
-                {stats.videos === 1 ? "video" : "videos"}
-              </span>
-              {stats.guests > 0 && (
-                <>
-                  <span className="text-[#d8c6ac]">·</span>
-                  <span>
-                    <b className="font-semibold text-[#2a2320]">{stats.guests}</b>{" "}
-                    {stats.guests === 1 ? "guest" : "guests"}
-                  </span>
-                </>
-              )}
-            </div>
-          )}
         </div>
       </header>
 
       {/* Upload card */}
-      <div className="mx-auto -mt-10 w-full max-w-xl px-4">
+      <div className="mx-auto -mt-8 w-full max-w-2xl px-4">
         <div className="rounded-3xl border border-[#eaddca] bg-white p-6 shadow-[0_24px_60px_rgba(80,50,20,0.14)] md:p-8">
           {open.open ? (
-            <GuestUploader eventSlug={event.slug} albums={albums} />
+            <div className="mx-auto max-w-xl">
+              <div className="text-center">
+                <h2 className="font-serif text-2xl font-bold text-[#231a12]">Add your photos &amp; videos</h2>
+                <p className="mt-1 text-sm text-[#6f5c46]">
+                  Help capture the whole event — from every angle. No app, no account.
+                </p>
+                <span className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#fbeadf] px-3 py-1.5 text-xs font-bold text-[#c85f3c]">
+                  🔒 Up to 10 photos per guest
+                </span>
+              </div>
+              <div className="mt-5">
+                <GuestUploader eventSlug={event.slug} albums={albums} />
+              </div>
+            </div>
           ) : (
             <div className="py-8 text-center">
               <h2 className="font-serif text-2xl font-bold tracking-tight text-[#231a12]">Uploads closed</h2>
@@ -149,6 +151,30 @@ export default async function GuestEventPage({
             </div>
           )}
         </div>
+
+        {/* Live stats */}
+        <section className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+          <Stat value={String(stats.photos)} label="Photos" />
+          <span className="hidden h-8 w-px bg-[#e6ddcf] sm:block" />
+          <Stat value={String(stats.videos)} label="Videos" />
+          <span className="hidden h-8 w-px bg-[#e6ddcf] sm:block" />
+          <div className="flex items-center gap-3">
+            {stats.initials.length > 0 && (
+              <div className="flex -space-x-2">
+                {stats.initials.map((c, i) => (
+                  <span
+                    key={i}
+                    className="grid h-8 w-8 place-items-center rounded-full border-2 border-[#fbf6ee] text-xs font-bold text-white"
+                    style={{ background: AV_COLORS[i % AV_COLORS.length] }}
+                  >
+                    {c}
+                  </span>
+                ))}
+              </div>
+            )}
+            <Stat value={String(stats.guests)} label="Guests" />
+          </div>
+        </section>
       </div>
 
       {/* Shared album */}
@@ -194,6 +220,12 @@ export default async function GuestEventPage({
             ))}
           </div>
         </section>
+      )}
+
+      {recentGuest && (
+        <div className="md-chip fixed bottom-5 left-1/2 -translate-x-1/2 rounded-full border border-[#f0e2d0] bg-white px-4 py-2 text-sm font-bold text-[#3a2c1e] shadow-[0_12px_30px_rgba(80,50,20,0.18)]">
+          📸 {recentGuest} just added a photo
+        </div>
       )}
 
       <footer className="border-t border-[#e6ddcf] py-8 text-center text-xs uppercase tracking-[0.18em] text-[#a18e73]">
