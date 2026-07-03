@@ -68,50 +68,45 @@ export default async function GuestEventPage({
   const gallery = event.allow_downloads ? await getPublicGallery(event.id) : [];
   const stats = await getPublicEventStats(event.id);
 
-  const COVERS: Record<string, string> = {
-    wedding: "event-wedding",
-    birthday: "event-party",
-    party: "event-party",
-    corporate: "event-corporate",
-    festival: "event-festival",
-    trip: "hero",
-  };
-  const coverSrc = `/marketing/${COVERS[event.event_type ?? ""] ?? "hero"}.jpg`;
-  const AV_COLORS = ["#e0734f", "#e8a33c", "#c9738f", "#7fb2a1", "#b08968"];
+  const AV_COLORS = ["#c98a5e", "#c9a86a", "#b47e86", "#8aa79a", "#b08968"];
 
   return (
     <main className="min-h-screen bg-[#fbf6ee] text-[#24201a]">
-      {/* Cover */}
-      <header className="relative h-[360px] overflow-hidden md:h-[440px]">
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${coverSrc})` }} />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(35,26,18,0.30) 0%, rgba(35,26,18,0.18) 42%, rgba(35,26,18,0.82) 100%)",
-          }}
-        />
-        <div className="relative flex h-full flex-col items-center justify-end px-5 pb-12 text-center text-white">
+      {/* Cover — elegant stationery */}
+      <header
+        className="relative overflow-hidden text-center"
+        style={{ background: "linear-gradient(180deg,#fdf8f1 0%,#f6e9db 100%)" }}
+      >
+        <div className="mx-auto max-w-xl px-5 pt-16 pb-16 md:pt-20">
           {event.eyebrow ? (
-            <p className="font-script text-3xl text-[#ffd9c2] md:text-4xl">{event.eyebrow}</p>
+            <p className="font-script text-2xl text-[#b47e4f] md:text-3xl">{event.eyebrow}</p>
           ) : (
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/80">You&apos;re invited</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#b08a5e]">
+              You&apos;re invited
+            </p>
           )}
-          <h1 className="font-serif mt-1 text-4xl font-bold leading-tight tracking-tight md:text-6xl">
+          <h1 className="font-serif mt-3 text-5xl font-bold leading-[1.05] tracking-tight text-[#2a2320] md:text-6xl">
             {event.title}
           </h1>
-          <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-white/85 md:text-base">
+
+          <div className="mx-auto mt-6 flex items-center justify-center gap-3" aria-hidden="true">
+            <span className="h-px w-12 bg-[#cfa96a]" />
+            <span className="h-1.5 w-1.5 rotate-45 bg-[#cfa96a]" />
+            <span className="h-px w-12 bg-[#cfa96a]" />
+          </div>
+
+          <p className="mx-auto mt-6 max-w-md text-base leading-7 text-[#6f6157]">
             {event.host_message || "Share your photos and videos — no app, no account."}
           </p>
 
           {stats.photos + stats.videos > 0 && (
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm">
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-sm text-[#8a7c6c]">
               {stats.initials.length > 0 && (
                 <div className="flex -space-x-2">
                   {stats.initials.map((c, i) => (
                     <span
                       key={i}
-                      className="grid h-8 w-8 place-items-center rounded-full border-2 border-white/70 text-xs font-bold text-white"
+                      className="grid h-8 w-8 place-items-center rounded-full border-2 border-[#fdf8f1] text-xs font-semibold text-white"
                       style={{ background: AV_COLORS[i % AV_COLORS.length] }}
                     >
                       {c}
@@ -119,16 +114,23 @@ export default async function GuestEventPage({
                   ))}
                 </div>
               )}
-              <span className="font-semibold">
-                <b className="font-bold">{stats.photos}</b> {stats.photos === 1 ? "photo" : "photos"}
+              <span>
+                <b className="font-semibold text-[#2a2320]">{stats.photos}</b>{" "}
+                {stats.photos === 1 ? "photo" : "photos"}
               </span>
-              <span className="font-semibold">
-                <b className="font-bold">{stats.videos}</b> {stats.videos === 1 ? "video" : "videos"}
+              <span className="text-[#d8c6ac]">·</span>
+              <span>
+                <b className="font-semibold text-[#2a2320]">{stats.videos}</b>{" "}
+                {stats.videos === 1 ? "video" : "videos"}
               </span>
               {stats.guests > 0 && (
-                <span className="font-semibold">
-                  <b className="font-bold">{stats.guests}</b> {stats.guests === 1 ? "guest" : "guests"}
-                </span>
+                <>
+                  <span className="text-[#d8c6ac]">·</span>
+                  <span>
+                    <b className="font-semibold text-[#2a2320]">{stats.guests}</b>{" "}
+                    {stats.guests === 1 ? "guest" : "guests"}
+                  </span>
+                </>
               )}
             </div>
           )}

@@ -141,7 +141,7 @@ export default function GuestUploader({
           ✓
         </div>
         <h2 className="font-serif mt-5 text-2xl font-bold tracking-tight text-[#231a12]">
-          Thank you! 🎉
+          Thank you
         </h2>
         <p className="mt-2 text-sm text-[#6f5c46]">
           {files.length === 1
@@ -216,10 +216,12 @@ export default function GuestUploader({
           onChange={(e) => pickFiles(e.target.files)}
         />
         <span>
-          <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#fbeadf] text-2xl text-[#e0734f]">
-            ⬆
+          <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#fbeadf] text-[#c26545]">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-6 w-6" aria-hidden="true">
+              <path d="M12 15V4m0 0 4 4m-4-4-4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </span>
-          <span className="mt-3 block text-base font-bold text-[#3a2c1e]">
+          <span className="mt-3 block text-base font-semibold text-[#3a2c1e]">
             {files.length > 0
               ? `${files.length} file${files.length === 1 ? "" : "s"} selected`
               : "Tap to choose photos or videos"}
