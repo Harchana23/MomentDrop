@@ -5,6 +5,7 @@ export type PublicEvent = {
   id: string;
   slug: string;
   title: string;
+  event_type: string | null;
   eyebrow: string | null;
   host_message: string | null;
   allow_uploads: boolean;
@@ -23,11 +24,52 @@ export async function getPublicEventBySlug(slug: string): Promise<PublicEvent | 
   const { data } = await sb
     .from("events")
     .select(
-      "id, slug, title, eyebrow, host_message, allow_uploads, allow_downloads, require_approval, active_until, status, file_limit, password_hash",
+      "id, slug, title, event_type, eyebrow, host_message, allow_uploads, allow_downloads, require_approval, active_until, status, file_limit, password_hash",
     )
     .eq("slug", slug)
     .maybeSingle();
   return (data as PublicEvent) ?? null;
+}
+
+export type PublicEventStats = {
+  photos: number;
+  videos: number;
+  guests: number;
+  /** First-letter avatars of the most recent distinct guests. */
+  initials: string[];
+};
+
+/** Photo/video/guest counts + recent guest initials for the guest page header. */
+export async function getPublicEventStats(eventId: string): Promise<PublicEventStats> {
+  const sb = getSupabaseAdmin();
+  if (!sb) return { photos: 0, videos: 0, guests: 0, initials: [] };
+  const pub = () =>
+    sb.from("uploads").select("*", { count: "exact", head: true }).eq("event_id", eventId).eq("review_status", "published");
+  const [ph, vd, gs, recent] = await Promise.all([
+    pub().eq("media_type", "photo"),
+    pub().eq("media_type", "video"),
+    sb.from("guests").select("*", { count: "exact", head: true }).eq("event_id", eventId),
+    sb
+      .from("uploads")
+      .select("guest_name")
+      .eq("event_id", eventId)
+      .eq("review_status", "published")
+      .order("created_at", { ascending: false })
+      .limit(40),
+  ]);
+
+  const seen = new Set<string>();
+  const initials: string[] = [];
+  for (const r of recent.data ?? []) {
+    const n = ((r.guest_name as string) ?? "").trim();
+    if (!n) continue;
+    const key = n.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    initials.push(n[0].toUpperCase());
+    if (initials.length >= 5) break;
+  }
+  return { photos: ph.count ?? 0, videos: vd.count ?? 0, guests: gs.count ?? 0, initials };
 }
 
 export async function countEventUploads(eventId: string): Promise<number> {
