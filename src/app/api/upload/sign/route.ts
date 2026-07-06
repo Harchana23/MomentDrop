@@ -64,18 +64,20 @@ export async function POST(request: Request) {
 
   // Per-guest cap set by the owner (null = unlimited).
   if (event.per_guest_limit != null) {
+    const limit = event.per_guest_limit;
     const usedByGuest = await countGuestUploads(event.id, guestName);
-    if (usedByGuest + files.length > event.per_guest_limit) {
-      const left = Math.max(0, event.per_guest_limit - usedByGuest);
-      return NextResponse.json(
-        {
-          error:
-            left === 0
-              ? `You've reached this event's limit of ${event.per_guest_limit} per guest.`
-              : `You can add ${left} more (this event allows ${event.per_guest_limit} per guest).`,
-        },
-        { status: 403 },
-      );
+    if (usedByGuest + files.length > limit) {
+      const left = Math.max(0, limit - usedByGuest);
+      const noun = `${limit} upload${limit === 1 ? "" : "s"}`;
+      let error: string;
+      if (left === 0) {
+        error = `You've reached this event's limit of ${noun} per guest.`;
+      } else if (usedByGuest === 0) {
+        error = `This event allows up to ${noun} per guest — please choose fewer.`;
+      } else {
+        error = `You've added ${usedByGuest} of ${limit}. You can add ${left} more.`;
+      }
+      return NextResponse.json({ error }, { status: 403 });
     }
   }
 
