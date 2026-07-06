@@ -22,6 +22,7 @@ export async function POST(request: Request) {
   let body: {
     eventSlug?: unknown;
     guestName?: unknown;
+    guestToken?: unknown;
     message?: unknown;
     albumId?: unknown;
     files?: unknown;
@@ -34,6 +35,7 @@ export async function POST(request: Request) {
 
   const slug = typeof body.eventSlug === "string" ? body.eventSlug : "";
   const guestName = typeof body.guestName === "string" ? body.guestName.trim() : "";
+  const guestToken = typeof body.guestToken === "string" ? body.guestToken : null;
   if (!guestName) {
     return NextResponse.json({ error: "Missing guest name." }, { status: 400 });
   }
@@ -63,7 +65,7 @@ export async function POST(request: Request) {
 
   const reviewStatus = event.require_approval ? "pending" : "published";
   try {
-    const count = await recordUploads(event.id, guestName, files, reviewStatus, albumId);
+    const count = await recordUploads(event.id, guestName, files, reviewStatus, albumId, guestToken);
     return NextResponse.json({ recorded: count, pending: event.require_approval });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Could not save upload.";

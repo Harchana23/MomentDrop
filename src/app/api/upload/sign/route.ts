@@ -4,6 +4,7 @@ import { driveConfigured, ensureEventFolder, initResumableUpload } from "@/lib/g
 import {
   countEventUploads,
   countGuestUploads,
+  countGuestUploadsByToken,
   getPublicEventBySlug,
   uploadsOpen,
 } from "@/lib/events/public";
@@ -24,7 +25,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Storage is not configured." }, { status: 503 });
   }
 
-  let body: { eventSlug?: unknown; guestName?: unknown; files?: unknown };
+  let body: { eventSlug?: unknown; guestName?: unknown; guestToken?: unknown; files?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -33,6 +34,7 @@ export async function POST(request: Request) {
 
   const slug = typeof body.eventSlug === "string" ? body.eventSlug : "";
   const guestName = typeof body.guestName === "string" ? body.guestName.trim() : "";
+  const guestToken = typeof body.guestToken === "string" ? body.guestToken : "";
   if (!guestName) {
     return NextResponse.json({ error: "Please enter your name." }, { status: 400 });
   }
@@ -62,10 +64,16 @@ export async function POST(request: Request) {
     );
   }
 
-  // Per-guest cap set by the owner (null = unlimited).
+  // Per-guest cap set by the owner (null = unlimited). Count by both the typed name
+  // and the device cookie, and use whichever is higher — so renaming on the same
+  // device can't reset the count, and a shared name across devices is still capped.
   if (event.per_guest_limit != null) {
     const limit = event.per_guest_limit;
-    const usedByGuest = await countGuestUploads(event.id, guestName);
+    const [byName, byToken] = await Promise.all([
+      countGuestUploads(event.id, guestName),
+      countGuestUploadsByToken(event.id, guestToken),
+    ]);
+    const usedByGuest = Math.max(byName, byToken);
     if (usedByGuest + files.length > limit) {
       const left = Math.max(0, limit - usedByGuest);
       const noun = `${limit} upload${limit === 1 ? "" : "s"}`;

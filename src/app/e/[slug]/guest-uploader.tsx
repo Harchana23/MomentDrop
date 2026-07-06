@@ -5,6 +5,18 @@ import { useRef, useState } from "react";
 type SignedFile = { originalFileName: string; sessionUri: string };
 type Phase = "idle" | "uploading" | "done" | "error";
 
+/** A stable per-device token kept in a cookie, so the per-guest cap survives renames. */
+function getGuestToken(): string {
+  const m = document.cookie.match(/(?:^|;\s*)md_guest=([^;]+)/);
+  if (m) return decodeURIComponent(m[1]);
+  const token =
+    typeof crypto !== "undefined" && crypto.randomUUID
+      ? crypto.randomUUID()
+      : String(Math.random()).slice(2);
+  document.cookie = `md_guest=${token}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+  return token;
+}
+
 /** PUT the file straight to the Google Drive resumable session; returns the Drive file id. */
 function uploadToDrive(
   file: File,
@@ -67,6 +79,7 @@ export default function GuestUploader({
 
     setPhase("uploading");
     setPct(0);
+    const guestToken = getGuestToken();
 
     try {
       const signRes = await fetch("/api/upload/sign", {
@@ -75,6 +88,7 @@ export default function GuestUploader({
         body: JSON.stringify({
           eventSlug,
           guestName: name.trim(),
+          guestToken,
           files: files.map((f) => ({ name: f.name, type: f.type, size: f.size })),
         }),
       });
@@ -111,6 +125,7 @@ export default function GuestUploader({
         body: JSON.stringify({
           eventSlug,
           guestName: name.trim(),
+          guestToken,
           message: message.trim(),
           albumId,
           files: done,

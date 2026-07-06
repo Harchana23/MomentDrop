@@ -37,11 +37,25 @@ export async function getPublicEventBySlug(slug: string): Promise<PublicEvent | 
 export async function countGuestUploads(eventId: string, guestName: string): Promise<number> {
   const sb = getSupabaseAdmin();
   if (!sb || !guestName.trim()) return 0;
+  // Escape LIKE wildcards so a name like "50%" matches literally, not as a pattern.
+  const safe = guestName.trim().replace(/([\\%_])/g, "\\$1");
   const { count } = await sb
     .from("uploads")
     .select("*", { count: "exact", head: true })
     .eq("event_id", eventId)
-    .ilike("guest_name", guestName.trim());
+    .ilike("guest_name", safe);
+  return count ?? 0;
+}
+
+/** How many photos/videos this device (by cookie token) has uploaded to the event. */
+export async function countGuestUploadsByToken(eventId: string, token: string): Promise<number> {
+  const sb = getSupabaseAdmin();
+  if (!sb || !token) return 0;
+  const { count } = await sb
+    .from("uploads")
+    .select("*", { count: "exact", head: true })
+    .eq("event_id", eventId)
+    .eq("guest_token", token);
   return count ?? 0;
 }
 
