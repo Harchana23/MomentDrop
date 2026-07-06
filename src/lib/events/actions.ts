@@ -2,7 +2,13 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
-import { deleteEventFolder, uploadBytesToDrive, makePublicRead } from "@/lib/gdrive";
+import {
+  deleteEventFolder,
+  deleteDriveFolderById,
+  uploadBytesToDrive,
+  makePublicRead,
+} from "@/lib/gdrive";
+import { resolveEventFolderId } from "@/lib/events/public";
 import { makeEventSlug, slugify } from "@/lib/slug";
 import { hashPassword } from "@/lib/password";
 
@@ -75,17 +81,20 @@ export async function updateEventCover(formData: FormData) {
   }
 
   const sb = await supabaseServer();
-  // RLS scopes this to the owner; also gives us the slug (Drive folder key).
-  const { data: ev } = await sb.from("events").select("id, slug").eq("id", id).maybeSingle();
+  // RLS scopes this to the owner; gives us the slug + folder id.
+  const { data: ev } = await sb
+    .from("events")
+    .select("id, slug, drive_folder_id")
+    .eq("id", id)
+    .maybeSingle();
   if (!ev) settings(id, "error=" + encodeURIComponent("Event not found."));
 
+  const event = ev as { id: string; slug: string; drive_folder_id: string | null };
+  const folderId = await resolveEventFolderId(event);
+  if (!folderId) settings(id, "error=" + encodeURIComponent("Could not prepare storage."));
+
   const bytes = Buffer.from(await img.arrayBuffer());
-  const fileId = await uploadBytesToDrive(
-    (ev as { slug: string }).slug,
-    `cover-${(ev as { slug: string }).slug}`,
-    img.type,
-    bytes,
-  );
+  const fileId = await uploadBytesToDrive(folderId, `cover-${event.slug}`, img.type, bytes);
   if (!fileId) settings(id, "error=" + encodeURIComponent("Cover upload failed. Try again."));
   try {
     await makePublicRead(fileId as string);
@@ -151,12 +160,18 @@ export async function setEventPassword(formData: FormData) {
 export async function deleteEvent(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const sb = await supabaseServer();
-  const { data: ev } = await sb.from("events").select("id, slug").eq("id", id).maybeSingle();
+  const { data: ev } = await sb
+    .from("events")
+    .select("id, slug, drive_folder_id")
+    .eq("id", id)
+    .maybeSingle();
   if (!ev) redirect("/dashboard");
 
   // Remove the event's Drive folder + files (DB rows cascade on the event delete).
+  // Prefer the stored folder id (survives slug changes); fall back to the name.
   try {
-    await deleteEventFolder(ev.slug as string);
+    if (ev.drive_folder_id) await deleteDriveFolderById(ev.drive_folder_id as string);
+    else await deleteEventFolder(ev.slug as string);
   } catch {}
 
   await sb.from("events").delete().eq("id", id);

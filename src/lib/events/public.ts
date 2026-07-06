@@ -1,5 +1,5 @@
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
-import { driveThumbUrl } from "@/lib/gdrive";
+import { driveThumbUrl, ensureEventFolder } from "@/lib/gdrive";
 
 export type PublicEvent = {
   id: string;
@@ -17,6 +17,7 @@ export type PublicEvent = {
   password_hash: string | null;
   per_guest_limit: number | null;
   cover_path: string | null;
+  drive_folder_id: string | null;
 };
 
 /** Public event config by slug, read with the service-role client (guests are anonymous). */
@@ -26,11 +27,30 @@ export async function getPublicEventBySlug(slug: string): Promise<PublicEvent | 
   const { data } = await sb
     .from("events")
     .select(
-      "id, slug, title, event_type, eyebrow, host_message, allow_uploads, allow_downloads, require_approval, active_until, status, file_limit, password_hash, per_guest_limit, cover_path",
+      "id, slug, title, event_type, eyebrow, host_message, allow_uploads, allow_downloads, require_approval, active_until, status, file_limit, password_hash, per_guest_limit, cover_path, drive_folder_id",
     )
     .eq("slug", slug)
     .maybeSingle();
   return (data as PublicEvent) ?? null;
+}
+
+/**
+ * The event's Drive folder id, captured on first use. Storing the id (not the
+ * slug) means renaming the event URL never orphans the folder. Existing events
+ * adopt their current slug-named folder the first time this runs.
+ */
+export async function resolveEventFolderId(event: {
+  id: string;
+  slug: string;
+  drive_folder_id: string | null;
+}): Promise<string> {
+  if (event.drive_folder_id) return event.drive_folder_id;
+  const folderId = await ensureEventFolder(event.slug);
+  if (folderId) {
+    const sb = getSupabaseAdmin();
+    if (sb) await sb.from("events").update({ drive_folder_id: folderId }).eq("id", event.id);
+  }
+  return folderId;
 }
 
 /** How many photos/videos this guest (by name) has already uploaded to the event. */

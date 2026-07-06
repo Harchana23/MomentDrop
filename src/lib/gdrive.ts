@@ -94,16 +94,15 @@ export async function initResumableUpload(
 }
 
 /**
- * Upload raw bytes to the event's folder from the server (no browser/CORS).
+ * Upload raw bytes to a Drive folder from the server (no browser/CORS).
  * Reuses the resumable session, then PUTs the buffer. Returns the Drive file id.
  */
 export async function uploadBytesToDrive(
-  folderKey: string,
+  folderId: string,
   name: string,
   mimeType: string,
   bytes: Buffer,
 ): Promise<string | null> {
-  const folderId = await ensureEventFolder(folderKey);
   if (!folderId) return null;
   const sessionUri = await initResumableUpload(folderId, name, mimeType, bytes.length, "");
   if (!sessionUri) return null;
@@ -145,7 +144,14 @@ export async function downloadDriveFile(fileId: string): Promise<Buffer | null> 
   return Buffer.from(await r.arrayBuffer());
 }
 
-/** Trash the event's folder and everything in it (called on event delete). */
+/** Trash a Drive folder by its id (preferred — survives slug changes). */
+export async function deleteDriveFolderById(folderId: string): Promise<void> {
+  if (!folderId) return;
+  const h = await authHeaders();
+  await fetch(`${DRIVE}/files/${folderId}`, { method: "DELETE", headers: h });
+}
+
+/** Trash the event's folder by name (fallback for events with no stored id). */
 export async function deleteEventFolder(key: string): Promise<void> {
   const h = await authHeaders();
   const safe = key.replace(/'/g, "");

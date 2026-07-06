@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import { MAX_FILE_BYTES, isAllowedMime, safeFileName } from "@/lib/storage";
-import { driveConfigured, ensureEventFolder, initResumableUpload } from "@/lib/gdrive";
+import { driveConfigured, initResumableUpload } from "@/lib/gdrive";
 import {
   countEventUploads,
   countGuestUploads,
   countGuestUploadsByToken,
   getPublicEventBySlug,
+  resolveEventFolderId,
   uploadsOpen,
 } from "@/lib/events/public";
 
@@ -89,7 +90,7 @@ export async function POST(request: Request) {
     }
   }
 
-  const folderId = await ensureEventFolder(event.slug);
+  const folderId = await resolveEventFolderId(event);
   if (!folderId) {
     return NextResponse.json({ error: "Could not prepare storage." }, { status: 500 });
   }
