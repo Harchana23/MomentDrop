@@ -5,13 +5,7 @@ import { getSiteUrl } from "@/lib/site-url";
 import { qrDataUrl } from "@/lib/qr";
 import { EventNav } from "@/components/event-nav";
 import { CopyLinkButton } from "@/components/copy-link-button";
-import { startUpgrade } from "@/lib/billing/actions";
-import {
-  billingConfigured,
-  ringgit,
-  UPGRADE_AMOUNT_CENTS,
-  UPGRADE_FILE_LIMIT,
-} from "@/lib/billing/config";
+import { billingConfigured, UPGRADE_FILE_LIMIT } from "@/lib/billing/config";
 
 export const dynamic = "force-dynamic";
 
@@ -119,12 +113,12 @@ export default async function EventOverviewPage({
                   <p className="mt-1 text-xs text-[#a18e73]">Payments aren&apos;t configured yet.</p>
                 )}
               </div>
-              <form action={startUpgrade}>
-                <input type="hidden" name="id" value={id} />
-                <button className="inline-flex h-11 items-center justify-center rounded-full bg-[#e0734f] px-6 text-sm font-bold text-white hover:bg-[#cf6541]">
-                  Upgrade — {ringgit(UPGRADE_AMOUNT_CENTS)}
-                </button>
-              </form>
+              <Link
+                href="/pricing"
+                className="inline-flex h-11 shrink-0 items-center justify-center rounded-full bg-[#e0734f] px-6 text-sm font-bold text-white hover:bg-[#cf6541]"
+              >
+                View more package options
+              </Link>
             </div>
           )}
         </section>

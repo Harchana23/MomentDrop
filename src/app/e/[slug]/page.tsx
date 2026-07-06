@@ -104,7 +104,7 @@ export default async function GuestEventPage({
               "linear-gradient(180deg, rgba(35,26,18,0.28) 0%, rgba(35,26,18,0.15) 42%, rgba(35,26,18,0.82) 100%)",
           }}
         />
-        <div className="relative flex h-full flex-col items-center justify-end px-5 pb-10 text-center text-white">
+        <div className="relative flex h-full flex-col items-center justify-start px-5 pt-14 text-center text-white md:pt-16">
           <span className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-semibold backdrop-blur-sm">
             {stats.guests > 0 ? (
               <>
@@ -130,7 +130,7 @@ export default async function GuestEventPage({
       </header>
 
       {/* Upload card */}
-      <div className="mx-auto -mt-8 w-full max-w-2xl px-4">
+      <div className="relative z-10 mx-auto -mt-24 w-full max-w-2xl px-4 md:-mt-32">
         <div className="rounded-3xl border border-[#eaddca] bg-white p-6 shadow-[0_24px_60px_rgba(80,50,20,0.14)] md:p-8">
           {open.open ? (
             <div className="mx-auto max-w-xl">
