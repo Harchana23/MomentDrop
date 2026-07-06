@@ -2,8 +2,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getEventForOwner } from "@/lib/events/queries";
 import { getSiteUrl } from "@/lib/site-url";
+import { driveThumbUrl } from "@/lib/gdrive";
 import { EventNav } from "@/components/event-nav";
-import { updateEventDetails, updateEventSlug, deleteEvent } from "@/lib/events/actions";
+import {
+  updateEventDetails,
+  updateEventSlug,
+  updateEventCover,
+  removeEventCover,
+  deleteEvent,
+} from "@/lib/events/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -113,6 +120,45 @@ export default async function SettingsPage({
               Save details
             </button>
           </form>
+        </section>
+
+        <section className="mt-6 border border-[#ded4c4] bg-white p-6">
+          <h2 className="text-xl font-semibold">Cover photo</h2>
+          <p className="mt-1 text-sm text-[#74664f]">
+            Shown behind your event name on the guest page. A wide landscape photo works best.
+            Leave blank to use a themed default.
+          </p>
+          {event.cover_path && (
+            <div className="mt-4 overflow-hidden rounded-lg border border-[#e6ddcf]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={driveThumbUrl(event.cover_path, 900)}
+                alt="Current cover"
+                className="h-40 w-full object-cover"
+              />
+            </div>
+          )}
+          <form action={updateEventCover} className="mt-4 flex flex-wrap items-center gap-3">
+            <input type="hidden" name="id" value={id} />
+            <input
+              name="cover"
+              type="file"
+              accept="image/*"
+              required
+              className="text-sm text-[#5c4a2e] file:mr-3 file:border file:border-[#d8cdbb] file:bg-[#fbf7ef] file:px-3 file:py-2 file:text-sm file:font-semibold file:text-[#5c4a2e]"
+            />
+            <button className="h-11 bg-[#1f1b16] px-5 text-sm font-semibold text-white hover:bg-[#3a3127]">
+              {event.cover_path ? "Replace cover" : "Upload cover"}
+            </button>
+          </form>
+          {event.cover_path && (
+            <form action={removeEventCover} className="mt-3">
+              <input type="hidden" name="id" value={id} />
+              <button className="text-sm font-semibold text-[#9a3b2b] hover:underline">
+                Remove cover
+              </button>
+            </form>
+          )}
         </section>
 
         <section className="mt-6 border border-[#ded4c4] bg-white p-6">

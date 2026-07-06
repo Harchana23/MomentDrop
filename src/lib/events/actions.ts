@@ -2,7 +2,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
-import { deleteEventFolder } from "@/lib/gdrive";
+import { deleteEventFolder, uploadBytesToDrive, makePublicRead } from "@/lib/gdrive";
 import { makeEventSlug, slugify } from "@/lib/slug";
 import { hashPassword } from "@/lib/password";
 
@@ -61,6 +61,48 @@ export async function updateEventDetails(formData: FormData) {
   if (error) settings(id, "error=" + encodeURIComponent(error.message));
   revalidatePath(`/dashboard/events/${id}/settings`);
   settings(id, "saved=details");
+}
+
+export async function updateEventCover(formData: FormData) {
+  const id = String(formData.get("id") ?? "");
+  const file = formData.get("cover");
+  if (!(file instanceof File) || file.size === 0) {
+    settings(id, "error=" + encodeURIComponent("Choose an image to upload."));
+  }
+  const img = file as File;
+  if (!img.type.startsWith("image/")) {
+    settings(id, "error=" + encodeURIComponent("The cover must be an image (JPG or PNG)."));
+  }
+
+  const sb = await supabaseServer();
+  // RLS scopes this to the owner; also gives us the slug (Drive folder key).
+  const { data: ev } = await sb.from("events").select("id, slug").eq("id", id).maybeSingle();
+  if (!ev) settings(id, "error=" + encodeURIComponent("Event not found."));
+
+  const bytes = Buffer.from(await img.arrayBuffer());
+  const fileId = await uploadBytesToDrive(
+    (ev as { slug: string }).slug,
+    `cover-${(ev as { slug: string }).slug}`,
+    img.type,
+    bytes,
+  );
+  if (!fileId) settings(id, "error=" + encodeURIComponent("Cover upload failed. Try again."));
+  try {
+    await makePublicRead(fileId as string);
+  } catch {}
+
+  const { error } = await sb.from("events").update({ cover_path: fileId }).eq("id", id);
+  if (error) settings(id, "error=" + encodeURIComponent(error.message));
+  revalidatePath(`/dashboard/events/${id}/settings`);
+  settings(id, "saved=cover");
+}
+
+export async function removeEventCover(formData: FormData) {
+  const id = String(formData.get("id") ?? "");
+  const sb = await supabaseServer();
+  await sb.from("events").update({ cover_path: null }).eq("id", id);
+  revalidatePath(`/dashboard/events/${id}/settings`);
+  settings(id, "saved=cover");
 }
 
 export async function updateEventSlug(formData: FormData) {

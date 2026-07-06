@@ -8,6 +8,7 @@ import {
   uploadsOpen,
 } from "@/lib/events/public";
 import { getCountdownPublic, countingDown } from "@/lib/events/countdown";
+import { driveThumbUrl } from "@/lib/gdrive";
 import { getGuestAlbums } from "@/lib/albums";
 import { cookieToken } from "@/lib/password";
 import { verifyEventPassword } from "@/lib/events/guest-actions";
@@ -85,7 +86,9 @@ export default async function GuestEventPage({
     festival: "event-festival",
     trip: "hero",
   };
-  const coverSrc = `/marketing/${COVERS[event.event_type ?? ""] ?? "hero"}.jpg`;
+  const coverSrc = event.cover_path
+    ? driveThumbUrl(event.cover_path, 1600)
+    : `/marketing/${COVERS[event.event_type ?? ""] ?? "hero"}.jpg`;
   const AV_COLORS = ["#e0734f", "#e8a33c", "#c9738f", "#7fb2a1", "#b08968"];
   const recentGuest = gallery[0]?.guestName ?? "";
 

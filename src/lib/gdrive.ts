@@ -93,6 +93,30 @@ export async function initResumableUpload(
   return r.headers.get("location");
 }
 
+/**
+ * Upload raw bytes to the event's folder from the server (no browser/CORS).
+ * Reuses the resumable session, then PUTs the buffer. Returns the Drive file id.
+ */
+export async function uploadBytesToDrive(
+  folderKey: string,
+  name: string,
+  mimeType: string,
+  bytes: Buffer,
+): Promise<string | null> {
+  const folderId = await ensureEventFolder(folderKey);
+  if (!folderId) return null;
+  const sessionUri = await initResumableUpload(folderId, name, mimeType, bytes.length, "");
+  if (!sessionUri) return null;
+  const put = await fetch(sessionUri, {
+    method: "PUT",
+    headers: { "Content-Type": mimeType || "application/octet-stream" },
+    body: new Uint8Array(bytes),
+  });
+  if (!put.ok) return null;
+  const j = await put.json().catch(() => null);
+  return (j?.id as string) ?? null;
+}
+
 /** Make a file readable by anyone with the link (so thumbnails render). */
 export async function makePublicRead(fileId: string): Promise<void> {
   const h = await authHeaders();
