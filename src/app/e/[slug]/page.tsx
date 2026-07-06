@@ -5,6 +5,7 @@ import {
   getPublicEventBySlug,
   getPublicGallery,
   getPublicEventStats,
+  countEventUploads,
   uploadsOpen,
 } from "@/lib/events/public";
 import { getCountdownPublic, countingDown } from "@/lib/events/countdown";
@@ -77,6 +78,7 @@ export default async function GuestEventPage({
   const albums = open.open ? await getGuestAlbums(event.id) : [];
   const gallery = event.allow_downloads ? await getPublicGallery(event.id) : [];
   const stats = await getPublicEventStats(event.id);
+  const filesUsed = await countEventUploads(event.id);
 
   const COVERS: Record<string, string> = {
     wedding: "event-wedding",
@@ -166,6 +168,8 @@ export default async function GuestEventPage({
           <Stat value={String(stats.photos)} label="Photos" />
           <span className="hidden h-8 w-px bg-[#e6ddcf] sm:block" />
           <Stat value={String(stats.videos)} label="Videos" />
+          <span className="hidden h-8 w-px bg-[#e6ddcf] sm:block" />
+          <Stat value={`${filesUsed} / ${event.file_limit}`} label="Files" />
           <span className="hidden h-8 w-px bg-[#e6ddcf] sm:block" />
           <div className="flex items-center gap-3">
             {stats.initials.length > 0 && (
