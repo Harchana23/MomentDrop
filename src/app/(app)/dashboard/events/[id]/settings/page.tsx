@@ -94,6 +94,21 @@ export default async function SettingsPage({
                 />
               </label>
             </div>
+            <label className="block">
+              <span className="text-sm font-medium text-[#4a4035]">Photos &amp; videos per guest</span>
+              <input
+                name="per_guest_limit"
+                type="number"
+                min={1}
+                defaultValue={event.per_guest_limit ?? ""}
+                placeholder="Unlimited"
+                className="mt-2 h-12 w-full border border-[#d8cdbb] bg-[#fffdf9] px-4 outline-none focus:border-[#8f7245]"
+              />
+              <span className="mt-1 block text-xs text-[#a18e73]">
+                Leave blank for unlimited. Caps how many each guest can upload, so no single phone
+                floods the album.
+              </span>
+            </label>
             <button className="h-11 bg-[#1f1b16] px-5 text-sm font-semibold text-white hover:bg-[#3a3127]">
               Save details
             </button>

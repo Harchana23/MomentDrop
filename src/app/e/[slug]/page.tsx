@@ -136,12 +136,18 @@ export default async function GuestEventPage({
                 <p className="mt-1 text-sm text-[#6f5c46]">
                   Help capture the whole event — from every angle. No app, no account.
                 </p>
-                <span className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#fbeadf] px-3 py-1.5 text-xs font-bold text-[#c85f3c]">
-                  🔒 Up to 10 photos per guest
-                </span>
+                {event.per_guest_limit != null && (
+                  <span className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#fbeadf] px-3 py-1.5 text-xs font-bold text-[#c85f3c]">
+                    🔒 Up to {event.per_guest_limit} per guest
+                  </span>
+                )}
               </div>
               <div className="mt-5">
-                <GuestUploader eventSlug={event.slug} albums={albums} />
+                <GuestUploader
+                  eventSlug={event.slug}
+                  albums={albums}
+                  perGuestLimit={event.per_guest_limit}
+                />
               </div>
             </div>
           ) : (

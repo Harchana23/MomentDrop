@@ -37,9 +37,11 @@ function uploadToDrive(
 export default function GuestUploader({
   eventSlug,
   albums = [],
+  perGuestLimit = null,
 }: {
   eventSlug: string;
   albums?: { id: string; title: string }[];
+  perGuestLimit?: number | null;
 }) {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
@@ -232,16 +234,18 @@ export default function GuestUploader({
         </span>
       </label>
 
-      {!busy && (
+      {!busy && perGuestLimit != null && (
         <div>
           <div className="flex items-center justify-between text-xs font-semibold">
             <span className="text-[#6f5c46]">Your uploads</span>
-            <span className="text-[#c85f3c]">{Math.min(files.length, 10)} of 10 selected</span>
+            <span className="text-[#c85f3c]">
+              {Math.min(files.length, perGuestLimit)} of {perGuestLimit} selected
+            </span>
           </div>
           <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-[#f0e2d0]">
             <div
               className="h-full rounded-full bg-[#e0734f] transition-all"
-              style={{ width: `${Math.min(files.length, 10) * 10}%` }}
+              style={{ width: `${(Math.min(files.length, perGuestLimit) / perGuestLimit) * 100}%` }}
             />
           </div>
         </div>

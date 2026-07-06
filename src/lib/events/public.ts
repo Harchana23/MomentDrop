@@ -15,6 +15,8 @@ export type PublicEvent = {
   status: string;
   file_limit: number;
   password_hash: string | null;
+  per_guest_limit: number | null;
+  cover_path: string | null;
 };
 
 /** Public event config by slug, read with the service-role client (guests are anonymous). */
@@ -24,11 +26,23 @@ export async function getPublicEventBySlug(slug: string): Promise<PublicEvent | 
   const { data } = await sb
     .from("events")
     .select(
-      "id, slug, title, event_type, eyebrow, host_message, allow_uploads, allow_downloads, require_approval, active_until, status, file_limit, password_hash",
+      "id, slug, title, event_type, eyebrow, host_message, allow_uploads, allow_downloads, require_approval, active_until, status, file_limit, password_hash, per_guest_limit, cover_path",
     )
     .eq("slug", slug)
     .maybeSingle();
   return (data as PublicEvent) ?? null;
+}
+
+/** How many photos/videos this guest (by name) has already uploaded to the event. */
+export async function countGuestUploads(eventId: string, guestName: string): Promise<number> {
+  const sb = getSupabaseAdmin();
+  if (!sb || !guestName.trim()) return 0;
+  const { count } = await sb
+    .from("uploads")
+    .select("*", { count: "exact", head: true })
+    .eq("event_id", eventId)
+    .ilike("guest_name", guestName.trim());
+  return count ?? 0;
 }
 
 export type PublicEventStats = {

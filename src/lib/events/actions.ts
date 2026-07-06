@@ -46,12 +46,15 @@ export async function updateEventDetails(formData: FormData) {
   const title = String(formData.get("title") ?? "").trim();
   if (!title) settings(id, "error=" + encodeURIComponent("Event name is required."));
 
+  const perGuestRaw = String(formData.get("per_guest_limit") ?? "").trim();
+  const perGuestNum = parseInt(perGuestRaw, 10);
   const patch = {
     title,
     eyebrow: String(formData.get("eyebrow") ?? "").trim() || null,
     host_message: String(formData.get("host_message") ?? "").trim() || null,
     event_date: String(formData.get("event_date") ?? "") || null,
     event_type: String(formData.get("event_type") ?? "wedding"),
+    per_guest_limit: perGuestRaw === "" || Number.isNaN(perGuestNum) || perGuestNum < 1 ? null : perGuestNum,
   };
   const sb = await supabaseServer();
   const { error } = await sb.from("events").update(patch).eq("id", id);

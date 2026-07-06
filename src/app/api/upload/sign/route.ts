@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import { MAX_FILE_BYTES, isAllowedMime, safeFileName } from "@/lib/storage";
 import { driveConfigured, ensureEventFolder, initResumableUpload } from "@/lib/gdrive";
-import { countEventUploads, getPublicEventBySlug, uploadsOpen } from "@/lib/events/public";
+import {
+  countEventUploads,
+  countGuestUploads,
+  getPublicEventBySlug,
+  uploadsOpen,
+} from "@/lib/events/public";
 
 export const runtime = "nodejs";
 
@@ -55,6 +60,23 @@ export async function POST(request: Request) {
       { error: `This event can hold ${event.file_limit} files (${used} already used).` },
       { status: 403 },
     );
+  }
+
+  // Per-guest cap set by the owner (null = unlimited).
+  if (event.per_guest_limit != null) {
+    const usedByGuest = await countGuestUploads(event.id, guestName);
+    if (usedByGuest + files.length > event.per_guest_limit) {
+      const left = Math.max(0, event.per_guest_limit - usedByGuest);
+      return NextResponse.json(
+        {
+          error:
+            left === 0
+              ? `You've reached this event's limit of ${event.per_guest_limit} per guest.`
+              : `You can add ${left} more (this event allows ${event.per_guest_limit} per guest).`,
+        },
+        { status: 403 },
+      );
+    }
   }
 
   const folderId = await ensureEventFolder(event.slug);
