@@ -137,7 +137,6 @@ export async function updateAccessControl(formData: FormData) {
     allow_uploads: formData.get("allow_uploads") === "on",
     require_approval: formData.get("require_approval") === "on",
     allow_downloads: formData.get("allow_downloads") === "on",
-    guests_see_only_own: formData.get("guests_see_only_own") === "on",
   };
   const sb = await supabaseServer();
   await sb.from("events").update(patch).eq("id", id);

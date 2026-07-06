@@ -7,7 +7,7 @@ import { updateAccessControl, setEventPassword } from "@/lib/events/actions";
 export const dynamic = "force-dynamic";
 
 type ToggleDef = {
-  name: "allow_uploads" | "require_approval" | "allow_downloads" | "guests_see_only_own";
+  name: "allow_uploads" | "require_approval" | "allow_downloads";
   label: string;
   help: string;
 };
@@ -16,7 +16,6 @@ const TOGGLES: ToggleDef[] = [
   { name: "allow_uploads", label: "Allow guest uploads", help: "Master switch — turn off to stop new uploads." },
   { name: "require_approval", label: "Require approval before visible", help: "New uploads wait in the Approval tab until you publish them." },
   { name: "allow_downloads", label: "Show shared album to guests", help: "Guests can view and download published photos on the upload page." },
-  { name: "guests_see_only_own", label: "Guests see only their own", help: "Requires guest sign-in — not active yet." },
 ];
 
 export default async function AccessPage({
@@ -35,7 +34,6 @@ export default async function AccessPage({
     allow_uploads: event.allow_uploads,
     require_approval: event.require_approval,
     allow_downloads: event.allow_downloads,
-    guests_see_only_own: event.guests_see_only_own,
   };
 
   return (

@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import { recordUploads, type UploadedFileInput } from "@/lib/db";
 import { driveConfigured, makePublicRead } from "@/lib/gdrive";
-import { getPublicEventBySlug } from "@/lib/events/public";
+import {
+  getPublicEventBySlug,
+  countEventUploads,
+  countGuestUploads,
+  countGuestUploadsByToken,
+  uploadsOpen,
+} from "@/lib/events/public";
 import { isEventAlbum } from "@/lib/albums";
 
 export const runtime = "nodejs";
@@ -58,6 +64,31 @@ export async function POST(request: Request) {
 
   if (files.length === 0) {
     return NextResponse.json({ error: "No uploaded files to record." }, { status: 400 });
+  }
+
+  // Defense-in-depth: /sign already checks these, but a burst of concurrent
+  // uploads could each pass sign before any rows commit — re-check here too.
+  const open = uploadsOpen(event);
+  if (!open.open) return NextResponse.json({ error: open.reason }, { status: 403 });
+
+  const used = await countEventUploads(event.id);
+  if (used + files.length > event.file_limit) {
+    return NextResponse.json(
+      { error: `This event can hold ${event.file_limit} files.` },
+      { status: 403 },
+    );
+  }
+  if (event.per_guest_limit != null) {
+    const [byName, byToken] = await Promise.all([
+      countGuestUploads(event.id, guestName),
+      countGuestUploadsByToken(event.id, guestToken ?? ""),
+    ]);
+    if (Math.max(byName, byToken) + files.length > event.per_guest_limit) {
+      return NextResponse.json(
+        { error: `You've reached this event's limit of ${event.per_guest_limit} per guest.` },
+        { status: 403 },
+      );
+    }
   }
 
   // Make each uploaded file readable-by-link so thumbnails render.
