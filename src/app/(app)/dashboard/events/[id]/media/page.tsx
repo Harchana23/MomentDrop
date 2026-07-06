@@ -39,8 +39,8 @@ function StatusButton({
       <button
         className={
           primary
-            ? "h-9 px-3 text-xs font-semibold text-white bg-[#1f1b16] hover:bg-[#3a3127]"
-            : "h-9 px-3 text-xs font-semibold text-[#5c4a2e] border border-[#d8cdbb] hover:border-[#8d7147]"
+            ? "h-9 rounded-full bg-[#e0734f] px-4 text-xs font-bold text-white transition hover:bg-[#cf6541]"
+            : "h-9 rounded-full border border-[#e6d8c4] px-4 text-xs font-bold text-[#5c4a2e] transition hover:border-[#e0734f] hover:text-[#c85f3c]"
         }
       >
         {label}
@@ -72,28 +72,38 @@ export default async function MediaPage({
     url: u.storagePath ? driveThumbUrl(u.storagePath, 600) : null,
     viewUrl: u.storagePath ? driveViewUrl(u.storagePath) : null,
   }));
+  const total = counts.published + counts.pending + counts.hidden;
   const hasAny = counts.published + counts.pending > 0;
 
   return (
-    <main className="min-h-screen bg-[#f7f4ee] px-5 py-6 text-[#25211b] md:px-8">
+    <main className="min-h-screen bg-[#fbf6ee] px-5 py-6 text-[#24201a] md:px-8">
       <div className="mx-auto max-w-5xl">
-        <header className="border-b border-[#ded4c4] pb-5">
-          <Link href={`/dashboard/events/${id}`} className="text-sm text-[#8b6e3f]">
+        <header className="border-b border-[#e6ddcf] pb-5">
+          <Link
+            href={`/dashboard/events/${id}`}
+            className="text-sm font-semibold text-[#c85f3c] hover:underline"
+          >
             ← {event.title}
           </Link>
           <EventNav eventId={id} active="media" />
-          <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <h1 className="text-3xl font-semibold tracking-tight">Media</h1>
+          <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h1 className="font-serif text-4xl font-bold tracking-tight">Media</h1>
+              <p className="mt-1 text-sm text-[#74664f]">
+                {total} {total === 1 ? "upload" : "uploads"}
+                {counts.pending > 0 && ` · ${counts.pending} awaiting approval`}
+              </p>
+            </div>
             {hasAny && (
               <a
                 href={`/dashboard/events/${id}/export`}
-                className="inline-flex h-11 items-center justify-center bg-[#8d7147] px-5 text-sm font-semibold text-white"
+                className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-[#e0734f] px-6 text-sm font-bold text-white hover:bg-[#cf6541]"
               >
-                Download all (ZIP)
+                ⬇ Download all (ZIP)
               </a>
             )}
           </div>
-          <nav className="mt-5 flex gap-1">
+          <nav className="mt-5 flex gap-1 overflow-x-auto border-b border-[#e6ddcf]">
             {TABS.map((t) => {
               const n = counts[t.key];
               const active = t.key === tab;
@@ -101,10 +111,10 @@ export default async function MediaPage({
                 <Link
                   key={t.key}
                   href={`/dashboard/events/${id}/media?tab=${t.key}`}
-                  className={`border-b-2 px-3 py-2 text-sm font-medium ${
+                  className={`whitespace-nowrap border-b-2 px-3 py-2.5 text-sm font-semibold transition ${
                     active
-                      ? "border-[#8d7147] text-[#25211b]"
-                      : "border-transparent text-[#74664f] hover:text-[#25211b]"
+                      ? "border-[#e0734f] text-[#231a12]"
+                      : "border-transparent text-[#8a755c] hover:text-[#231a12]"
                   }`}
                 >
                   {t.label} ({n})
@@ -115,7 +125,7 @@ export default async function MediaPage({
         </header>
 
         {items.length === 0 ? (
-          <div className="mt-10 border border-dashed border-[#cbbfa9] bg-white p-10 text-center text-sm text-[#74664f]">
+          <div className="mt-10 rounded-2xl border border-dashed border-[#d8c6ac] bg-white p-12 text-center text-sm text-[#74664f]">
             {tab === "pending"
               ? "Nothing waiting for approval."
               : tab === "hidden"
@@ -123,28 +133,38 @@ export default async function MediaPage({
                 : "No photos yet — they'll appear here as guests upload."}
           </div>
         ) : (
-          <ul className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-6 columns-2 gap-4 sm:columns-3 lg:columns-4 [column-fill:_balance]">
             {items.map((u) => (
-              <li key={u.id} className="border border-[#ded4c4] bg-white">
+              <div
+                key={u.id}
+                className="mb-4 break-inside-avoid overflow-hidden rounded-2xl border border-[#eaddca] bg-white"
+              >
                 <a
                   href={u.viewUrl ?? "#"}
                   target="_blank"
                   rel="noreferrer"
-                  className="block aspect-square overflow-hidden bg-[#efe9df]"
+                  className="block bg-[#efe7db]"
                 >
                   {u.mediaType === "photo" && u.url ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={u.url} alt={u.originalFileName ?? "photo"} className="h-full w-full object-cover" />
+                    <img
+                      src={u.url}
+                      alt={u.originalFileName ?? "photo"}
+                      loading="lazy"
+                      className="w-full"
+                    />
                   ) : (
-                    <span className="flex h-full w-full items-center justify-center text-xs uppercase tracking-wide text-[#a18e73]">
-                      {u.mediaType === "video" ? "Video" : "File"}
+                    <span className="flex aspect-square w-full items-center justify-center text-xs font-semibold uppercase tracking-wide text-[#a18e73]">
+                      {u.mediaType === "video" ? "▶ Video" : "File"}
                     </span>
                   )}
                 </a>
                 <div className="p-3">
-                  <p className="truncate text-sm font-semibold">{u.guestName}</p>
-                  <p className="truncate text-xs text-[#74664f]">{u.originalFileName ?? u.mediaType}</p>
-                  <div className="mt-3 flex gap-2">
+                  <p className="truncate text-sm font-bold">{u.guestName}</p>
+                  <p className="truncate text-xs text-[#8a7c6c]">
+                    {u.originalFileName ?? u.mediaType}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2">
                     {tab === "pending" && (
                       <StatusButton uploadId={u.id} eventId={id} status="published" label="Approve" primary />
                     )}
@@ -155,9 +175,9 @@ export default async function MediaPage({
                     )}
                   </div>
                 </div>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </main>
