@@ -1,9 +1,31 @@
 "use client";
 
 import { useRef, useState } from "react";
+import CameraCapture from "./camera-capture";
+
+const MAX_VIDEO_SECONDS = 60;
+const VIDEO_LIMIT_LABEL = "1 minute";
 
 type SignedFile = { originalFileName: string; sessionUri: string };
 type Phase = "idle" | "uploading" | "done" | "error";
+
+/** Read a video file's duration (seconds) via a throwaway <video> element. */
+function getVideoDuration(file: File): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const v = document.createElement("video");
+    v.preload = "metadata";
+    v.onloadedmetadata = () => {
+      URL.revokeObjectURL(url);
+      resolve(v.duration || 0);
+    };
+    v.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("metadata"));
+    };
+    v.src = url;
+  });
+}
 
 /** A stable per-device token kept in a cookie, so the per-guest cap survives renames. */
 function getGuestToken(): string {
@@ -62,17 +84,35 @@ export default function GuestUploader({
   const [phase, setPhase] = useState<Phase>("idle");
   const [pct, setPct] = useState(0);
   const [error, setError] = useState("");
+  const [cameraOpen, setCameraOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const busy = phase === "uploading";
 
-  /** Append picked/captured files (so camera shots + roll picks accumulate). */
-  function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
+  /** Append picked files; reject videos longer than the limit. */
+  async function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
     const list = e.target.files;
-    if (list && list.length > 0) setFiles((prev) => [...prev, ...Array.from(list)]);
-    e.target.value = ""; // reset so the same shot can be re-taken
-    setError("");
+    e.target.value = "";
+    if (!list || list.length === 0) return;
+
+    const accepted: File[] = [];
+    let tooLong = false;
+    for (const f of Array.from(list)) {
+      if (f.type.startsWith("video/")) {
+        const dur = await getVideoDuration(f).catch(() => 0);
+        if (dur > MAX_VIDEO_SECONDS + 0.7) {
+          tooLong = true;
+          continue;
+        }
+      }
+      accepted.push(f);
+    }
+    if (accepted.length > 0) setFiles((prev) => [...prev, ...accepted]);
+    setError(tooLong ? `Videos need to be under ${VIDEO_LIMIT_LABEL} — the longer clip wasn't added.` : "");
+  }
+
+  function addCaptured(captured: File[]) {
+    if (captured.length > 0) setFiles((prev) => [...prev, ...captured]);
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -183,7 +223,14 @@ export default function GuestUploader({
     "mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 text-base outline-none transition focus:border-[#e0734f] disabled:opacity-60";
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
+    <>
+      <CameraCapture
+        open={cameraOpen}
+        onClose={() => setCameraOpen(false)}
+        onAdd={addCaptured}
+        maxVideoSeconds={MAX_VIDEO_SECONDS}
+      />
+      <form className="space-y-4" onSubmit={handleSubmit}>
       <label className="block">
         <span className="text-sm font-semibold text-[#3a2c1e]">Your name</span>
         <input
@@ -254,7 +301,7 @@ export default function GuestUploader({
 
         <button
           type="button"
-          onClick={() => cameraInputRef.current?.click()}
+          onClick={() => setCameraOpen(true)}
           disabled={busy}
           className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-[#e6d8c4] bg-white py-3.5 text-sm font-bold text-[#5c4a2e] transition hover:border-[#e0734f] hover:text-[#c85f3c] disabled:opacity-60"
         >
@@ -264,15 +311,6 @@ export default function GuestUploader({
           </svg>
           Take a photo or video
         </button>
-        <input
-          ref={cameraInputRef}
-          type="file"
-          accept="image/*,video/*"
-          capture="environment"
-          className="sr-only"
-          disabled={busy}
-          onChange={handleFiles}
-        />
 
         {files.length > 0 && (
           <div className="mt-3 flex items-center justify-between">
@@ -330,6 +368,7 @@ export default function GuestUploader({
       >
         {busy ? "Uploading…" : "Share your photos →"}
       </button>
-    </form>
+      </form>
+    </>
   );
 }
