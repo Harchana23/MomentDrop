@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 type Shot = { id: number; file: File; url: string; type: "photo" | "video" };
+type Review = { shot: Shot; mode: "new" | "saved" };
 
 function fmt(sec: number): string {
   const m = Math.floor(sec / 60);
@@ -11,7 +12,8 @@ function fmt(sec: number): string {
 }
 
 /** In-app camera (Instagram/Snapchat style): live preview, snap photos, record
- *  video with an auto-stop, keep a tray of shots, then add them to the upload. */
+ *  video with auto-stop, review each shot (play videos) and Keep or Discard,
+ *  then add the kept shots to the upload. */
 export default function CameraCapture({
   open,
   onClose,
@@ -34,6 +36,7 @@ export default function CameraCapture({
   const [recording, setRecording] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [shots, setShots] = useState<Shot[]>([]);
+  const [review, setReview] = useState<Review | null>(null);
   const [error, setError] = useState("");
 
   function stopStream() {
@@ -41,7 +44,6 @@ export default function CameraCapture({
     streamRef.current = null;
   }
 
-  // Start (and restart on camera flip) while open.
   useEffect(() => {
     if (!open) return;
     let active = true;
@@ -51,10 +53,7 @@ export default function CameraCapture({
         if (!navigator.mediaDevices?.getUserMedia) throw new Error("unsupported");
         let stream: MediaStream;
         try {
-          stream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode: facing },
-            audio: true,
-          });
+          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: facing }, audio: true });
         } catch {
           stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: facing } });
         }
@@ -85,9 +84,10 @@ export default function CameraCapture({
     };
   }, []);
 
-  function addShot(file: File, type: "photo" | "video") {
+  function openReview(file: File, type: "photo" | "video") {
+    const id = counterRef.current;
     const url = URL.createObjectURL(file);
-    setShots((prev) => [...prev, { id: counterRef.current, file, url, type }]);
+    setReview({ shot: { id, file, url, type }, mode: "new" });
   }
 
   function capturePhoto() {
@@ -102,8 +102,7 @@ export default function CameraCapture({
     canvas.toBlob(
       (blob) => {
         if (!blob) return;
-        const n = ++counterRef.current;
-        addShot(new File([blob], `photo-${n}.jpg`, { type: "image/jpeg" }), "photo");
+        openReview(new File([blob], `photo-${++counterRef.current}.jpg`, { type: "image/jpeg" }), "photo");
       },
       "image/jpeg",
       0.9,
@@ -147,8 +146,7 @@ export default function CameraCapture({
     rec.onstop = () => {
       const type = rec.mimeType || mime || "video/webm";
       const ext = type.includes("mp4") ? "mp4" : "webm";
-      const n = ++counterRef.current;
-      addShot(new File([new Blob(chunksRef.current, { type })], `video-${n}.${ext}`, { type }), "video");
+      openReview(new File([new Blob(chunksRef.current, { type })], `video-${++counterRef.current}.${ext}`, { type }), "video");
     };
     recorderRef.current = rec;
     rec.start();
@@ -163,19 +161,34 @@ export default function CameraCapture({
     }, 1000);
   }
 
+  function keepPending() {
+    if (!review) return;
+    setShots((prev) => [...prev, review.shot]);
+    setReview(null);
+  }
+
+  function discardPending() {
+    if (!review) return;
+    URL.revokeObjectURL(review.shot.url);
+    setReview(null);
+  }
+
   function removeShot(id: number) {
     setShots((prev) => {
       const s = prev.find((x) => x.id === id);
       if (s) URL.revokeObjectURL(s.url);
       return prev.filter((x) => x.id !== id);
     });
+    setReview(null);
   }
 
   function finish(add: boolean) {
     if (recording) stopRecording();
+    if (review) URL.revokeObjectURL(review.shot.url);
     if (add) onAdd(shots.map((s) => s.file));
-    shots.forEach((s) => URL.revokeObjectURL(s.url));
+    else shots.forEach((s) => URL.revokeObjectURL(s.url));
     setShots([]);
+    setReview(null);
     stopStream();
     onClose();
   }
@@ -225,21 +238,22 @@ export default function CameraCapture({
         {shots.length > 0 && (
           <div className="mb-4 flex gap-2 overflow-x-auto">
             {shots.map((s) => (
-              <div key={s.id} className="relative shrink-0">
+              <button
+                key={s.id}
+                onClick={() => setReview({ shot: s, mode: "saved" })}
+                className="relative shrink-0"
+                aria-label="Preview"
+              >
                 {s.type === "photo" ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={s.url} alt="" className="h-16 w-16 rounded-lg object-cover" />
                 ) : (
-                  <div className="grid h-16 w-16 place-items-center rounded-lg bg-white/10 text-lg">▶</div>
+                  <span className="grid h-16 w-16 place-items-center rounded-lg bg-white/10 text-lg">▶</span>
                 )}
-                <button
-                  onClick={() => removeShot(s.id)}
-                  aria-label="Remove"
-                  className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-black text-[11px]"
-                >
-                  ✕
-                </button>
-              </div>
+                <span className="absolute inset-x-0 bottom-0 rounded-b-lg bg-black/50 py-0.5 text-center text-[10px] font-bold">
+                  {s.type === "video" ? "Video" : "Photo"}
+                </span>
+              </button>
             ))}
           </div>
         )}
@@ -271,7 +285,7 @@ export default function CameraCapture({
               disabled={shots.length === 0}
               className="rounded-full bg-[#e0734f] px-5 py-2 text-sm font-bold text-white disabled:opacity-40"
             >
-              Add{shots.length > 0 ? ` (${shots.length})` : ""}
+              Done{shots.length > 0 ? ` (${shots.length})` : ""}
             </button>
           </div>
         </div>
@@ -279,6 +293,60 @@ export default function CameraCapture({
           White circle = photo · red = record (auto-stops at {fmt(maxVideoSeconds)})
         </p>
       </div>
+
+      {/* Review a freshly captured shot, or preview a saved one */}
+      {review && (
+        <div className="absolute inset-0 z-10 flex flex-col bg-black">
+          <div className="flex flex-1 items-center justify-center overflow-hidden p-2">
+            {review.shot.type === "photo" ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={review.shot.url} alt="Preview" className="max-h-full max-w-full object-contain" />
+            ) : (
+              <video
+                src={review.shot.url}
+                controls
+                autoPlay
+                loop
+                playsInline
+                className="max-h-full max-w-full"
+              />
+            )}
+          </div>
+          <div className="flex items-center justify-between gap-3 p-5">
+            {review.mode === "new" ? (
+              <>
+                <button
+                  onClick={discardPending}
+                  className="flex-1 rounded-full border border-white/40 py-3 text-sm font-bold text-white"
+                >
+                  Discard
+                </button>
+                <button
+                  onClick={keepPending}
+                  className="flex-1 rounded-full bg-[#e0734f] py-3 text-sm font-bold text-white"
+                >
+                  Keep
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => removeShot(review.shot.id)}
+                  className="flex-1 rounded-full border border-red-400/60 py-3 text-sm font-bold text-red-300"
+                >
+                  Remove
+                </button>
+                <button
+                  onClick={() => setReview(null)}
+                  className="flex-1 rounded-full bg-white/15 py-3 text-sm font-bold text-white"
+                >
+                  Close
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
