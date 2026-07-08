@@ -93,16 +93,18 @@ export default function GuestUploader({
 
   /** Append picked files; reject videos longer than the limit. */
   async function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
-    const list = e.target.files;
+    // Copy the files out BEFORE clearing the input — resetting value empties the
+    // live FileList, which would otherwise leave us with nothing to upload.
+    const picked = e.target.files ? Array.from(e.target.files) : [];
     e.target.value = "";
-    if (!list || list.length === 0) return;
+    if (picked.length === 0) return;
 
     const accepted: File[] = [];
     let tooLong = false;
-    for (const f of Array.from(list)) {
+    for (const f of picked) {
       if (f.type.startsWith("video/")) {
         const dur = await getVideoDuration(f).catch(() => 0);
-        if (dur > MAX_VIDEO_SECONDS + 0.7) {
+        if (Number.isFinite(dur) && dur > MAX_VIDEO_SECONDS + 0.7) {
           tooLong = true;
           continue;
         }
