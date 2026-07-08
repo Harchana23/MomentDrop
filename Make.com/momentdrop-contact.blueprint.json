@@ -1,0 +1,100 @@
+{
+  "name": "MomentDrop — Contact form (staff + client email)",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": { "hook": 100001, "maxResults": 1 },
+      "mapper": {},
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "restore": {
+          "parameters": {
+            "hook": { "label": "MomentDrop Contact", "data": { "editable": "true" } }
+          }
+        },
+        "parameters": [
+          { "name": "hook", "type": "hook:gateway-webhook", "label": "Webhook", "required": true },
+          { "name": "maxResults", "type": "number", "label": "Maximum number of results" }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "module": "google-email:ActionSendEmail",
+      "version": 1,
+      "parameters": { "__IMTCONN__": 111111 },
+      "mapper": {
+        "to": ["momentdropsharing@gmail.com"],
+        "cc": [],
+        "bcc": [],
+        "subject": "[MomentDrop] {{1.subject}}",
+        "contentType": "html",
+        "html": "<b>New contact message</b><br><br><b>From:</b> {{1.name}} ({{1.email}})<br><b>Subject:</b> {{1.subject}}<br><br>{{1.message}}",
+        "attachments": []
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": -75 },
+        "restore": {
+          "parameters": {
+            "__IMTCONN__": {
+              "label": "Your Gmail (staff inbox)",
+              "data": { "scoped": "true", "connection": "google-email" }
+            }
+          }
+        },
+        "parameters": [
+          { "name": "__IMTCONN__", "type": "account:google-email", "label": "Connection", "required": true }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "module": "google-email:ActionSendEmail",
+      "version": 1,
+      "parameters": { "__IMTCONN__": 111111 },
+      "mapper": {
+        "to": ["{{1.email}}"],
+        "cc": [],
+        "bcc": [],
+        "subject": "We got your message — MomentDrop",
+        "contentType": "html",
+        "html": "Hi {{1.name}},<br><br>Thanks for reaching out to MomentDrop — we've received your message and will get back to you within one business day.<br><br><b>Your message:</b><br>{{1.message}}<br><br>Warm regards,<br>The MomentDrop team<br>momentdropsharing@gmail.com",
+        "attachments": []
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 150 },
+        "restore": {
+          "parameters": {
+            "__IMTCONN__": {
+              "label": "Your Gmail (staff inbox)",
+              "data": { "scoped": "true", "connection": "google-email" }
+            }
+          }
+        },
+        "parameters": [
+          { "name": "__IMTCONN__", "type": "account:google-email", "label": "Connection", "required": true }
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "slots": null,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": { "orphans": [] },
+    "zone": "eu2.make.com"
+  }
+}
