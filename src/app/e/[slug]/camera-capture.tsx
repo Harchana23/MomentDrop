@@ -161,6 +161,15 @@ export default function CameraCapture({
     }, 1000);
   }
 
+  function downloadShot(shot: Shot) {
+    const a = document.createElement("a");
+    a.href = shot.url;
+    a.download = shot.file.name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
   function keepPending() {
     if (!review) return;
     setShots((prev) => [...prev, review.shot]);
@@ -297,6 +306,18 @@ export default function CameraCapture({
       {/* Review a freshly captured shot, or preview a saved one */}
       {review && (
         <div className="absolute inset-0 z-10 flex flex-col bg-black">
+          <div className="absolute inset-x-0 top-0 z-10 flex justify-end p-4">
+            <button
+              onClick={() => downloadShot(review.shot)}
+              aria-label="Save to your phone"
+              className="flex items-center gap-2 rounded-full bg-black/50 px-4 py-2 text-sm font-bold text-white backdrop-blur-sm"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" className="h-5 w-5" aria-hidden="true">
+                <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Save to phone
+            </button>
+          </div>
           <div className="flex flex-1 items-center justify-center overflow-hidden p-2">
             {review.shot.type === "photo" ? (
               // eslint-disable-next-line @next/next/no-img-element
