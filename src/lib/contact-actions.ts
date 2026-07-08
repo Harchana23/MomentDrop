@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { sendContactEmail, contactEmailConfigured } from "@/lib/support";
+import { sendContactMessage, contactWebhookConfigured } from "@/lib/support";
 
 export async function submitContact(formData: FormData) {
   const name = String(formData.get("name") ?? "").trim();
@@ -12,10 +12,10 @@ export async function submitContact(formData: FormData) {
   if (!name || !email || !message) {
     redirect("/contact?error=fields");
   }
-  if (!contactEmailConfigured()) {
+  if (!contactWebhookConfigured()) {
     redirect("/contact?error=unconfigured");
   }
 
-  const ok = await sendContactEmail({ name, email, subject, message });
+  const ok = await sendContactMessage({ name, email, subject, message });
   redirect(ok ? "/contact?sent=1" : "/contact?error=send");
 }
