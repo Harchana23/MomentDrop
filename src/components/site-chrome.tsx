@@ -43,6 +43,12 @@ export function SiteFooter() {
           <p className="mt-3 max-w-xs text-sm leading-6 text-[#74664f]">
             Collect every guest&apos;s photos and videos with one QR scan. Scan. Drop. Remember.
           </p>
+          <a
+            href="mailto:momentdropsharing@gmail.com"
+            className="mt-3 inline-block text-sm font-semibold text-[#c85f3c] hover:underline"
+          >
+            momentdropsharing@gmail.com
+          </a>
         </div>
         <div className="text-sm">
           <p className="font-medium text-[#4a4035]">Use cases</p>
@@ -59,6 +65,7 @@ export function SiteFooter() {
             <li><Link href="/how-it-works" className="hover:underline">How it works</Link></li>
             <li><Link href="/pricing" className="hover:underline">Pricing</Link></li>
             <li><Link href="/faq" className="hover:underline">FAQ</Link></li>
+            <li><Link href="/contact" className="hover:underline">Contact</Link></li>
             <li><Link href="/login" className="hover:underline">Log in</Link></li>
           </ul>
         </div>
