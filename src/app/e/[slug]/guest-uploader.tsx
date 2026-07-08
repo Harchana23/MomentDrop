@@ -63,11 +63,15 @@ export default function GuestUploader({
   const [pct, setPct] = useState(0);
   const [error, setError] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const busy = phase === "uploading";
 
-  function pickFiles(list: FileList | null) {
-    setFiles(list ? Array.from(list) : []);
+  /** Append picked/captured files (so camera shots + roll picks accumulate). */
+  function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
+    const list = e.target.files;
+    if (list && list.length > 0) setFiles((prev) => [...prev, ...Array.from(list)]);
+    e.target.value = ""; // reset so the same shot can be re-taken
     setError("");
   }
 
@@ -222,32 +226,70 @@ export default function GuestUploader({
         </label>
       )}
 
-      <label className="grid min-h-44 cursor-pointer place-items-center rounded-2xl border-2 border-dashed border-[#f0c3ab] bg-[#fdf5ef] px-4 text-center transition hover:border-[#e0734f]">
+      <div>
+        <label className="grid min-h-40 cursor-pointer place-items-center rounded-2xl border-2 border-dashed border-[#f0c3ab] bg-[#fdf5ef] px-4 text-center transition hover:border-[#e0734f]">
+          <input
+            ref={fileInputRef}
+            multiple
+            type="file"
+            accept="image/*,video/*"
+            className="sr-only"
+            disabled={busy}
+            onChange={handleFiles}
+          />
+          <span>
+            <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#fbeadf] text-[#c26545]">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-6 w-6" aria-hidden="true">
+                <path d="M12 15V4m0 0 4 4m-4-4-4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <span className="mt-3 block text-base font-semibold text-[#3a2c1e]">
+              Tap to choose from your camera roll
+            </span>
+            <span className="mt-1 block text-xs text-[#a18e73]">
+              JPG · PNG · HEIC · MP4 · MOV · up to 100MB each
+            </span>
+          </span>
+        </label>
+
+        <button
+          type="button"
+          onClick={() => cameraInputRef.current?.click()}
+          disabled={busy}
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-[#e6d8c4] bg-white py-3.5 text-sm font-bold text-[#5c4a2e] transition hover:border-[#e0734f] hover:text-[#c85f3c] disabled:opacity-60"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-5 w-5" aria-hidden="true">
+            <path d="M4 8.5A1.5 1.5 0 0 1 5.5 7H8l1-1.5h6L16 7h2.5A1.5 1.5 0 0 1 20 8.5v9A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5z" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="12" cy="12.5" r="3.2" />
+          </svg>
+          Take a photo or video
+        </button>
         <input
-          ref={fileInputRef}
-          multiple
+          ref={cameraInputRef}
           type="file"
           accept="image/*,video/*"
+          capture="environment"
           className="sr-only"
           disabled={busy}
-          onChange={(e) => pickFiles(e.target.files)}
+          onChange={handleFiles}
         />
-        <span>
-          <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#fbeadf] text-[#c26545]">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-6 w-6" aria-hidden="true">
-              <path d="M12 15V4m0 0 4 4m-4-4-4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-          <span className="mt-3 block text-base font-semibold text-[#3a2c1e]">
-            {files.length > 0
-              ? `${files.length} file${files.length === 1 ? "" : "s"} selected`
-              : "Tap to choose photos or videos"}
-          </span>
-          <span className="mt-1 block text-xs text-[#a18e73]">
-            JPG · PNG · HEIC · MP4 · MOV · up to 100MB each
-          </span>
-        </span>
-      </label>
+
+        {files.length > 0 && (
+          <div className="mt-3 flex items-center justify-between">
+            <span className="text-sm font-semibold text-[#3a2c1e]">
+              {files.length} file{files.length === 1 ? "" : "s"} ready to share
+            </span>
+            <button
+              type="button"
+              onClick={() => setFiles([])}
+              disabled={busy}
+              className="text-xs font-bold text-[#c85f3c] hover:underline"
+            >
+              Clear
+            </button>
+          </div>
+        )}
+      </div>
 
       {!busy && perGuestLimit != null && (
         <div>
