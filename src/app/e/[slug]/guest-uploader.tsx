@@ -35,7 +35,9 @@ function getGuestToken(): string {
     typeof crypto !== "undefined" && crypto.randomUUID
       ? crypto.randomUUID()
       : String(Math.random()).slice(2);
-  document.cookie = `md_guest=${token}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+  const secure = typeof location !== "undefined" && location.protocol === "https:" ? "; secure" : "";
+  document.cookie =
+    `md_guest=${encodeURIComponent(token)}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax` + secure;
   return token;
 }
 
