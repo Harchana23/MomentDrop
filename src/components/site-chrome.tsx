@@ -17,6 +17,9 @@ export function SiteHeader() {
           <Link href="/pricing" className="text-[#5c4a2e] hover:underline">
             Pricing
           </Link>
+          <Link href="/contact" className="hidden text-[#5c4a2e] hover:underline sm:inline">
+            Contact
+          </Link>
           <Link href="/login" className="text-[#5c4a2e] hover:underline">
             Log in
           </Link>
