@@ -1,16 +1,17 @@
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
-import { UPGRADE_DAYS, UPGRADE_FILE_LIMIT } from "./config";
+import { PLANS, type PlanKey } from "./plans";
 
-/** Apply the paid "Event" plan to an event (called from the verified payment callback). */
-export async function upgradeEvent(eventId: string): Promise<boolean> {
+/** Apply a paid plan to an event (called only from the verified Stripe webhook). */
+export async function upgradeEvent(eventId: string, planKey: PlanKey): Promise<boolean> {
   const sb = getSupabaseAdmin();
   if (!sb) return false;
-  const activeUntil = new Date(Date.now() + UPGRADE_DAYS * 86_400_000).toISOString();
+  const plan = PLANS[planKey];
+  const activeUntil = new Date(Date.now() + plan.days * 86_400_000).toISOString();
   const { error } = await sb
     .from("events")
     .update({
-      plan: "event",
-      file_limit: UPGRADE_FILE_LIMIT,
+      plan: plan.key,
+      file_limit: plan.fileLimit,
       active_until: activeUntil,
       status: "active",
     })

@@ -3,6 +3,7 @@ import { supabaseServer } from "@/lib/supabase/server";
 import { getDashboardData, type DashboardEvent } from "@/lib/events/queries";
 import { getSiteUrl } from "@/lib/site-url";
 import { driveThumbUrl } from "@/lib/gdrive";
+import { isPaidPlan } from "@/lib/billing/plans";
 import { CopyLinkButton } from "@/components/copy-link-button";
 
 export const dynamic = "force-dynamic";
@@ -42,7 +43,8 @@ function dateLabel(dateStr: string | null): { date: string; rel: string } | null
 function EventCard({ e, base }: { e: DashboardEvent; base: string }) {
   const shareUrl = `${base}/e/${e.slug}`;
   const when = dateLabel(e.eventDate);
-  const upgraded = e.plan === "event";
+  const upgraded = isPaidPlan(e.plan);
+  const planLabel = e.plan === "pro" ? "Pro" : e.plan === "plus" ? "Plus" : "Trial";
   const daysLeft = dayDiff(e.activeUntil);
   const expiring = !upgraded && !Number.isNaN(daysLeft) && daysLeft <= 3;
   const emoji = TYPE_EMOJI[e.eventType] ?? "📸";
@@ -83,7 +85,7 @@ function EventCard({ e, base }: { e: DashboardEvent; base: string }) {
                 upgraded ? "bg-[#e6f2e8] text-[#3b7a4f]" : "bg-[#fbeadf] text-[#c85f3c]"
               }`}
             >
-              {upgraded ? "Event" : "Trial"}
+              {planLabel}
             </span>
           </div>
 

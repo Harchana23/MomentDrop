@@ -5,7 +5,9 @@ import { getSiteUrl } from "@/lib/site-url";
 import { qrDataUrl } from "@/lib/qr";
 import { EventNav } from "@/components/event-nav";
 import { CopyLinkButton } from "@/components/copy-link-button";
-import { billingConfigured, UPGRADE_FILE_LIMIT } from "@/lib/billing/config";
+import { startCheckout } from "@/lib/billing/actions";
+import { stripeConfigured } from "@/lib/billing/stripe";
+import { PLANS, isPaidPlan, ringgit } from "@/lib/billing/plans";
 
 export const dynamic = "force-dynamic";
 
@@ -26,7 +28,9 @@ export default async function EventOverviewPage({
   const qr = await qrDataUrl(shareUrl);
   const activeUntil = new Date(event.active_until).toLocaleDateString();
 
-  const isEvent = event.plan === "event";
+  const isPaid = isPaidPlan(event.plan);
+  const planLabel = event.plan === "pro" ? "Pro" : event.plan === "plus" ? "Plus" : "Trial";
+  const paymentsReady = stripeConfigured();
 
   return (
     <main className="min-h-screen bg-[#fbf6ee] px-5 py-6 text-[#24201a] md:px-8">
@@ -39,10 +43,10 @@ export default async function EventOverviewPage({
             <h1 className="font-serif text-4xl font-bold tracking-tight">{event.title}</h1>
             <span
               className={`rounded-full px-2.5 py-1 text-xs font-bold ${
-                isEvent ? "bg-[#e6f2e8] text-[#3b7a4f]" : "bg-[#fbeadf] text-[#c85f3c]"
+                isPaid ? "bg-[#e6f2e8] text-[#3b7a4f]" : "bg-[#fbeadf] text-[#c85f3c]"
               }`}
             >
-              {isEvent ? "Event plan" : "Trial"}
+              {planLabel}
             </span>
           </div>
           <p className="mt-1 text-sm capitalize text-[#74664f]">
@@ -52,14 +56,19 @@ export default async function EventOverviewPage({
           <EventNav eventId={event.id} active="overview" />
         </header>
 
-        {sp.upgraded && isEvent && (
+        {sp.upgraded && isPaid && (
           <p className="mt-5 rounded-xl border border-[#cfe2d0] bg-[#eef4ec] px-4 py-3 text-sm text-[#3b7a4f]">
-            Payment received — your event is on the Event plan.
+            Payment received — your event is on the {planLabel} plan.
           </p>
         )}
-        {sp.upgraded && !isEvent && (
+        {sp.upgraded && !isPaid && (
           <p className="mt-5 rounded-xl border border-[#e7dcc2] bg-[#fbf6ea] px-4 py-3 text-sm text-[#7a6326]">
-            Thanks! Confirming your payment — your plan updates shortly. Refresh in a moment.
+            Thanks! Confirming your payment — your plan updates within a few seconds. Refresh shortly.
+          </p>
+        )}
+        {sp.billing === "cancelled" && (
+          <p className="mt-5 rounded-xl border border-[#e7dcc2] bg-[#fbf6ea] px-4 py-3 text-sm text-[#7a6326]">
+            Checkout cancelled — no charge was made.
           </p>
         )}
         {sp.billing === "error" && (
@@ -88,11 +97,11 @@ export default async function EventOverviewPage({
           ))}
         </section>
 
-        <section className="mt-6 rounded-2xl border border-[#eaddca] bg-white p-6">
-          {isEvent ? (
+        {isPaid ? (
+          <section className="mt-6 rounded-2xl border border-[#eaddca] bg-white p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h2 className="font-serif text-xl font-bold">Event plan</h2>
+                <h2 className="font-serif text-xl font-bold">{planLabel} plan</h2>
                 <p className="mt-1 text-sm text-[#6f5c46]">
                   Up to {event.file_limit} files · active until {activeUntil}.
                 </p>
@@ -101,27 +110,58 @@ export default async function EventOverviewPage({
                 Upgraded
               </span>
             </div>
-          ) : (
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div>
-                <h2 className="font-serif text-xl font-bold">Free trial</h2>
-                <p className="mt-1 text-sm text-[#6f5c46]">
-                  Up to {event.file_limit} files · active until {activeUntil}. Upgrade to{" "}
-                  {UPGRADE_FILE_LIMIT} files and a longer window.
-                </p>
-                {!billingConfigured() && (
-                  <p className="mt-1 text-xs text-[#a18e73]">Payments aren&apos;t configured yet.</p>
-                )}
-              </div>
-              <Link
-                href="/pricing"
-                className="inline-flex h-11 shrink-0 items-center justify-center rounded-full bg-[#e0734f] px-6 text-sm font-bold text-white hover:bg-[#cf6541]"
-              >
-                View more package options
-              </Link>
+          </section>
+        ) : (
+          <section className="mt-6 rounded-2xl border border-[#eaddca] bg-white p-6">
+            <h2 className="font-serif text-xl font-bold">Free trial</h2>
+            <p className="mt-1 text-sm text-[#6f5c46]">
+              Up to {event.file_limit} files · active until {activeUntil}. Upgrade this event for more
+              uploads and a longer window.
+            </p>
+            {!paymentsReady && (
+              <p className="mt-1 text-xs text-[#a18e73]">Payments aren&apos;t configured yet.</p>
+            )}
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {(["plus", "pro"] as const).map((key) => {
+                const plan = PLANS[key];
+                const popular = key === "pro";
+                return (
+                  <div
+                    key={key}
+                    className={`rounded-2xl border p-5 ${
+                      popular ? "border-[#e0734f] bg-[#fdf6f1]" : "border-[#eaddca] bg-[#fbf7ef]"
+                    }`}
+                  >
+                    <div className="flex items-baseline justify-between">
+                      <h3 className="font-serif text-lg font-bold text-[#231a12]">{plan.label}</h3>
+                      <span className="font-serif text-2xl font-bold text-[#231a12]">
+                        {ringgit(plan.amountCents)}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-sm text-[#6f5c46]">{plan.blurb}</p>
+                    <form action={startCheckout} className="mt-4">
+                      <input type="hidden" name="id" value={id} />
+                      <input type="hidden" name="plan" value={key} />
+                      <button
+                        disabled={!paymentsReady}
+                        className={`inline-flex h-11 w-full items-center justify-center rounded-full text-sm font-bold transition disabled:opacity-50 ${
+                          popular
+                            ? "bg-[#e0734f] text-white hover:bg-[#cf6541]"
+                            : "border-2 border-[#e0734f] text-[#c85f3c] hover:bg-[#fbeadf]"
+                        }`}
+                      >
+                        Upgrade to {plan.label}
+                      </button>
+                    </form>
+                  </div>
+                );
+              })}
             </div>
-          )}
-        </section>
+            <p className="mt-3 text-center text-xs text-[#a18e73]">
+              Secure checkout by Stripe · FPX, cards &amp; e-wallets · one-time, per event
+            </p>
+          </section>
+        )}
 
         <section className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
           <div className="rounded-2xl border border-[#eaddca] bg-white p-6">
