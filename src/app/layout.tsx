@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Caveat, Plus_Jakarta_Sans } from "next/font/google";
+import { Playfair_Display, Caveat, Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+
+const grotesk = Space_Grotesk({
+  variable: "--font-grotesk",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
 
 const sans = Plus_Jakarta_Sans({
   variable: "--font-sans-jakarta",
@@ -37,7 +44,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${sans.variable} ${serif.variable} ${script.variable} h-full antialiased`}
+      className={`${sans.variable} ${serif.variable} ${script.variable} ${grotesk.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
