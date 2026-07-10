@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Caveat, Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
+import { GlobalLoader, RouteProgress } from "@/components/global-loader";
 import "./globals.css";
 
 const grotesk = Space_Grotesk({
@@ -46,7 +47,11 @@ export default function RootLayout({
       lang="en"
       className={`${sans.variable} ${serif.variable} ${script.variable} ${grotesk.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <RouteProgress />
+        {children}
+        <GlobalLoader />
+      </body>
     </html>
   );
 }

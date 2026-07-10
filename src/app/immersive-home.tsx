@@ -228,9 +228,13 @@ export default function ImmersiveHome() {
       {/* PRELOADER */}
       <div data-preloader style={{ position: "fixed", inset: 0, zIndex: 200, background: "#F4ECE3", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 26, transition: "opacity .8s ease, visibility .8s" }}>
         <div style={{ position: "absolute", width: "50vw", height: "50vw", borderRadius: "50%", background: "radial-gradient(circle, rgba(243,183,160,.75), transparent 65%)", filter: "blur(60px)", animation: "ih-glow 2.4s ease-in-out infinite" }} />
-        <div className="g" style={{ position: "relative", display: "flex", alignItems: "center", gap: 12, fontWeight: 700, fontSize: 26, letterSpacing: "-.02em" }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="" aria-hidden="true" style={{ width: 44, height: 44, objectFit: "contain" }} />
+        <div className="g" style={{ position: "relative", display: "flex", alignItems: "center", gap: 14, fontWeight: 700, fontSize: 26, letterSpacing: "-.02em" }}>
+          <div className="md-cam" style={{ width: 52, height: 52 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="md-logo" src="/logo-tile.png" alt="" aria-hidden="true" />
+            <div className="md-ripple" />
+            <div className="md-flash" />
+          </div>
           MomentDrop
         </div>
         <div style={{ position: "relative", width: 220, height: 3, borderRadius: 3, background: "rgba(90,50,40,.14)", overflow: "hidden" }}>
