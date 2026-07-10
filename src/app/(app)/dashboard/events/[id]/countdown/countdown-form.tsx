@@ -23,7 +23,7 @@ export default function CountdownForm({
   const untilIso = localDt ? new Date(localDt).toISOString() : "";
 
   return (
-    <form action={saveCountdown} className="mt-6 space-y-5 border border-[#ded4c4] bg-white p-6">
+    <form action={saveCountdown} className="mt-6 space-y-5 border border-[#eaddca] bg-white p-6">
       <input type="hidden" name="id" value={id} />
       <input type="hidden" name="until" value={untilIso} />
 
@@ -42,7 +42,7 @@ export default function CountdownForm({
             onChange={(e) => setEnabled(e.target.checked)}
             className="peer sr-only"
           />
-          <span className="h-6 w-11 rounded-full bg-[#d3cabb] transition peer-checked:bg-[#8d7147]" />
+          <span className="h-6 w-11 rounded-full bg-[#d3cabb] transition peer-checked:rounded-full bg-[#e0734f]" />
           <span className="absolute left-0.5 h-5 w-5 rounded-full bg-white transition peer-checked:translate-x-5" />
         </label>
       </div>
@@ -54,7 +54,7 @@ export default function CountdownForm({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="e.g. The celebration begins in…"
-          className="mt-2 h-12 w-full border border-[#d8cdbb] bg-[#fffdf9] px-4 outline-none focus:border-[#8f7245]"
+          className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
         />
       </label>
 
@@ -64,11 +64,11 @@ export default function CountdownForm({
           type="datetime-local"
           value={localDt}
           onChange={(e) => setLocalDt(e.target.value)}
-          className="mt-2 h-12 w-full border border-[#d8cdbb] bg-[#fffdf9] px-4 outline-none focus:border-[#8f7245]"
+          className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
         />
       </label>
 
-      <button className="h-11 bg-[#1f1b16] px-5 text-sm font-semibold text-white hover:bg-[#3a3127]">
+      <button className="h-11 rounded-full bg-[#e0734f] px-5 text-sm font-semibold text-white hover:bg-[#cf6541]">
         Save countdown
       </button>
     </form>

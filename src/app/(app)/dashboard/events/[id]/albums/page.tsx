@@ -21,12 +21,12 @@ export default async function AlbumsPage({
   const { available, albums } = await getAlbumsOwner(id);
 
   return (
-    <main className="min-h-screen bg-[#f7f4ee] px-5 py-6 text-[#25211b] md:px-8">
+    <main className="min-h-screen bg-[#fbf6ee] px-5 py-6 text-[#24201a] md:px-8">
       <div className="mx-auto max-w-3xl">
-        <Link href={`/dashboard/events/${id}`} className="text-sm text-[#8b6e3f]">
+        <Link href={`/dashboard/events/${id}`} className="text-sm text-[#c85f3c]">
           ← {event.title}
         </Link>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">Albums</h1>
+        <h1 className="mt-2 font-serif text-3xl font-bold tracking-tight">Albums</h1>
         <EventNav eventId={id} active="albums" />
 
         {sp.error && (
@@ -48,7 +48,7 @@ export default async function AlbumsPage({
           </div>
         ) : (
           <>
-            <section className="mt-6 border border-[#ded4c4] bg-white p-6">
+            <section className="mt-6 border border-[#eaddca] bg-white p-6">
               <h2 className="text-lg font-semibold">New album</h2>
               <form action={createAlbum} className="mt-4 space-y-4">
                 <input type="hidden" name="eventId" value={id} />
@@ -56,19 +56,19 @@ export default async function AlbumsPage({
                   name="title"
                   required
                   placeholder="e.g. Ceremony, Reception, Photobooth"
-                  className="h-12 w-full border border-[#d8cdbb] bg-[#fffdf9] px-4 outline-none focus:border-[#8f7245]"
+                  className="h-12 w-full border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
                 />
                 <label className="flex items-center gap-3 text-sm text-[#4a4035]">
                   <input type="checkbox" name="allow_uploads" defaultChecked className="h-4 w-4" />
                   Let guests upload to this album
                 </label>
-                <button className="h-11 bg-[#1f1b16] px-5 text-sm font-semibold text-white hover:bg-[#3a3127]">
+                <button className="h-11 rounded-full bg-[#e0734f] px-5 text-sm font-semibold text-white hover:bg-[#cf6541]">
                   Create album
                 </button>
               </form>
             </section>
 
-            <section className="mt-6 border border-[#ded4c4] bg-white">
+            <section className="mt-6 border border-[#eaddca] bg-white">
               {albums.length === 0 ? (
                 <p className="p-6 text-sm text-[#74664f]">
                   No albums yet. Create one above — guests can then pick it when uploading.
@@ -87,7 +87,7 @@ export default async function AlbumsPage({
                       <form action={deleteAlbum}>
                         <input type="hidden" name="eventId" value={id} />
                         <input type="hidden" name="albumId" value={a.id} />
-                        <button className="h-9 border border-[#d8cdbb] px-3 text-xs font-semibold text-[#9a3b2b] hover:border-[#cf6b58]">
+                        <button className="h-9 border border-[#e6d8c4] px-3 text-xs font-semibold text-[#9a3b2b] hover:border-[#cf6b58]">
                           Delete
                         </button>
                       </form>

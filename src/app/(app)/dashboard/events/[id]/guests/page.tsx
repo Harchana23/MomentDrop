@@ -17,12 +17,12 @@ export default async function GuestsPage({
   const guests = await getEventGuests(id);
 
   return (
-    <main className="min-h-screen bg-[#f7f4ee] px-5 py-6 text-[#25211b] md:px-8">
+    <main className="min-h-screen bg-[#fbf6ee] px-5 py-6 text-[#24201a] md:px-8">
       <div className="mx-auto max-w-3xl">
-        <Link href={`/dashboard/events/${id}`} className="text-sm text-[#8b6e3f]">
+        <Link href={`/dashboard/events/${id}`} className="text-sm text-[#c85f3c]">
           ← {event.title}
         </Link>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">Guests</h1>
+        <h1 className="mt-2 font-serif text-3xl font-bold tracking-tight">Guests</h1>
         <EventNav eventId={id} active="guests" />
 
         {guests.length === 0 ? (
@@ -30,7 +30,7 @@ export default async function GuestsPage({
             No guests yet — they&apos;ll appear here as people upload to your event.
           </div>
         ) : (
-          <div className="mt-6 border border-[#ded4c4] bg-white">
+          <div className="mt-6 border border-[#eaddca] bg-white">
             <div className="grid grid-cols-[1fr_auto] gap-3 border-b border-[#eee6da] px-5 py-3 text-xs font-semibold uppercase tracking-wide text-[#a18e73]">
               <span>Guest</span>
               <span>Uploads</span>

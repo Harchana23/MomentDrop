@@ -28,12 +28,12 @@ export default async function SettingsPage({
   const base = await getSiteUrl();
 
   return (
-    <main className="min-h-screen bg-[#f7f4ee] px-5 py-6 text-[#25211b] md:px-8">
+    <main className="min-h-screen bg-[#fbf6ee] px-5 py-6 text-[#24201a] md:px-8">
       <div className="mx-auto max-w-3xl">
-        <Link href={`/dashboard/events/${id}`} className="text-sm text-[#8b6e3f]">
+        <Link href={`/dashboard/events/${id}`} className="text-sm text-[#c85f3c]">
           ← {event.title}
         </Link>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">Settings</h1>
+        <h1 className="mt-2 font-serif text-3xl font-bold tracking-tight">Settings</h1>
         <EventNav eventId={id} active="settings" />
 
         {sp.error && (
@@ -47,8 +47,8 @@ export default async function SettingsPage({
           </p>
         )}
 
-        <section className="mt-6 border border-[#ded4c4] bg-white p-6">
-          <h2 className="text-xl font-semibold">Event details</h2>
+        <section className="mt-6 border border-[#eaddca] bg-white p-6">
+          <h2 className="font-serif text-xl font-bold">Event details</h2>
           <form action={updateEventDetails} className="mt-5 space-y-4">
             <input type="hidden" name="id" value={id} />
             <label className="block">
@@ -57,7 +57,7 @@ export default async function SettingsPage({
                 name="title"
                 defaultValue={event.title}
                 required
-                className="mt-2 h-12 w-full border border-[#d8cdbb] bg-[#fffdf9] px-4 outline-none focus:border-[#8f7245]"
+                className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
               />
             </label>
             <label className="block">
@@ -66,7 +66,7 @@ export default async function SettingsPage({
                 name="eyebrow"
                 defaultValue={event.eyebrow ?? ""}
                 placeholder="A short line shown above the title"
-                className="mt-2 h-12 w-full border border-[#d8cdbb] bg-[#fffdf9] px-4 outline-none focus:border-[#8f7245]"
+                className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
               />
             </label>
             <label className="block">
@@ -74,7 +74,7 @@ export default async function SettingsPage({
               <textarea
                 name="host_message"
                 defaultValue={event.host_message ?? ""}
-                className="mt-2 min-h-20 w-full resize-none border border-[#d8cdbb] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[#8f7245]"
+                className="mt-2 min-h-20 w-full resize-none border border-[#e6d8c4] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[#e0734f]"
               />
             </label>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -83,7 +83,7 @@ export default async function SettingsPage({
                 <select
                   name="event_type"
                   defaultValue={event.event_type}
-                  className="mt-2 h-12 w-full border border-[#d8cdbb] bg-[#fffdf9] px-4 outline-none focus:border-[#8f7245]"
+                  className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
                 >
                   <option value="wedding">Wedding</option>
                   <option value="birthday">Birthday</option>
@@ -97,7 +97,7 @@ export default async function SettingsPage({
                   name="event_date"
                   type="date"
                   defaultValue={event.event_date ?? ""}
-                  className="mt-2 h-12 w-full border border-[#d8cdbb] bg-[#fffdf9] px-4 outline-none focus:border-[#8f7245]"
+                  className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
                 />
               </label>
             </div>
@@ -109,21 +109,21 @@ export default async function SettingsPage({
                 min={1}
                 defaultValue={event.per_guest_limit ?? ""}
                 placeholder="Unlimited"
-                className="mt-2 h-12 w-full border border-[#d8cdbb] bg-[#fffdf9] px-4 outline-none focus:border-[#8f7245]"
+                className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
               />
               <span className="mt-1 block text-xs text-[#a18e73]">
                 Leave blank for unlimited. Caps how many each guest can upload, so no single phone
                 floods the album.
               </span>
             </label>
-            <button className="h-11 bg-[#1f1b16] px-5 text-sm font-semibold text-white hover:bg-[#3a3127]">
+            <button className="h-11 rounded-full bg-[#e0734f] px-5 text-sm font-semibold text-white hover:bg-[#cf6541]">
               Save details
             </button>
           </form>
         </section>
 
-        <section className="mt-6 border border-[#ded4c4] bg-white p-6">
-          <h2 className="text-xl font-semibold">Cover photo</h2>
+        <section className="mt-6 border border-[#eaddca] bg-white p-6">
+          <h2 className="font-serif text-xl font-bold">Cover photo</h2>
           <p className="mt-1 text-sm text-[#74664f]">
             Shown behind your event name on the guest page. A wide landscape photo works best.
             Leave blank to use a themed default.
@@ -145,9 +145,9 @@ export default async function SettingsPage({
               type="file"
               accept="image/*"
               required
-              className="text-sm text-[#5c4a2e] file:mr-3 file:border file:border-[#d8cdbb] file:bg-[#fbf7ef] file:px-3 file:py-2 file:text-sm file:font-semibold file:text-[#5c4a2e]"
+              className="text-sm text-[#5c4a2e] file:mr-3 file:border file:border-[#e6d8c4] file:bg-[#fbf7ef] file:px-3 file:py-2 file:text-sm file:font-semibold file:text-[#5c4a2e]"
             />
-            <button className="h-11 bg-[#1f1b16] px-5 text-sm font-semibold text-white hover:bg-[#3a3127]">
+            <button className="h-11 rounded-full bg-[#e0734f] px-5 text-sm font-semibold text-white hover:bg-[#cf6541]">
               {event.cover_path ? "Replace cover" : "Upload cover"}
             </button>
           </form>
@@ -161,12 +161,12 @@ export default async function SettingsPage({
           )}
         </section>
 
-        <section className="mt-6 border border-[#ded4c4] bg-white p-6">
-          <h2 className="text-xl font-semibold">Custom URL</h2>
+        <section className="mt-6 border border-[#eaddca] bg-white p-6">
+          <h2 className="font-serif text-xl font-bold">Custom URL</h2>
           <p className="mt-1 text-sm text-[#74664f]">Your guests&apos; upload link.</p>
           <form action={updateEventSlug} className="mt-4 space-y-3">
             <input type="hidden" name="id" value={id} />
-            <div className="flex items-center gap-1 border border-[#d8cdbb] bg-[#fffdf9] px-3">
+            <div className="flex items-center gap-1 border border-[#e6d8c4] bg-[#fffdf9] px-3">
               <span className="text-sm text-[#a18e73]">{base}/e/</span>
               <input
                 name="slug"
@@ -174,14 +174,14 @@ export default async function SettingsPage({
                 className="h-12 flex-1 bg-transparent outline-none"
               />
             </div>
-            <button className="h-11 bg-[#1f1b16] px-5 text-sm font-semibold text-white hover:bg-[#3a3127]">
+            <button className="h-11 rounded-full bg-[#e0734f] px-5 text-sm font-semibold text-white hover:bg-[#cf6541]">
               Save URL
             </button>
           </form>
         </section>
 
         <section className="mt-6 border border-[#e3c4bd] bg-white p-6">
-          <h2 className="text-xl font-semibold text-[#9a3b2b]">Danger zone</h2>
+          <h2 className="font-serif text-xl font-bold text-[#9a3b2b]">Danger zone</h2>
           <p className="mt-1 text-sm text-[#74664f]">
             Deleting an event permanently removes its photos, guests, and link. This can&apos;t be
             undone.

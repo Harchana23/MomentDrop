@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function HowItWorksPage() {
   return (
-    <div className="min-h-screen bg-[#fbfaf7] text-[#22211f]">
+    <div className="min-h-screen bg-[#fbf6ee] text-[#22211f]">
       <SiteHeader />
 
       <section className="mx-auto max-w-3xl px-5 pt-16 text-center md:pt-24">
@@ -75,7 +75,7 @@ export default function HowItWorksPage() {
         <p className="mt-3 text-[#695b49]">Free to start — set up your first event in minutes.</p>
         <Link
           href="/signup"
-          className="mt-7 inline-flex h-12 items-center justify-center bg-[#1f1b16] px-7 text-base font-semibold text-white hover:bg-[#3a3127]"
+          className="mt-7 inline-flex h-12 items-center justify-center bg-[#e0734f] px-7 text-base font-semibold text-white hover:bg-[#cf6541]"
         >
           Create your event
         </Link>

@@ -37,12 +37,12 @@ export default async function AccessPage({
   };
 
   return (
-    <main className="min-h-screen bg-[#f7f4ee] px-5 py-6 text-[#25211b] md:px-8">
+    <main className="min-h-screen bg-[#fbf6ee] px-5 py-6 text-[#24201a] md:px-8">
       <div className="mx-auto max-w-3xl">
-        <Link href={`/dashboard/events/${id}`} className="text-sm text-[#8b6e3f]">
+        <Link href={`/dashboard/events/${id}`} className="text-sm text-[#c85f3c]">
           ← {event.title}
         </Link>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">Access control</h1>
+        <h1 className="mt-2 font-serif text-3xl font-bold tracking-tight">Access control</h1>
         <EventNav eventId={id} active="access" />
 
         {sp.saved && (
@@ -51,7 +51,7 @@ export default async function AccessPage({
           </p>
         )}
 
-        <form action={updateAccessControl} className="mt-6 border border-[#ded4c4] bg-white">
+        <form action={updateAccessControl} className="mt-6 border border-[#eaddca] bg-white">
           <input type="hidden" name="id" value={id} />
           <ul className="divide-y divide-[#eee6da]">
             {TOGGLES.map((t) => (
@@ -67,21 +67,21 @@ export default async function AccessPage({
                     defaultChecked={current[t.name]}
                     className="peer sr-only"
                   />
-                  <span className="h-6 w-11 rounded-full bg-[#d3cabb] transition peer-checked:bg-[#8d7147]" />
+                  <span className="h-6 w-11 rounded-full bg-[#d3cabb] transition peer-checked:rounded-full bg-[#e0734f]" />
                   <span className="absolute left-0.5 h-5 w-5 rounded-full bg-white transition peer-checked:translate-x-5" />
                 </label>
               </li>
             ))}
           </ul>
           <div className="border-t border-[#eee6da] p-5">
-            <button className="h-11 bg-[#1f1b16] px-5 text-sm font-semibold text-white hover:bg-[#3a3127]">
+            <button className="h-11 rounded-full bg-[#e0734f] px-5 text-sm font-semibold text-white hover:bg-[#cf6541]">
               Save access settings
             </button>
           </div>
         </form>
 
-        <section className="mt-6 border border-[#ded4c4] bg-white p-6">
-          <h2 className="text-xl font-semibold">Password protection</h2>
+        <section className="mt-6 border border-[#eaddca] bg-white p-6">
+          <h2 className="font-serif text-xl font-bold">Password protection</h2>
           <p className="mt-1 text-sm text-[#74664f]">
             {event.password_hash
               ? "Guests must enter a password to open this event."
@@ -93,9 +93,9 @@ export default async function AccessPage({
               name="password"
               type="text"
               placeholder={event.password_hash ? "New password" : "Set a password"}
-              className="h-12 flex-1 border border-[#d8cdbb] bg-[#fffdf9] px-4 outline-none focus:border-[#8f7245]"
+              className="h-12 flex-1 border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
             />
-            <button className="h-12 bg-[#1f1b16] px-5 text-sm font-semibold text-white hover:bg-[#3a3127]">
+            <button className="h-12 rounded-full bg-[#e0734f] px-5 text-sm font-semibold text-white hover:bg-[#cf6541]">
               {event.password_hash ? "Update password" : "Set password"}
             </button>
           </form>
