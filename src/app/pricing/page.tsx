@@ -83,7 +83,7 @@ function FeatureText({ text }: { text: string }) {
     <>
       {parts.map((p, i) =>
         i % 2 === 1 ? (
-          <b key={i} className="font-bold text-[#231a12]">
+          <b key={i} className="font-bold text-[#2A1B24]">
             {p}
           </b>
         ) : (
@@ -96,15 +96,15 @@ function FeatureText({ text }: { text: string }) {
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-[#fbf6ee] text-[#24201a]">
+    <div className="min-h-screen bg-[#F4ECE3] text-[#2A1B24]">
       <SiteHeader />
 
       <section className="mx-auto max-w-5xl px-5 pt-16 pb-4 text-center md:pt-24">
-        <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#c85f3c]">Pricing</p>
-        <h1 className="font-serif mt-3 text-5xl font-bold tracking-tight text-[#231a12] md:text-6xl">
+        <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#B5654A]">Pricing</p>
+        <h1 className="font-serif mt-3 text-5xl font-bold tracking-tight text-[#2A1B24] md:text-6xl">
           Get more from your event
         </h1>
-        <p className="mx-auto mt-5 max-w-xl text-lg leading-8 text-[#6f5c46]">
+        <p className="mx-auto mt-5 max-w-xl text-lg leading-8 text-[#7A6570]">
           No subscription — ever. Start every event free, and upgrade only the ones that need more
           uploads, more guests, and longer storage.
         </p>
@@ -115,7 +115,7 @@ export default function PricingPage() {
         {TRUST.map((t) => (
           <span
             key={t.label}
-            className="inline-flex items-center gap-2 rounded-full border border-[#eaddca] bg-white px-4 py-2 text-sm font-semibold text-[#6f5c46]"
+            className="inline-flex items-center gap-2 rounded-full border border-[#E4D9CF] bg-white px-4 py-2 text-sm font-semibold text-[#7A6570]"
           >
             <span>{t.icon}</span>
             {t.label}
@@ -130,44 +130,44 @@ export default function PricingPage() {
               key={p.name}
               className={`relative flex flex-col rounded-3xl bg-white p-7 transition ${
                 p.popular
-                  ? "border-2 border-[#e0734f] shadow-[0_24px_60px_rgba(224,115,79,0.20)] lg:-mt-4 lg:pb-10"
-                  : "border border-[#eaddca] hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(80,50,20,0.10)]"
+                  ? "border-2 border-[#B5654A] shadow-[0_24px_60px_rgba(224,115,79,0.20)] lg:-mt-4 lg:pb-10"
+                  : "border border-[#E4D9CF] hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(90,50,40,0.10)]"
               }`}
             >
               {p.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#e0734f] px-4 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-[0_8px_20px_rgba(224,115,79,0.35)]">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#B5654A] px-4 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-[0_8px_20px_rgba(224,115,79,0.35)]">
                   ★ Most popular
                 </span>
               )}
 
-              <h2 className="font-serif text-2xl font-bold text-[#231a12]">{p.name}</h2>
-              <p className="mt-2 min-h-[44px] text-sm leading-6 text-[#6f5c46]">{p.blurb}</p>
+              <h2 className="font-serif text-2xl font-bold text-[#2A1B24]">{p.name}</h2>
+              <p className="mt-2 min-h-[44px] text-sm leading-6 text-[#7A6570]">{p.blurb}</p>
 
               <div className="mt-4 flex items-baseline gap-2">
-                <span className="font-serif text-5xl font-bold text-[#231a12]">{p.price}</span>
+                <span className="font-serif text-5xl font-bold text-[#2A1B24]">{p.price}</span>
               </div>
-              <p className="mt-1 text-sm text-[#a18e73]">{p.unit}</p>
+              <p className="mt-1 text-sm text-[#9B8676]">{p.unit}</p>
 
               <Link
                 href="/signup"
                 className={`mt-6 inline-flex h-12 items-center justify-center rounded-full text-base font-bold transition ${
                   p.popular
-                    ? "md-cta bg-[#e0734f] text-white hover:bg-[#cf6541]"
-                    : "border-2 border-[#e0734f] text-[#c85f3c] hover:bg-[#fbeadf]"
+                    ? "md-cta bg-[#B5654A] text-white hover:bg-[#8F4A34]"
+                    : "border-2 border-[#B5654A] text-[#B5654A] hover:bg-[#F1E4D8]"
                 }`}
               >
                 {p.cta}
               </Link>
 
               {p.intro && (
-                <p className="mt-6 text-xs font-bold uppercase tracking-[0.14em] text-[#a97e46]">
+                <p className="mt-6 text-xs font-bold uppercase tracking-[0.14em] text-[#B5654A]">
                   {p.intro}
                 </p>
               )}
-              <ul className={`${p.intro ? "mt-3" : "mt-6"} flex-1 space-y-2.5 text-sm text-[#4a4035]`}>
+              <ul className={`${p.intro ? "mt-3" : "mt-6"} flex-1 space-y-2.5 text-sm text-[#4A3540]`}>
                 {p.features.map((f) => (
                   <li key={f.label} className="flex gap-2.5">
-                    <span className="mt-0.5 text-[#e0734f]">✓</span>
+                    <span className="mt-0.5 text-[#B5654A]">✓</span>
                     <span className="leading-6">
                       <FeatureText text={f.label} />
                     </span>
@@ -178,7 +178,7 @@ export default function PricingPage() {
           ))}
         </div>
 
-        <p className="mt-10 text-center text-sm text-[#6f5c46]">
+        <p className="mt-10 text-center text-sm text-[#7A6570]">
           Every event starts free — upgrade from your dashboard whenever you&apos;re ready. Prices in
           Malaysian Ringgit (MYR), one-time per event.
         </p>

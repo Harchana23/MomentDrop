@@ -53,10 +53,10 @@ function EventCard({ e, base }: { e: DashboardEvent; base: string }) {
     <li>
       <Link
         href={`/dashboard/events/${e.id}`}
-        className="group block overflow-hidden rounded-2xl border border-[#eaddca] bg-white transition hover:-translate-y-1 hover:border-[#e0734f] hover:shadow-[0_16px_40px_rgba(80,50,20,0.12)]"
+        className="group block overflow-hidden rounded-2xl border border-[#E4D9CF] bg-white transition hover:-translate-y-1 hover:border-[#B5654A] hover:shadow-[0_16px_40px_rgba(90,50,40,0.12)]"
       >
         {/* Recent-photo strip */}
-        <div className="flex h-24 gap-0.5 bg-[#f3ece1]">
+        <div className="flex h-24 gap-0.5 bg-[#EFE4D8]">
           {e.thumbs.length > 0 ? (
             e.thumbs.map((path, i) => (
               // eslint-disable-next-line @next/next/no-img-element
@@ -68,7 +68,7 @@ function EventCard({ e, base }: { e: DashboardEvent; base: string }) {
               />
             ))
           ) : (
-            <div className="flex h-full w-full items-center justify-center px-4 text-center text-sm text-[#ad9c82]">
+            <div className="flex h-full w-full items-center justify-center px-4 text-center text-sm text-[#9B8676]">
               No photos yet — share the QR to start collecting
             </div>
           )}
@@ -76,13 +76,13 @@ function EventCard({ e, base }: { e: DashboardEvent; base: string }) {
 
         <div className="p-5">
           <div className="flex items-start justify-between gap-3">
-            <h3 className="font-serif text-xl font-bold leading-tight text-[#231a12]">
+            <h3 className="font-serif text-xl font-bold leading-tight text-[#2A1B24]">
               <span className="mr-1">{emoji}</span>
               {e.title}
             </h3>
             <span
               className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-bold ${
-                upgraded ? "bg-[#e6f2e8] text-[#3b7a4f]" : "bg-[#fbeadf] text-[#c85f3c]"
+                upgraded ? "bg-[#E6F2E8] text-[#3b7a4f]" : "bg-[#F1E4D8] text-[#B5654A]"
               }`}
             >
               {planLabel}
@@ -90,30 +90,30 @@ function EventCard({ e, base }: { e: DashboardEvent; base: string }) {
           </div>
 
           {when && (
-            <p className="mt-1 text-sm text-[#6f5c46]">
-              {when.date} · <span className="font-semibold text-[#c85f3c]">{when.rel}</span>
+            <p className="mt-1 text-sm text-[#7A6570]">
+              {when.date} · <span className="font-semibold text-[#B5654A]">{when.rel}</span>
             </p>
           )}
 
-          <div className="mt-4 flex items-center gap-4 text-sm font-semibold text-[#3a2c1e]">
+          <div className="mt-4 flex items-center gap-4 text-sm font-semibold text-[#2A1B24]">
             <span>📸 {e.uploads.toLocaleString()}</span>
             <span>👥 {e.guests.toLocaleString()}</span>
-            <span className="text-[#a18e73]">{e.uploads}/{e.fileLimit} files</span>
+            <span className="text-[#9B8676]">{e.uploads}/{e.fileLimit} files</span>
           </div>
 
           {expiring && (
-            <p className="mt-3 rounded-lg bg-[#fdf0e9] px-3 py-1.5 text-xs font-semibold text-[#c85f3c]">
+            <p className="mt-3 rounded-lg bg-[#F1E4D8] px-3 py-1.5 text-xs font-semibold text-[#B5654A]">
               {daysLeft < 0 ? "⚠ Trial expired" : daysLeft === 0 ? "⚠ Trial ends today" : `⚠ Trial ends in ${daysLeft} day${daysLeft === 1 ? "" : "s"}`}
             </p>
           )}
 
-          <div className="mt-4 flex items-center gap-2 border-t border-[#f0e6d8] pt-3 text-xs font-bold">
+          <div className="mt-4 flex items-center gap-2 border-t border-[#E4D9CF] pt-3 text-xs font-bold">
             <CopyLinkButton
               url={shareUrl}
-              className="rounded-full border border-[#e6d8c4] px-3 py-1.5 text-[#5c4a2e] hover:border-[#e0734f] hover:text-[#c85f3c]"
+              className="rounded-full border border-[#E4D9CF] px-3 py-1.5 text-[#4A3540] hover:border-[#B5654A] hover:text-[#B5654A]"
             />
-            <span className="text-[#c9b597]">·</span>
-            <span className="text-[#e0734f] group-hover:underline">Open dashboard →</span>
+            <span className="text-[#C9B49E]">·</span>
+            <span className="text-[#B5654A] group-hover:underline">Open dashboard →</span>
           </div>
         </div>
       </Link>
@@ -128,32 +128,32 @@ export default async function DashboardPage() {
   const [{ events, totals }, base] = await Promise.all([getDashboardData(), getSiteUrl()]);
 
   return (
-    <main className="bg-[#fbf6ee] px-5 py-6 text-[#24201a] md:px-8">
+    <main className="bg-[#F4ECE3] px-5 py-6 text-[#2A1B24] md:px-8">
       <div className="mx-auto max-w-5xl">
-        <header className="flex flex-wrap items-end justify-between gap-4 border-b border-[#e6ddcf] pb-6">
+        <header className="flex flex-wrap items-end justify-between gap-4 border-b border-[#E4D9CF] pb-6">
           <div>
             <h1 className="font-serif text-4xl font-bold tracking-tight">Your events</h1>
-            <p className="mt-1 text-sm text-[#74664f]">{email}</p>
+            <p className="mt-1 text-sm text-[#7A6570]">{email}</p>
           </div>
           <Link
             href="/onboarding"
-            className="inline-flex h-11 items-center rounded-full bg-[#e0734f] px-5 text-sm font-bold text-white hover:bg-[#cf6541]"
+            className="inline-flex h-11 items-center rounded-full bg-[#B5654A] px-5 text-sm font-bold text-white hover:bg-[#8F4A34]"
           >
             Create event
           </Link>
         </header>
 
         {events.length === 0 ? (
-          <div className="mt-10 rounded-2xl border border-dashed border-[#d8c6ac] bg-white p-12 text-center">
+          <div className="mt-10 rounded-2xl border border-dashed border-[#E0B49A] bg-white p-12 text-center">
             <p className="text-4xl">🎉</p>
             <h2 className="font-serif mt-3 text-2xl font-bold">Let&apos;s collect your first moments</h2>
-            <p className="mx-auto mt-2 max-w-sm text-sm text-[#74664f]">
+            <p className="mx-auto mt-2 max-w-sm text-sm text-[#7A6570]">
               Create an event and you&apos;ll get a QR code your guests can scan to upload photos and
               videos — no app, no account.
             </p>
             <Link
               href="/onboarding"
-              className="md-cta mt-6 inline-flex h-11 items-center rounded-full bg-[#e0734f] px-6 text-sm font-bold text-white hover:bg-[#cf6541]"
+              className="md-cta mt-6 inline-flex h-11 items-center rounded-full bg-[#B5654A] px-6 text-sm font-bold text-white hover:bg-[#8F4A34]"
             >
               Create your first event →
             </Link>
@@ -161,14 +161,14 @@ export default async function DashboardPage() {
         ) : (
           <>
             {/* Summary strip */}
-            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 rounded-2xl border border-[#f0d3c4] bg-[#fbeadf] px-6 py-5">
-              <p className="font-serif text-lg font-bold text-[#231a12]">
+            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 rounded-2xl border border-[#E4D9CF] bg-[#F1E4D8] px-6 py-5">
+              <p className="font-serif text-lg font-bold text-[#2A1B24]">
                 🎉 {totals.uploads.toLocaleString()} moments collected
               </p>
-              <span className="text-sm font-semibold text-[#8a755c]">
+              <span className="text-sm font-semibold text-[#7A6570]">
                 {totals.events} {totals.events === 1 ? "event" : "events"}
               </span>
-              <span className="text-sm font-semibold text-[#8a755c]">
+              <span className="text-sm font-semibold text-[#7A6570]">
                 {totals.guests.toLocaleString()} {totals.guests === 1 ? "guest" : "guests"}
               </span>
             </div>

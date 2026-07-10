@@ -202,20 +202,20 @@ export default function GuestUploader({
   if (phase === "done") {
     return (
       <div className="py-10 text-center">
-        <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[#e6f2e8] text-3xl text-[#3b7a4f]">
+        <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[#E6F2E8] text-3xl text-[#3b7a4f]">
           ✓
         </div>
-        <h2 className="font-serif mt-5 text-2xl font-bold tracking-tight text-[#231a12]">
+        <h2 className="font-serif mt-5 text-2xl font-bold tracking-tight text-[#2A1B24]">
           Thank you
         </h2>
-        <p className="mt-2 text-sm text-[#6f5c46]">
+        <p className="mt-2 text-sm text-[#7A6570]">
           {files.length === 1
             ? "Your memory is now in the album."
             : `Your ${files.length} memories are now in the album.`}
         </p>
         <button
           onClick={reset}
-          className="mt-7 inline-flex h-12 w-full items-center justify-center rounded-full bg-[#e0734f] text-base font-bold text-white transition hover:bg-[#cf6541]"
+          className="mt-7 inline-flex h-12 w-full items-center justify-center rounded-full bg-[#B5654A] text-base font-bold text-white transition hover:bg-[#8F4A34]"
         >
           Add more photos
         </button>
@@ -224,7 +224,7 @@ export default function GuestUploader({
   }
 
   const inputClass =
-    "mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 text-base outline-none transition focus:border-[#e0734f] disabled:opacity-60";
+    "mt-2 h-12 w-full rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 text-base outline-none transition focus:border-[#B5654A] disabled:opacity-60";
 
   return (
     <>
@@ -236,7 +236,7 @@ export default function GuestUploader({
       />
       <form className="space-y-4" onSubmit={handleSubmit}>
       <label className="block">
-        <span className="text-sm font-semibold text-[#3a2c1e]">Your name</span>
+        <span className="text-sm font-semibold text-[#2A1B24]">Your name</span>
         <input
           className={inputClass}
           placeholder="Name for the album"
@@ -248,9 +248,9 @@ export default function GuestUploader({
       </label>
 
       <label className="block">
-        <span className="text-sm font-semibold text-[#3a2c1e]">Message (optional)</span>
+        <span className="text-sm font-semibold text-[#2A1B24]">Message (optional)</span>
         <textarea
-          className="mt-2 min-h-24 w-full resize-none rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 py-3 text-base outline-none transition focus:border-[#e0734f] disabled:opacity-60"
+          className="mt-2 min-h-24 w-full resize-none rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 py-3 text-base outline-none transition focus:border-[#B5654A] disabled:opacity-60"
           placeholder="A little note for the host"
           value={message}
           disabled={busy}
@@ -260,7 +260,7 @@ export default function GuestUploader({
 
       {albums.length > 0 && (
         <label className="block">
-          <span className="text-sm font-semibold text-[#3a2c1e]">Album</span>
+          <span className="text-sm font-semibold text-[#2A1B24]">Album</span>
           <select
             value={albumId}
             onChange={(e) => setAlbumId(e.target.value)}
@@ -278,7 +278,7 @@ export default function GuestUploader({
       )}
 
       <div>
-        <label className="grid min-h-40 cursor-pointer place-items-center rounded-2xl border-2 border-dashed border-[#f0c3ab] bg-[#fdf5ef] px-4 text-center transition hover:border-[#e0734f]">
+        <label className="grid min-h-40 cursor-pointer place-items-center rounded-2xl border-2 border-dashed border-[#E0B49A] bg-[#FBF3EC] px-4 text-center transition hover:border-[#B5654A]">
           <input
             ref={fileInputRef}
             multiple
@@ -289,15 +289,15 @@ export default function GuestUploader({
             onChange={handleFiles}
           />
           <span>
-            <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#fbeadf] text-[#c26545]">
+            <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#F1E4D8] text-[#c26545]">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-6 w-6" aria-hidden="true">
                 <path d="M12 15V4m0 0 4 4m-4-4-4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </span>
-            <span className="mt-3 block text-base font-semibold text-[#3a2c1e]">
+            <span className="mt-3 block text-base font-semibold text-[#2A1B24]">
               Tap to choose from your camera roll
             </span>
-            <span className="mt-1 block text-xs text-[#a18e73]">
+            <span className="mt-1 block text-xs text-[#9B8676]">
               JPG · PNG · HEIC · MP4 · MOV · up to 100MB each
             </span>
           </span>
@@ -307,7 +307,7 @@ export default function GuestUploader({
           type="button"
           onClick={() => setCameraOpen(true)}
           disabled={busy}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-[#e6d8c4] bg-white py-3.5 text-sm font-bold text-[#5c4a2e] transition hover:border-[#e0734f] hover:text-[#c85f3c] disabled:opacity-60"
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-[#E4D9CF] bg-white py-3.5 text-sm font-bold text-[#4A3540] transition hover:border-[#B5654A] hover:text-[#B5654A] disabled:opacity-60"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-5 w-5" aria-hidden="true">
             <path d="M4 8.5A1.5 1.5 0 0 1 5.5 7H8l1-1.5h6L16 7h2.5A1.5 1.5 0 0 1 20 8.5v9A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5z" strokeLinecap="round" strokeLinejoin="round" />
@@ -318,14 +318,14 @@ export default function GuestUploader({
 
         {files.length > 0 && (
           <div className="mt-3 flex items-center justify-between">
-            <span className="text-sm font-semibold text-[#3a2c1e]">
+            <span className="text-sm font-semibold text-[#2A1B24]">
               {files.length} file{files.length === 1 ? "" : "s"} ready to share
             </span>
             <button
               type="button"
               onClick={() => setFiles([])}
               disabled={busy}
-              className="text-xs font-bold text-[#c85f3c] hover:underline"
+              className="text-xs font-bold text-[#B5654A] hover:underline"
             >
               Clear
             </button>
@@ -336,14 +336,14 @@ export default function GuestUploader({
       {!busy && perGuestLimit != null && (
         <div>
           <div className="flex items-center justify-between text-xs font-semibold">
-            <span className="text-[#6f5c46]">Your uploads</span>
-            <span className="text-[#c85f3c]">
+            <span className="text-[#7A6570]">Your uploads</span>
+            <span className="text-[#B5654A]">
               {Math.min(files.length, perGuestLimit)} of {perGuestLimit} selected
             </span>
           </div>
           <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-[#f0e2d0]">
             <div
-              className="h-full rounded-full bg-[#e0734f] transition-all"
+              className="h-full rounded-full bg-[#B5654A] transition-all"
               style={{ width: `${(Math.min(files.length, perGuestLimit) / perGuestLimit) * 100}%` }}
             />
           </div>
@@ -353,9 +353,9 @@ export default function GuestUploader({
       {busy && (
         <div>
           <div className="h-2.5 w-full overflow-hidden rounded-full bg-[#f0e2d0]">
-            <div className="h-full rounded-full bg-[#e0734f] transition-all" style={{ width: `${pct}%` }} />
+            <div className="h-full rounded-full bg-[#B5654A] transition-all" style={{ width: `${pct}%` }} />
           </div>
-          <p className="mt-2 text-sm font-semibold text-[#c85f3c]">Uploading… {pct}%</p>
+          <p className="mt-2 text-sm font-semibold text-[#B5654A]">Uploading… {pct}%</p>
         </div>
       )}
 
@@ -366,7 +366,7 @@ export default function GuestUploader({
       )}
 
       <button
-        className="inline-flex h-12 w-full items-center justify-center rounded-full bg-[#e0734f] text-base font-bold text-white transition hover:bg-[#cf6541] disabled:opacity-60"
+        className="inline-flex h-12 w-full items-center justify-center rounded-full bg-[#B5654A] text-base font-bold text-white transition hover:bg-[#8F4A34] disabled:opacity-60"
         type="submit"
         disabled={busy}
       >

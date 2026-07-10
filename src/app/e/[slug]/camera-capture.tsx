@@ -292,7 +292,7 @@ export default function CameraCapture({
             <button
               onClick={() => finish(true)}
               disabled={shots.length === 0}
-              className="rounded-full bg-[#e0734f] px-5 py-2 text-sm font-bold text-white disabled:opacity-40"
+              className="rounded-full bg-[#B5654A] px-5 py-2 text-sm font-bold text-white disabled:opacity-40"
             >
               Done{shots.length > 0 ? ` (${shots.length})` : ""}
             </button>
@@ -344,7 +344,7 @@ export default function CameraCapture({
                 </button>
                 <button
                   onClick={keepPending}
-                  className="flex-1 rounded-full bg-[#e0734f] py-3 text-sm font-bold text-white"
+                  className="flex-1 rounded-full bg-[#B5654A] py-3 text-sm font-bold text-white"
                 >
                   Keep
                 </button>

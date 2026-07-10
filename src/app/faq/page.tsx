@@ -22,11 +22,11 @@ const FAQS = [
 
 export default function FaqPage() {
   return (
-    <div className="min-h-screen bg-[#fbf6ee] text-[#22211f]">
+    <div className="min-h-screen bg-[#F4ECE3] text-[#2A1B24]">
       <SiteHeader />
       <section className="mx-auto max-w-3xl px-5 pt-16 text-center md:pt-24">
-        <p className="text-sm font-medium uppercase tracking-[0.24em] text-[#7f6a46]">FAQ</p>
-        <h1 className="mt-4 text-5xl font-semibold tracking-tight text-[#26211b]">
+        <p className="text-sm font-medium uppercase tracking-[0.24em] text-[#7A6570]">FAQ</p>
+        <h1 className="mt-4 text-5xl font-semibold tracking-tight text-[#2A1B24]">
           Questions, answered
         </h1>
       </section>
@@ -35,7 +35,7 @@ export default function FaqPage() {
         <div className="mt-12 text-center">
           <Link
             href="/signup"
-            className="inline-flex h-12 items-center justify-center bg-[#e0734f] px-7 text-base font-semibold text-white hover:bg-[#cf6541]"
+            className="inline-flex h-12 items-center justify-center bg-[#B5654A] px-7 text-base font-semibold text-white hover:bg-[#8F4A34]"
           >
             Create your event
           </Link>

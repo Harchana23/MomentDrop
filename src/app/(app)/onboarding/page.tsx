@@ -7,13 +7,13 @@ export default async function OnboardingPage({
 }) {
   const sp = await searchParams;
   return (
-    <main className="grid min-h-screen place-items-center bg-[#fbf6ee] px-5 py-10 text-[#22211f]">
-      <div className="w-full max-w-lg border border-[#e1d8ca] bg-white p-7 shadow-[0_24px_80px_rgba(70,55,35,0.12)]">
-        <p className="text-sm font-medium uppercase tracking-[0.24em] text-[#7f6a46]">
+    <main className="grid min-h-screen place-items-center bg-[#F4ECE3] px-5 py-10 text-[#2A1B24]">
+      <div className="w-full max-w-lg border border-[#E4D9CF] bg-white p-7 shadow-[0_24px_80px_rgba(90,50,40,0.12)]">
+        <p className="text-sm font-medium uppercase tracking-[0.24em] text-[#7A6570]">
           MomentDrop
         </p>
         <h1 className="mt-2 font-serif text-3xl font-bold tracking-tight">Create your event</h1>
-        <p className="mt-2 text-sm text-[#695b49]">
+        <p className="mt-2 text-sm text-[#7A6570]">
           Guests will scan a QR code and upload photos — no app, no account.
         </p>
         {sp.error && (
@@ -23,22 +23,22 @@ export default async function OnboardingPage({
         )}
         <form action={createEvent} className="mt-6 space-y-4">
           <label className="block">
-            <span className="text-sm font-medium text-[#4a4035]">Event name</span>
+            <span className="text-sm font-medium text-[#4A3540]">Event name</span>
             <input
               name="title"
               type="text"
               required
               placeholder="e.g. Summer Wedding 2026"
-              className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
+              className="mt-2 h-12 w-full rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 outline-none focus:border-[#B5654A]"
             />
           </label>
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
-              <span className="text-sm font-medium text-[#4a4035]">Type</span>
+              <span className="text-sm font-medium text-[#4A3540]">Type</span>
               <select
                 name="event_type"
                 defaultValue="wedding"
-                className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
+                className="mt-2 h-12 w-full rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 outline-none focus:border-[#B5654A]"
               >
                 <option value="wedding">Wedding</option>
                 <option value="birthday">Birthday</option>
@@ -47,25 +47,25 @@ export default async function OnboardingPage({
               </select>
             </label>
             <label className="block">
-              <span className="text-sm font-medium text-[#4a4035]">Date</span>
+              <span className="text-sm font-medium text-[#4A3540]">Date</span>
               <input
                 name="event_date"
                 type="date"
-                className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
+                className="mt-2 h-12 w-full rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 outline-none focus:border-[#B5654A]"
               />
             </label>
           </div>
           <label className="block">
-            <span className="text-sm font-medium text-[#4a4035]">
+            <span className="text-sm font-medium text-[#4A3540]">
               Welcome message (optional)
             </span>
             <textarea
               name="host_message"
               placeholder="A note your guests see on the upload page"
-              className="mt-2 min-h-20 w-full resize-none border border-[#e6d8c4] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[#e0734f]"
+              className="mt-2 min-h-20 w-full resize-none border border-[#E4D9CF] bg-[#FFFBF6] px-4 py-3 outline-none focus:border-[#B5654A]"
             />
           </label>
-          <button className="h-12 w-full rounded-full bg-[#e0734f] text-base font-semibold text-white hover:bg-[#cf6541]">
+          <button className="h-12 w-full rounded-full bg-[#B5654A] text-base font-semibold text-white hover:bg-[#8F4A34]">
             Create event
           </button>
         </form>

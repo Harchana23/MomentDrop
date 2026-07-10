@@ -28,9 +28,9 @@ export default async function SettingsPage({
   const base = await getSiteUrl();
 
   return (
-    <main className="min-h-screen bg-[#fbf6ee] px-5 py-6 text-[#24201a] md:px-8">
+    <main className="min-h-screen bg-[#F4ECE3] px-5 py-6 text-[#2A1B24] md:px-8">
       <div className="mx-auto max-w-3xl">
-        <Link href={`/dashboard/events/${id}`} className="text-sm text-[#c85f3c]">
+        <Link href={`/dashboard/events/${id}`} className="text-sm text-[#B5654A]">
           ← {event.title}
         </Link>
         <h1 className="mt-2 font-serif text-3xl font-bold tracking-tight">Settings</h1>
@@ -47,43 +47,43 @@ export default async function SettingsPage({
           </p>
         )}
 
-        <section className="mt-6 border border-[#eaddca] bg-white p-6">
+        <section className="mt-6 border border-[#E4D9CF] bg-white p-6">
           <h2 className="font-serif text-xl font-bold">Event details</h2>
           <form action={updateEventDetails} className="mt-5 space-y-4">
             <input type="hidden" name="id" value={id} />
             <label className="block">
-              <span className="text-sm font-medium text-[#4a4035]">Event name</span>
+              <span className="text-sm font-medium text-[#4A3540]">Event name</span>
               <input
                 name="title"
                 defaultValue={event.title}
                 required
-                className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
+                className="mt-2 h-12 w-full rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 outline-none focus:border-[#B5654A]"
               />
             </label>
             <label className="block">
-              <span className="text-sm font-medium text-[#4a4035]">Tagline (optional)</span>
+              <span className="text-sm font-medium text-[#4A3540]">Tagline (optional)</span>
               <input
                 name="eyebrow"
                 defaultValue={event.eyebrow ?? ""}
                 placeholder="A short line shown above the title"
-                className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
+                className="mt-2 h-12 w-full rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 outline-none focus:border-[#B5654A]"
               />
             </label>
             <label className="block">
-              <span className="text-sm font-medium text-[#4a4035]">Welcome message (optional)</span>
+              <span className="text-sm font-medium text-[#4A3540]">Welcome message (optional)</span>
               <textarea
                 name="host_message"
                 defaultValue={event.host_message ?? ""}
-                className="mt-2 min-h-20 w-full resize-none border border-[#e6d8c4] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[#e0734f]"
+                className="mt-2 min-h-20 w-full resize-none border border-[#E4D9CF] bg-[#FFFBF6] px-4 py-3 outline-none focus:border-[#B5654A]"
               />
             </label>
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block">
-                <span className="text-sm font-medium text-[#4a4035]">Type</span>
+                <span className="text-sm font-medium text-[#4A3540]">Type</span>
                 <select
                   name="event_type"
                   defaultValue={event.event_type}
-                  className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
+                  className="mt-2 h-12 w-full rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 outline-none focus:border-[#B5654A]"
                 >
                   <option value="wedding">Wedding</option>
                   <option value="birthday">Birthday</option>
@@ -92,44 +92,44 @@ export default async function SettingsPage({
                 </select>
               </label>
               <label className="block">
-                <span className="text-sm font-medium text-[#4a4035]">Date</span>
+                <span className="text-sm font-medium text-[#4A3540]">Date</span>
                 <input
                   name="event_date"
                   type="date"
                   defaultValue={event.event_date ?? ""}
-                  className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
+                  className="mt-2 h-12 w-full rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 outline-none focus:border-[#B5654A]"
                 />
               </label>
             </div>
             <label className="block">
-              <span className="text-sm font-medium text-[#4a4035]">Photos &amp; videos per guest</span>
+              <span className="text-sm font-medium text-[#4A3540]">Photos &amp; videos per guest</span>
               <input
                 name="per_guest_limit"
                 type="number"
                 min={1}
                 defaultValue={event.per_guest_limit ?? ""}
                 placeholder="Unlimited"
-                className="mt-2 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 outline-none focus:border-[#e0734f]"
+                className="mt-2 h-12 w-full rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 outline-none focus:border-[#B5654A]"
               />
-              <span className="mt-1 block text-xs text-[#a18e73]">
+              <span className="mt-1 block text-xs text-[#9B8676]">
                 Leave blank for unlimited. Caps how many each guest can upload, so no single phone
                 floods the album.
               </span>
             </label>
-            <button className="h-11 rounded-full bg-[#e0734f] px-5 text-sm font-semibold text-white hover:bg-[#cf6541]">
+            <button className="h-11 rounded-full bg-[#B5654A] px-5 text-sm font-semibold text-white hover:bg-[#8F4A34]">
               Save details
             </button>
           </form>
         </section>
 
-        <section className="mt-6 border border-[#eaddca] bg-white p-6">
+        <section className="mt-6 border border-[#E4D9CF] bg-white p-6">
           <h2 className="font-serif text-xl font-bold">Cover photo</h2>
-          <p className="mt-1 text-sm text-[#74664f]">
+          <p className="mt-1 text-sm text-[#7A6570]">
             Shown behind your event name on the guest page. A wide landscape photo works best.
             Leave blank to use a themed default.
           </p>
           {event.cover_path && (
-            <div className="mt-4 overflow-hidden rounded-lg border border-[#e6ddcf]">
+            <div className="mt-4 overflow-hidden rounded-lg border border-[#E4D9CF]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={driveThumbUrl(event.cover_path, 900)}
@@ -145,9 +145,9 @@ export default async function SettingsPage({
               type="file"
               accept="image/*"
               required
-              className="text-sm text-[#5c4a2e] file:mr-3 file:border file:border-[#e6d8c4] file:bg-[#fbf7ef] file:px-3 file:py-2 file:text-sm file:font-semibold file:text-[#5c4a2e]"
+              className="text-sm text-[#4A3540] file:mr-3 file:border file:border-[#E4D9CF] file:bg-[#FBF3EC] file:px-3 file:py-2 file:text-sm file:font-semibold file:text-[#4A3540]"
             />
-            <button className="h-11 rounded-full bg-[#e0734f] px-5 text-sm font-semibold text-white hover:bg-[#cf6541]">
+            <button className="h-11 rounded-full bg-[#B5654A] px-5 text-sm font-semibold text-white hover:bg-[#8F4A34]">
               {event.cover_path ? "Replace cover" : "Upload cover"}
             </button>
           </form>
@@ -161,20 +161,20 @@ export default async function SettingsPage({
           )}
         </section>
 
-        <section className="mt-6 border border-[#eaddca] bg-white p-6">
+        <section className="mt-6 border border-[#E4D9CF] bg-white p-6">
           <h2 className="font-serif text-xl font-bold">Custom URL</h2>
-          <p className="mt-1 text-sm text-[#74664f]">Your guests&apos; upload link.</p>
+          <p className="mt-1 text-sm text-[#7A6570]">Your guests&apos; upload link.</p>
           <form action={updateEventSlug} className="mt-4 space-y-3">
             <input type="hidden" name="id" value={id} />
-            <div className="flex items-center gap-1 border border-[#e6d8c4] bg-[#fffdf9] px-3">
-              <span className="text-sm text-[#a18e73]">{base}/e/</span>
+            <div className="flex items-center gap-1 border border-[#E4D9CF] bg-[#FFFBF6] px-3">
+              <span className="text-sm text-[#9B8676]">{base}/e/</span>
               <input
                 name="slug"
                 defaultValue={event.slug}
                 className="h-12 flex-1 bg-transparent outline-none"
               />
             </div>
-            <button className="h-11 rounded-full bg-[#e0734f] px-5 text-sm font-semibold text-white hover:bg-[#cf6541]">
+            <button className="h-11 rounded-full bg-[#B5654A] px-5 text-sm font-semibold text-white hover:bg-[#8F4A34]">
               Save URL
             </button>
           </form>
@@ -182,7 +182,7 @@ export default async function SettingsPage({
 
         <section className="mt-6 border border-[#e3c4bd] bg-white p-6">
           <h2 className="font-serif text-xl font-bold text-[#9a3b2b]">Danger zone</h2>
-          <p className="mt-1 text-sm text-[#74664f]">
+          <p className="mt-1 text-sm text-[#7A6570]">
             Deleting an event permanently removes its photos, guests, and link. This can&apos;t be
             undone.
           </p>

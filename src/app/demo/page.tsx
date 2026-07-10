@@ -26,7 +26,7 @@ const GALLERY: Shot[] = [
 ];
 
 const AVATARS = [
-  { i: "A", c: "#e0734f" },
+  { i: "A", c: "#B5654A" },
   { i: "W", c: "#e8a33c" },
   { i: "P", c: "#c9738f" },
   { i: "D", c: "#7fb2a1" },
@@ -36,17 +36,17 @@ const AVATARS = [
 function Stat({ value, label }: { value: string; label: string }) {
   return (
     <div className="text-center">
-      <p className="font-serif text-2xl font-bold leading-none text-[#231a12]">{value}</p>
-      <p className="mt-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#a18e73]">{label}</p>
+      <p className="font-serif text-2xl font-bold leading-none text-[#2A1B24]">{value}</p>
+      <p className="mt-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#9B8676]">{label}</p>
     </div>
   );
 }
 
 export default function DemoPage() {
   return (
-    <main className="min-h-screen bg-[#fbf6ee] text-[#24201a]">
+    <main className="min-h-screen bg-[#F4ECE3] text-[#2A1B24]">
       {/* Demo ribbon */}
-      <div className="bg-[#231a12] px-5 py-2 text-center text-xs font-semibold tracking-wide text-[#f4e3d3]">
+      <div className="bg-[#2A1B24] px-5 py-2 text-center text-xs font-semibold tracking-wide text-[#f4e3d3]">
         ✨ Live demo — this is exactly what your guests see when they scan
       </div>
 
@@ -79,35 +79,35 @@ export default function DemoPage() {
 
       <div className="mx-auto -mt-8 max-w-5xl px-4">
         {/* Upload card */}
-        <section className="relative rounded-3xl border border-[#eaddca] bg-white p-6 shadow-[0_24px_60px_rgba(80,50,20,0.14)] md:p-8">
+        <section className="relative rounded-3xl border border-[#E4D9CF] bg-white p-6 shadow-[0_24px_60px_rgba(90,50,40,0.14)] md:p-8">
           <div className="mx-auto max-w-xl text-center">
-            <h2 className="font-serif text-2xl font-bold text-[#231a12]">Add your photos &amp; videos</h2>
-            <p className="mt-1 text-sm text-[#6f5c46]">
+            <h2 className="font-serif text-2xl font-bold text-[#2A1B24]">Add your photos &amp; videos</h2>
+            <p className="mt-1 text-sm text-[#7A6570]">
               Help us capture the whole day — from every angle. No app, no account.
             </p>
 
-            <span className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#fbeadf] px-3 py-1.5 text-xs font-bold text-[#c85f3c]">
+            <span className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#F1E4D8] px-3 py-1.5 text-xs font-bold text-[#B5654A]">
               🔒 Your host allows up to 10 per guest
             </span>
 
-            <div className="mt-4 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#f0c3ab] bg-[#fdf5ef] px-4 py-8">
-              <div className="grid h-14 w-14 place-items-center rounded-full bg-[#fbeadf] text-2xl text-[#e0734f]">
+            <div className="mt-4 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#E0B49A] bg-[#FBF3EC] px-4 py-8">
+              <div className="grid h-14 w-14 place-items-center rounded-full bg-[#F1E4D8] text-2xl text-[#B5654A]">
                 ⬆
               </div>
-              <p className="mt-3 font-semibold text-[#3a2c1e]">Tap to choose from your camera roll</p>
-              <p className="mt-1 text-xs text-[#a18e73]">JPG · PNG · HEIC · MP4 · MOV</p>
+              <p className="mt-3 font-semibold text-[#2A1B24]">Tap to choose from your camera roll</p>
+              <p className="mt-1 text-xs text-[#9B8676]">JPG · PNG · HEIC · MP4 · MOV</p>
             </div>
 
             {/* Per-guest quota */}
             <div className="mt-4 text-left">
               <div className="flex items-center justify-between text-xs font-semibold">
-                <span className="text-[#6f5c46]">Your uploads</span>
-                <span className="text-[#c85f3c]">3 of 10 added</span>
+                <span className="text-[#7A6570]">Your uploads</span>
+                <span className="text-[#B5654A]">3 of 10 added</span>
               </div>
               <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-[#f0e2d0]">
-                <div className="h-full rounded-full bg-[#e0734f]" style={{ width: "30%" }} />
+                <div className="h-full rounded-full bg-[#B5654A]" style={{ width: "30%" }} />
               </div>
-              <p className="mt-1.5 text-center text-xs text-[#a18e73]">
+              <p className="mt-1.5 text-center text-xs text-[#9B8676]">
                 7 left — the host set a limit so every guest gets a turn
               </p>
             </div>
@@ -115,11 +115,11 @@ export default function DemoPage() {
             <input
               disabled
               placeholder="Your name (so the couple knows it's you)"
-              className="mt-4 h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 text-sm outline-none placeholder:text-[#b6a68c]"
+              className="mt-4 h-12 w-full rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 text-sm outline-none placeholder:text-[#9B8676]"
             />
             <button
               disabled
-              className="md-cta mt-3 inline-flex h-12 w-full items-center justify-center rounded-full bg-[#e0734f] text-base font-bold text-white"
+              className="md-cta mt-3 inline-flex h-12 w-full items-center justify-center rounded-full bg-[#B5654A] text-base font-bold text-white"
             >
               Share your photos →
             </button>
@@ -129,15 +129,15 @@ export default function DemoPage() {
         {/* Live stats */}
         <section className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
           <Stat value="248" label="Photos" />
-          <span className="hidden h-8 w-px bg-[#e6ddcf] sm:block" />
+          <span className="hidden h-8 w-px bg-[#E4D9CF] sm:block" />
           <Stat value="17" label="Videos" />
-          <span className="hidden h-8 w-px bg-[#e6ddcf] sm:block" />
+          <span className="hidden h-8 w-px bg-[#E4D9CF] sm:block" />
           <div className="flex items-center gap-3">
             <div className="flex -space-x-2">
               {AVATARS.map((a) => (
                 <span
                   key={a.i}
-                  className="grid h-8 w-8 place-items-center rounded-full border-2 border-[#fbf6ee] text-xs font-bold text-white"
+                  className="grid h-8 w-8 place-items-center rounded-full border-2 border-[#F4ECE3] text-xs font-bold text-white"
                   style={{ background: a.c }}
                 >
                   {a.i}
@@ -151,8 +151,8 @@ export default function DemoPage() {
         {/* Shared album */}
         <section className="mt-12 pb-16">
           <div className="text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#c85f3c]">The shared album</p>
-            <h2 className="font-serif mt-2 text-3xl font-bold tracking-tight text-[#231a12] md:text-4xl">
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#B5654A]">The shared album</p>
+            <h2 className="font-serif mt-2 text-3xl font-bold tracking-tight text-[#2A1B24] md:text-4xl">
               Every guest&apos;s view, in one place
             </h2>
           </div>
@@ -161,7 +161,7 @@ export default function DemoPage() {
             {GALLERY.map((g, i) => (
               <figure
                 key={i}
-                className="group relative mb-3 break-inside-avoid overflow-hidden rounded-2xl border border-[#eaddca] bg-[#efe7db]"
+                className="group relative mb-3 break-inside-avoid overflow-hidden rounded-2xl border border-[#E4D9CF] bg-[#EFE4D8]"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -185,34 +185,34 @@ export default function DemoPage() {
         </section>
 
         {/* Behind the scenes — the host control that sets the per-guest limit */}
-        <section className="mb-16 rounded-3xl border border-[#eaddca] bg-white p-6 md:p-8">
+        <section className="mb-16 rounded-3xl border border-[#E4D9CF] bg-white p-6 md:p-8">
           <div className="text-center">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f1ece2] px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-[#8a755c]">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f1ece2] px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-[#7A6570]">
               👑 Host view
             </span>
-            <h2 className="font-serif mt-3 text-2xl font-bold text-[#231a12]">You decide how many each guest can add</h2>
-            <p className="mx-auto mt-1 max-w-md text-sm text-[#6f5c46]">
+            <h2 className="font-serif mt-3 text-2xl font-bold text-[#2A1B24]">You decide how many each guest can add</h2>
+            <p className="mx-auto mt-1 max-w-md text-sm text-[#7A6570]">
               Set a per-guest limit so no single phone floods the album — everyone gets a fair turn.
             </p>
           </div>
 
-          <div className="mx-auto mt-6 max-w-md rounded-2xl border border-[#eaddca] bg-[#fbf7ef] p-5">
-            <p className="text-sm font-semibold text-[#3a2c1e]">Photos &amp; videos per guest</p>
+          <div className="mx-auto mt-6 max-w-md rounded-2xl border border-[#E4D9CF] bg-[#FBF3EC] p-5">
+            <p className="text-sm font-semibold text-[#2A1B24]">Photos &amp; videos per guest</p>
             <div className="mt-3 flex items-center gap-4">
               <button
                 disabled
-                className="grid h-11 w-11 place-items-center rounded-full border border-[#e0734f] text-xl font-bold text-[#c85f3c]"
+                className="grid h-11 w-11 place-items-center rounded-full border border-[#B5654A] text-xl font-bold text-[#B5654A]"
               >
                 −
               </button>
-              <span className="font-serif text-4xl font-bold text-[#231a12]">10</span>
+              <span className="font-serif text-4xl font-bold text-[#2A1B24]">10</span>
               <button
                 disabled
-                className="grid h-11 w-11 place-items-center rounded-full bg-[#e0734f] text-xl font-bold text-white"
+                className="grid h-11 w-11 place-items-center rounded-full bg-[#B5654A] text-xl font-bold text-white"
               >
                 +
               </button>
-              <span className="ml-auto text-xs text-[#a18e73]">
+              <span className="ml-auto text-xs text-[#9B8676]">
                 Unlimited on
                 <br />
                 Plus &amp; Pro
@@ -223,13 +223,13 @@ export default function DemoPage() {
       </div>
 
       {/* Live toast */}
-      <div className="md-chip fixed bottom-5 left-1/2 -translate-x-1/2 rounded-full border border-[#f0e2d0] bg-white px-4 py-2 text-sm font-bold text-[#3a2c1e] shadow-[0_12px_30px_rgba(80,50,20,0.18)]">
+      <div className="md-chip fixed bottom-5 left-1/2 -translate-x-1/2 rounded-full border border-[#f0e2d0] bg-white px-4 py-2 text-sm font-bold text-[#2A1B24] shadow-[0_12px_30px_rgba(90,50,40,0.18)]">
         📸 Wei Jie just added a photo
       </div>
 
-      <footer className="border-t border-[#e6ddcf] py-8 text-center text-xs uppercase tracking-[0.18em] text-[#a18e73]">
+      <footer className="border-t border-[#E4D9CF] py-8 text-center text-xs uppercase tracking-[0.18em] text-[#9B8676]">
         Powered by{" "}
-        <Link href="/" className="font-semibold text-[#c08a54] hover:underline">
+        <Link href="/" className="font-semibold text-[#B5654A] hover:underline">
           MomentDrop
         </Link>
       </footer>

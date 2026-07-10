@@ -21,10 +21,10 @@ export default async function PrintPage({
   const qr = await qrDataUrl(url);
 
   return (
-    <main className="md-print-root min-h-screen bg-[#f7f4ee] px-5 py-6 text-[#25211b] md:px-8">
+    <main className="md-print-root min-h-screen bg-[#F4ECE3] px-5 py-6 text-[#2A1B24] md:px-8">
       <style>{`@media print{.no-print{display:none!important}body{background:#fff}.md-print-root{background:#fff!important;padding:0!important}.md-card{box-shadow:none!important}}`}</style>
       <div className="mx-auto max-w-3xl">
-        <Link href={`/dashboard/events/${id}`} className="no-print text-sm text-[#8b6e3f]">
+        <Link href={`/dashboard/events/${id}`} className="no-print text-sm text-[#B5654A]">
           ← {event.title}
         </Link>
         <h1 className="no-print mt-2 text-3xl font-semibold tracking-tight">Print templates</h1>

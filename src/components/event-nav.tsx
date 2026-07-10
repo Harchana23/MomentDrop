@@ -13,15 +13,15 @@ const ITEMS = [
 
 export function EventNav({ eventId, active }: { eventId: string; active: string }) {
   return (
-    <nav className="mt-5 flex gap-1 overflow-x-auto border-b border-[#e6ddcf]">
+    <nav className="mt-5 flex gap-1 overflow-x-auto border-b border-[#E4D9CF]">
       {ITEMS.map((i) => (
         <Link
           key={i.key}
           href={`/dashboard/events/${eventId}${i.path}`}
           className={`whitespace-nowrap border-b-2 px-3 py-2.5 text-sm font-semibold transition ${
             i.key === active
-              ? "border-[#e0734f] text-[#231a12]"
-              : "border-transparent text-[#8a755c] hover:text-[#231a12]"
+              ? "border-[#B5654A] text-[#2A1B24]"
+              : "border-transparent text-[#7A6570] hover:text-[#2A1B24]"
           }`}
         >
           {i.label}

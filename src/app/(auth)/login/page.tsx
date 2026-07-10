@@ -9,7 +9,7 @@ export default async function LoginPage({
 }) {
   const sp = await searchParams;
   const inputClass =
-    "h-12 w-full rounded-xl border border-[#e6d8c4] bg-[#fffdf9] px-4 text-base outline-none transition focus:border-[#e0734f]";
+    "h-12 w-full rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 text-base outline-none transition focus:border-[#B5654A]";
 
   return (
     <div className="grid lg:grid-cols-2">
@@ -18,11 +18,11 @@ export default async function LoginPage({
       {/* Form panel */}
       <div className="flex items-center justify-center px-5 py-16 md:py-24">
         <div className="w-full max-w-sm">
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c85f3c]">MomentDrop</p>
-          <h1 className="font-serif mt-2 text-4xl font-bold tracking-tight text-[#231a12]">
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#B5654A]">MomentDrop</p>
+          <h1 className="font-serif mt-2 text-4xl font-bold tracking-tight text-[#2A1B24]">
             Welcome back
           </h1>
-          <p className="mt-2 text-sm text-[#6f5c46]">
+          <p className="mt-2 text-sm text-[#7A6570]">
             Log in to manage your events, albums, and downloads.
           </p>
 
@@ -42,28 +42,28 @@ export default async function LoginPage({
               placeholder="Password"
               className={inputClass}
             />
-            <button className="inline-flex h-12 w-full items-center justify-center rounded-full bg-[#e0734f] text-base font-bold text-white transition hover:bg-[#cf6541]">
+            <button className="inline-flex h-12 w-full items-center justify-center rounded-full bg-[#B5654A] text-base font-bold text-white transition hover:bg-[#8F4A34]">
               Log in
             </button>
           </form>
 
-          <div className="my-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-wide text-[#a18e73]">
-            <span className="h-px flex-1 bg-[#e6ddcf]" /> or <span className="h-px flex-1 bg-[#e6ddcf]" />
+          <div className="my-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-wide text-[#9B8676]">
+            <span className="h-px flex-1 bg-[#E4D9CF]" /> or <span className="h-px flex-1 bg-[#E4D9CF]" />
           </div>
 
           <form action={signInGoogle}>
-            <button className="inline-flex h-12 w-full items-center justify-center rounded-full border border-[#d8cdbb] text-base font-bold text-[#3a3127] transition hover:border-[#e0734f]">
+            <button className="inline-flex h-12 w-full items-center justify-center rounded-full border border-[#E4D9CF] text-base font-bold text-[#3a3127] transition hover:border-[#B5654A]">
               Continue with Google
             </button>
           </form>
 
-          <p className="mt-6 text-sm text-[#6f5c46]">
+          <p className="mt-6 text-sm text-[#7A6570]">
             No account?{" "}
-            <Link href="/signup" className="font-bold text-[#c85f3c] hover:underline">
+            <Link href="/signup" className="font-bold text-[#B5654A] hover:underline">
               Sign up
             </Link>
-            <span className="mx-2 text-[#c9b597]">·</span>
-            <Link href="/auth/reset" className="font-semibold text-[#8a755c] hover:underline">
+            <span className="mx-2 text-[#C9B49E]">·</span>
+            <Link href="/auth/reset" className="font-semibold text-[#7A6570] hover:underline">
               Forgot password
             </Link>
           </p>

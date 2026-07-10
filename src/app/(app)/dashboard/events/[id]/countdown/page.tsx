@@ -21,9 +21,9 @@ export default async function CountdownPage({
   const cd = await getCountdownOwner(id);
 
   return (
-    <main className="min-h-screen bg-[#fbf6ee] px-5 py-6 text-[#24201a] md:px-8">
+    <main className="min-h-screen bg-[#F4ECE3] px-5 py-6 text-[#2A1B24] md:px-8">
       <div className="mx-auto max-w-3xl">
-        <Link href={`/dashboard/events/${id}`} className="text-sm text-[#c85f3c]">
+        <Link href={`/dashboard/events/${id}`} className="text-sm text-[#B5654A]">
           ← {event.title}
         </Link>
         <h1 className="mt-2 font-serif text-3xl font-bold tracking-tight">Countdown</h1>
@@ -46,9 +46,9 @@ export default async function CountdownPage({
             initial={{ enabled: cd.enabled, title: cd.title, until: cd.until }}
           />
         ) : (
-          <div className="mt-6 border border-dashed border-[#cbbfa9] bg-white p-8 text-center text-sm text-[#74664f]">
+          <div className="mt-6 border border-dashed border-[#cbbfa9] bg-white p-8 text-center text-sm text-[#7A6570]">
             Countdown needs a quick database update. Run{" "}
-            <code className="text-[#5c4a2e]">supabase/004_countdown.sql</code> in your Supabase
+            <code className="text-[#4A3540]">supabase/004_countdown.sql</code> in your Supabase
             SQL editor, then refresh.
           </div>
         )}

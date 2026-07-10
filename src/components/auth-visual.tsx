@@ -8,7 +8,7 @@ function PhotoColumn({ files, anim }: { files: string[]; anim: string }) {
       {doubled.map((f, i) => (
         <div
           key={i}
-          className="mb-4 h-44 rounded-2xl bg-[#e3d3bd] bg-cover bg-center shadow-[0_10px_30px_rgba(80,50,20,0.25)]"
+          className="mb-4 h-44 rounded-2xl bg-[#E4D3BF] bg-cover bg-center shadow-[0_10px_30px_rgba(90,50,40,0.25)]"
           style={{ backgroundImage: `url(/marketing/${f}.jpg)` }}
         />
       ))}
