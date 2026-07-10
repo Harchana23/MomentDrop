@@ -64,7 +64,7 @@ export default function HowItWorksPage() {
               ZIP, foldered by guest.
             </p>
           </div>
-          <div className="w-full max-w-[260px] justify-self-center border border-[#E4D9CF] bg-white p-4">
+          <div className="w-full max-w-[260px] justify-self-center glass p-4">
             <PhotoWallMock count={9} />
           </div>
         </section>
@@ -75,7 +75,7 @@ export default function HowItWorksPage() {
         <p className="mt-3 text-[#7A6570]">Free to start — set up your first event in minutes.</p>
         <Link
           href="/signup"
-          className="mt-7 inline-flex h-12 items-center justify-center bg-[#B5654A] px-7 text-base font-semibold text-white hover:bg-[#8F4A34]"
+          className="mt-7 inline-flex h-12 items-center justify-center btn-grad px-7 text-base font-semibold text-white"
         >
           Create your event
         </Link>

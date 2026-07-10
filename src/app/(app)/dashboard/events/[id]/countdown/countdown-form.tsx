@@ -23,7 +23,7 @@ export default function CountdownForm({
   const untilIso = localDt ? new Date(localDt).toISOString() : "";
 
   return (
-    <form action={saveCountdown} className="mt-6 space-y-5 border border-[#E4D9CF] bg-white p-6">
+    <form action={saveCountdown} className="mt-6 space-y-5 glass p-6">
       <input type="hidden" name="id" value={id} />
       <input type="hidden" name="until" value={untilIso} />
 
@@ -42,7 +42,7 @@ export default function CountdownForm({
             onChange={(e) => setEnabled(e.target.checked)}
             className="peer sr-only"
           />
-          <span className="h-6 w-11 rounded-full bg-[#d3cabb] transition peer-checked:rounded-full bg-[#B5654A]" />
+          <span className="h-6 w-11 rounded-full bg-[#d3cabb] transition peer-checked:rounded-full btn-grad" />
           <span className="absolute left-0.5 h-5 w-5 rounded-full bg-white transition peer-checked:translate-x-5" />
         </label>
       </div>
@@ -68,7 +68,7 @@ export default function CountdownForm({
         />
       </label>
 
-      <button className="h-11 rounded-full bg-[#B5654A] px-5 text-sm font-semibold text-white hover:bg-[#8F4A34]">
+      <button className="h-11 rounded-full btn-grad px-5 text-sm font-semibold text-white">
         Save countdown
       </button>
     </form>

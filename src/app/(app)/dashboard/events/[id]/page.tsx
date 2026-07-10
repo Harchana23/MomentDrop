@@ -88,7 +88,7 @@ export default async function EventOverviewPage({
             { label: "Guests", value: String(stats.guests) },
             { label: "Files used", value: `${stats.uploads} / ${event.file_limit}` },
           ].map((s) => (
-            <div key={s.label} className="rounded-2xl border border-[#E4D9CF] bg-white p-5">
+            <div key={s.label} className="rounded-2xl glass p-5">
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#9B8676]">
                 {s.label}
               </p>
@@ -98,7 +98,7 @@ export default async function EventOverviewPage({
         </section>
 
         {isPaid ? (
-          <section className="mt-6 rounded-2xl border border-[#E4D9CF] bg-white p-6">
+          <section className="mt-6 rounded-2xl glass p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <h2 className="font-serif text-xl font-bold">{planLabel} plan</h2>
@@ -112,7 +112,7 @@ export default async function EventOverviewPage({
             </div>
           </section>
         ) : (
-          <section className="mt-6 rounded-2xl border border-[#E4D9CF] bg-white p-6">
+          <section className="mt-6 rounded-2xl glass p-6">
             <h2 className="font-serif text-xl font-bold">Free trial</h2>
             <p className="mt-1 text-sm text-[#7A6570]">
               Up to {event.file_limit} files · active until {activeUntil}. Upgrade this event for more
@@ -146,7 +146,7 @@ export default async function EventOverviewPage({
                         disabled={!paymentsReady}
                         className={`inline-flex h-11 w-full items-center justify-center rounded-full text-sm font-bold transition disabled:opacity-50 ${
                           popular
-                            ? "bg-[#B5654A] text-white hover:bg-[#8F4A34]"
+                            ? "btn-grad text-white"
                             : "border-2 border-[#B5654A] text-[#B5654A] hover:bg-[#F1E4D8]"
                         }`}
                       >
@@ -164,7 +164,7 @@ export default async function EventOverviewPage({
         )}
 
         <section className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
-          <div className="rounded-2xl border border-[#E4D9CF] bg-white p-6">
+          <div className="rounded-2xl glass p-6">
             <h2 className="font-serif text-xl font-bold">Share your event</h2>
             <p className="mt-1 text-sm text-[#7A6570]">
               Guests open this link (or scan the QR) to upload. Active until {activeUntil}.
@@ -185,7 +185,7 @@ export default async function EventOverviewPage({
               Preview guest page →
             </a>
           </div>
-          <div className="rounded-2xl border border-[#E4D9CF] bg-white p-6 text-center">
+          <div className="rounded-2xl glass p-6 text-center">
             <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-[#B5654A]">QR code</h2>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={qr} alt="Event QR code" className="mx-auto mt-4 h-44 w-44 rounded-xl" />
@@ -199,7 +199,7 @@ export default async function EventOverviewPage({
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-[#E4D9CF] bg-white p-6">
+        <section className="mt-6 rounded-2xl glass p-6">
           <h2 className="font-serif text-xl font-bold">Photo Wall</h2>
           <p className="mt-1 text-sm text-[#7A6570]">
             A live slideshow of published photos for a screen or projector at your event.
@@ -216,7 +216,7 @@ export default async function EventOverviewPage({
               href={`/e/${event.slug}/wall`}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex h-11 items-center justify-center rounded-full bg-[#B5654A] px-5 text-sm font-bold text-white hover:bg-[#8F4A34]"
+              className="inline-flex h-11 items-center justify-center rounded-full btn-grad px-5 text-sm font-bold text-white"
             >
               Open photo wall
             </a>

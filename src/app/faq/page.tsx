@@ -35,7 +35,7 @@ export default function FaqPage() {
         <div className="mt-12 text-center">
           <Link
             href="/signup"
-            className="inline-flex h-12 items-center justify-center bg-[#B5654A] px-7 text-base font-semibold text-white hover:bg-[#8F4A34]"
+            className="inline-flex h-12 items-center justify-center btn-grad px-7 text-base font-semibold text-white"
           >
             Create your event
           </Link>

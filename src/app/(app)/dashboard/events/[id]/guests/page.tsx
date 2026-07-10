@@ -30,7 +30,7 @@ export default async function GuestsPage({
             No guests yet — they&apos;ll appear here as people upload to your event.
           </div>
         ) : (
-          <div className="mt-6 border border-[#E4D9CF] bg-white">
+          <div className="mt-6 glass">
             <div className="grid grid-cols-[1fr_auto] gap-3 border-b border-[#eee6da] px-5 py-3 text-xs font-semibold uppercase tracking-wide text-[#9B8676]">
               <span>Guest</span>
               <span>Uploads</span>

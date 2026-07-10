@@ -51,7 +51,7 @@ export default async function AccessPage({
           </p>
         )}
 
-        <form action={updateAccessControl} className="mt-6 border border-[#E4D9CF] bg-white">
+        <form action={updateAccessControl} className="mt-6 glass">
           <input type="hidden" name="id" value={id} />
           <ul className="divide-y divide-[#eee6da]">
             {TOGGLES.map((t) => (
@@ -67,20 +67,20 @@ export default async function AccessPage({
                     defaultChecked={current[t.name]}
                     className="peer sr-only"
                   />
-                  <span className="h-6 w-11 rounded-full bg-[#d3cabb] transition peer-checked:rounded-full bg-[#B5654A]" />
+                  <span className="h-6 w-11 rounded-full bg-[#d3cabb] transition peer-checked:rounded-full btn-grad" />
                   <span className="absolute left-0.5 h-5 w-5 rounded-full bg-white transition peer-checked:translate-x-5" />
                 </label>
               </li>
             ))}
           </ul>
           <div className="border-t border-[#eee6da] p-5">
-            <button className="h-11 rounded-full bg-[#B5654A] px-5 text-sm font-semibold text-white hover:bg-[#8F4A34]">
+            <button className="h-11 rounded-full btn-grad px-5 text-sm font-semibold text-white">
               Save access settings
             </button>
           </div>
         </form>
 
-        <section className="mt-6 border border-[#E4D9CF] bg-white p-6">
+        <section className="mt-6 glass p-6">
           <h2 className="font-serif text-xl font-bold">Password protection</h2>
           <p className="mt-1 text-sm text-[#7A6570]">
             {event.password_hash
@@ -95,7 +95,7 @@ export default async function AccessPage({
               placeholder={event.password_hash ? "New password" : "Set a password"}
               className="h-12 flex-1 border border-[#E4D9CF] bg-[#FFFBF6] px-4 outline-none focus:border-[#B5654A]"
             />
-            <button className="h-12 rounded-full bg-[#B5654A] px-5 text-sm font-semibold text-white hover:bg-[#8F4A34]">
+            <button className="h-12 rounded-full btn-grad px-5 text-sm font-semibold text-white">
               {event.password_hash ? "Update password" : "Set password"}
             </button>
           </form>

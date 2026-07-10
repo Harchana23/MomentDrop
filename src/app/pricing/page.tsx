@@ -115,7 +115,7 @@ export default function PricingPage() {
         {TRUST.map((t) => (
           <span
             key={t.label}
-            className="inline-flex items-center gap-2 rounded-full border border-[#E4D9CF] bg-white px-4 py-2 text-sm font-semibold text-[#7A6570]"
+            className="inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm font-semibold text-[#7A6570]"
           >
             <span>{t.icon}</span>
             {t.label}
@@ -135,7 +135,7 @@ export default function PricingPage() {
               }`}
             >
               {p.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#B5654A] px-4 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-[0_8px_20px_rgba(224,115,79,0.35)]">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full btn-grad px-4 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-[0_8px_20px_rgba(224,115,79,0.35)]">
                   ★ Most popular
                 </span>
               )}
@@ -152,7 +152,7 @@ export default function PricingPage() {
                 href="/signup"
                 className={`mt-6 inline-flex h-12 items-center justify-center rounded-full text-base font-bold transition ${
                   p.popular
-                    ? "md-cta bg-[#B5654A] text-white hover:bg-[#8F4A34]"
+                    ? "md-cta btn-grad text-white"
                     : "border-2 border-[#B5654A] text-[#B5654A] hover:bg-[#F1E4D8]"
                 }`}
               >

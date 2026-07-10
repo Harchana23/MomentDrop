@@ -53,7 +53,7 @@ function EventCard({ e, base }: { e: DashboardEvent; base: string }) {
     <li>
       <Link
         href={`/dashboard/events/${e.id}`}
-        className="group block overflow-hidden rounded-2xl border border-[#E4D9CF] bg-white transition hover:-translate-y-1 hover:border-[#B5654A] hover:shadow-[0_16px_40px_rgba(90,50,40,0.12)]"
+        className="group block overflow-hidden rounded-2xl glass transition hover:-translate-y-1 hover:border-[#B5654A] hover:shadow-[0_16px_40px_rgba(90,50,40,0.12)]"
       >
         {/* Recent-photo strip */}
         <div className="flex h-24 gap-0.5 bg-[#EFE4D8]">
@@ -137,7 +137,7 @@ export default async function DashboardPage() {
           </div>
           <Link
             href="/onboarding"
-            className="inline-flex h-11 items-center rounded-full bg-[#B5654A] px-5 text-sm font-bold text-white hover:bg-[#8F4A34]"
+            className="inline-flex h-11 items-center rounded-full btn-grad px-5 text-sm font-bold text-white"
           >
             Create event
           </Link>
@@ -153,7 +153,7 @@ export default async function DashboardPage() {
             </p>
             <Link
               href="/onboarding"
-              className="md-cta mt-6 inline-flex h-11 items-center rounded-full bg-[#B5654A] px-6 text-sm font-bold text-white hover:bg-[#8F4A34]"
+              className="md-cta mt-6 inline-flex h-11 items-center rounded-full btn-grad px-6 text-sm font-bold text-white"
             >
               Create your first event →
             </Link>

@@ -37,7 +37,7 @@ export default async function ContactPage({
       <section className="mx-auto grid max-w-5xl gap-6 px-5 py-10 lg:grid-cols-[1fr_1.2fr]">
         {/* Info */}
         <div className="space-y-4">
-          <div className="rounded-2xl border border-[#E4D9CF] bg-white p-6">
+          <div className="rounded-2xl glass p-6">
             <h2 className="font-serif text-lg font-bold">Email support</h2>
             <p className="mt-1 text-sm text-[#7A6570]">
               Prefer email? Reach us directly at
@@ -49,14 +49,14 @@ export default async function ContactPage({
               {SUPPORT_EMAIL}
             </a>
           </div>
-          <div className="rounded-2xl border border-[#E4D9CF] bg-white p-6">
+          <div className="rounded-2xl glass p-6">
             <h2 className="font-serif text-lg font-bold">Response time</h2>
             <p className="mt-1 text-sm text-[#7A6570]">
               We answer messages within one business day. During busy event seasons, hang tight —
               we read every one.
             </p>
           </div>
-          <div className="rounded-2xl border border-[#E4D9CF] bg-white p-6">
+          <div className="rounded-2xl glass p-6">
             <h2 className="font-serif text-lg font-bold">Quick answers</h2>
             <p className="mt-1 text-sm text-[#7A6570]">
               Many questions are covered on our{" "}
@@ -73,7 +73,7 @@ export default async function ContactPage({
         </div>
 
         {/* Form */}
-        <div className="rounded-3xl border border-[#E4D9CF] bg-white p-6 shadow-[0_16px_40px_rgba(90,50,40,0.08)] md:p-8">
+        <div className="rounded-3xl glass p-6 shadow-[0_16px_40px_rgba(90,50,40,0.08)] md:p-8">
           {sp.sent && (
             <p className="mb-5 rounded-xl border border-[#cfe2d0] bg-[#eef4ec] px-4 py-3 text-sm text-[#3b7a4f]">
               Thanks — your message is on its way. We&apos;ll reply by email soon.
@@ -127,7 +127,7 @@ export default async function ContactPage({
                 className="mt-2 min-h-32 w-full resize-none rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 py-3 text-base outline-none transition focus:border-[#B5654A]"
               />
             </label>
-            <button className="inline-flex h-12 w-full items-center justify-center rounded-full bg-[#B5654A] text-base font-bold text-white transition hover:bg-[#8F4A34]">
+            <button className="inline-flex h-12 w-full items-center justify-center rounded-full btn-grad text-base font-bold text-white transition">
               Send message
             </button>
           </form>

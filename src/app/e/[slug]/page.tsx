@@ -49,7 +49,7 @@ export default async function GuestEventPage({
     if (store.get(`md_pw_${event.id}`)?.value !== cookieToken(event.password_hash)) {
       return (
         <main className="grid min-h-screen place-items-center bg-[#F4ECE3] px-5 text-[#2A1B24]">
-          <div className="w-full max-w-sm rounded-3xl border border-[#E4D9CF] bg-white p-7 text-center shadow-[0_24px_60px_rgba(90,50,40,0.14)]">
+          <div className="w-full max-w-sm rounded-3xl glass p-7 text-center shadow-[0_24px_60px_rgba(90,50,40,0.14)]">
             <h1 className="font-serif text-2xl font-bold tracking-tight text-[#2A1B24]">{event.title}</h1>
             <p className="mt-2 text-sm text-[#7A6570]">This event is password protected.</p>
             {sp.pwerror && (
@@ -64,7 +64,7 @@ export default async function GuestEventPage({
                 placeholder="Event password"
                 className="h-12 w-full rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 outline-none focus:border-[#B5654A]"
               />
-              <button className="inline-flex h-12 w-full items-center justify-center rounded-full bg-[#B5654A] text-base font-bold text-white hover:bg-[#8F4A34]">
+              <button className="inline-flex h-12 w-full items-center justify-center rounded-full btn-grad text-base font-bold text-white">
                 Enter
               </button>
             </form>
@@ -133,7 +133,7 @@ export default async function GuestEventPage({
 
       {/* Upload card */}
       <div className="relative z-10 mx-auto -mt-24 w-full max-w-2xl px-4 md:-mt-32">
-        <div className="rounded-3xl border border-[#E4D9CF] bg-white p-6 shadow-[0_24px_60px_rgba(90,50,40,0.14)] md:p-8">
+        <div className="rounded-3xl glass p-6 shadow-[0_24px_60px_rgba(90,50,40,0.14)] md:p-8">
           {open.open ? (
             <div className="mx-auto max-w-xl">
               <div className="text-center">

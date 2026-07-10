@@ -47,7 +47,7 @@ export default async function SettingsPage({
           </p>
         )}
 
-        <section className="mt-6 border border-[#E4D9CF] bg-white p-6">
+        <section className="mt-6 glass p-6">
           <h2 className="font-serif text-xl font-bold">Event details</h2>
           <form action={updateEventDetails} className="mt-5 space-y-4">
             <input type="hidden" name="id" value={id} />
@@ -116,13 +116,13 @@ export default async function SettingsPage({
                 floods the album.
               </span>
             </label>
-            <button className="h-11 rounded-full bg-[#B5654A] px-5 text-sm font-semibold text-white hover:bg-[#8F4A34]">
+            <button className="h-11 rounded-full btn-grad px-5 text-sm font-semibold text-white">
               Save details
             </button>
           </form>
         </section>
 
-        <section className="mt-6 border border-[#E4D9CF] bg-white p-6">
+        <section className="mt-6 glass p-6">
           <h2 className="font-serif text-xl font-bold">Cover photo</h2>
           <p className="mt-1 text-sm text-[#7A6570]">
             Shown behind your event name on the guest page. A wide landscape photo works best.
@@ -147,7 +147,7 @@ export default async function SettingsPage({
               required
               className="text-sm text-[#4A3540] file:mr-3 file:border file:border-[#E4D9CF] file:bg-[#FBF3EC] file:px-3 file:py-2 file:text-sm file:font-semibold file:text-[#4A3540]"
             />
-            <button className="h-11 rounded-full bg-[#B5654A] px-5 text-sm font-semibold text-white hover:bg-[#8F4A34]">
+            <button className="h-11 rounded-full btn-grad px-5 text-sm font-semibold text-white">
               {event.cover_path ? "Replace cover" : "Upload cover"}
             </button>
           </form>
@@ -161,7 +161,7 @@ export default async function SettingsPage({
           )}
         </section>
 
-        <section className="mt-6 border border-[#E4D9CF] bg-white p-6">
+        <section className="mt-6 glass p-6">
           <h2 className="font-serif text-xl font-bold">Custom URL</h2>
           <p className="mt-1 text-sm text-[#7A6570]">Your guests&apos; upload link.</p>
           <form action={updateEventSlug} className="mt-4 space-y-3">
@@ -174,7 +174,7 @@ export default async function SettingsPage({
                 className="h-12 flex-1 bg-transparent outline-none"
               />
             </div>
-            <button className="h-11 rounded-full bg-[#B5654A] px-5 text-sm font-semibold text-white hover:bg-[#8F4A34]">
+            <button className="h-11 rounded-full btn-grad px-5 text-sm font-semibold text-white">
               Save URL
             </button>
           </form>

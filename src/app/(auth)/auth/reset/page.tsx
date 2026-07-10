@@ -55,7 +55,7 @@ export default function ResetPage() {
                 placeholder="Email"
                 className="h-12 w-full rounded-xl border border-[#E4D9CF] bg-[#FFFBF6] px-4 text-base outline-none transition focus:border-[#B5654A]"
               />
-              <button className="inline-flex h-12 w-full items-center justify-center rounded-full bg-[#B5654A] text-base font-bold text-white transition hover:bg-[#8F4A34]">
+              <button className="inline-flex h-12 w-full items-center justify-center rounded-full btn-grad text-base font-bold text-white transition">
                 Send reset link
               </button>
             </form>

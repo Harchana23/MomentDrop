@@ -48,7 +48,7 @@ export default async function AlbumsPage({
           </div>
         ) : (
           <>
-            <section className="mt-6 border border-[#E4D9CF] bg-white p-6">
+            <section className="mt-6 glass p-6">
               <h2 className="text-lg font-semibold">New album</h2>
               <form action={createAlbum} className="mt-4 space-y-4">
                 <input type="hidden" name="eventId" value={id} />
@@ -62,13 +62,13 @@ export default async function AlbumsPage({
                   <input type="checkbox" name="allow_uploads" defaultChecked className="h-4 w-4" />
                   Let guests upload to this album
                 </label>
-                <button className="h-11 rounded-full bg-[#B5654A] px-5 text-sm font-semibold text-white hover:bg-[#8F4A34]">
+                <button className="h-11 rounded-full btn-grad px-5 text-sm font-semibold text-white">
                   Create album
                 </button>
               </form>
             </section>
 
-            <section className="mt-6 border border-[#E4D9CF] bg-white">
+            <section className="mt-6 glass">
               {albums.length === 0 ? (
                 <p className="p-6 text-sm text-[#7A6570]">
                   No albums yet. Create one above — guests can then pick it when uploading.

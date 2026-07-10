@@ -49,6 +49,21 @@ html {
   font-family: var(--font-grotesk), "Space Grotesk", sans-serif;
   letter-spacing: -0.02em;
 }
+
+/* ── Immersive Dive concept: gradient buttons + glass panels ── */
+.btn-grad {
+  background-image: linear-gradient(135deg, #c97f52, #b5654a);
+}
+.btn-grad:hover {
+  background-image: linear-gradient(135deg, #b5654a, #8f4a34);
+}
+.glass {
+  background: rgba(255, 251, 246, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 14px 40px -22px rgba(90, 50, 40, 0.28);
+}
 .font-script {
   font-family: var(--font-script), cursive;
 }

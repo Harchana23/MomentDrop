@@ -8,7 +8,7 @@ export default async function OnboardingPage({
   const sp = await searchParams;
   return (
     <main className="grid min-h-screen place-items-center bg-[#F4ECE3] px-5 py-10 text-[#2A1B24]">
-      <div className="w-full max-w-lg border border-[#E4D9CF] bg-white p-7 shadow-[0_24px_80px_rgba(90,50,40,0.12)]">
+      <div className="w-full max-w-lg glass p-7 shadow-[0_24px_80px_rgba(90,50,40,0.12)]">
         <p className="text-sm font-medium uppercase tracking-[0.24em] text-[#7A6570]">
           MomentDrop
         </p>
@@ -65,7 +65,7 @@ export default async function OnboardingPage({
               className="mt-2 min-h-20 w-full resize-none border border-[#E4D9CF] bg-[#FFFBF6] px-4 py-3 outline-none focus:border-[#B5654A]"
             />
           </label>
-          <button className="h-12 w-full rounded-full bg-[#B5654A] text-base font-semibold text-white hover:bg-[#8F4A34]">
+          <button className="h-12 w-full rounded-full btn-grad text-base font-semibold text-white">
             Create event
           </button>
         </form>

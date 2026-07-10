@@ -42,7 +42,7 @@ export default async function LoginPage({
               placeholder="Password"
               className={inputClass}
             />
-            <button className="inline-flex h-12 w-full items-center justify-center rounded-full bg-[#B5654A] text-base font-bold text-white transition hover:bg-[#8F4A34]">
+            <button className="inline-flex h-12 w-full items-center justify-center rounded-full btn-grad text-base font-bold text-white transition">
               Log in
             </button>
           </form>

@@ -74,7 +74,7 @@ export function JoyfulHero() {
         <div className="mt-7 flex items-center gap-3">
           <Link
             href="/signup"
-            className="md-cta inline-flex h-12 items-center justify-center rounded-full bg-[#B5654A] px-7 text-base font-bold text-white hover:bg-[#8F4A34]"
+            className="md-cta inline-flex h-12 items-center justify-center rounded-full btn-grad px-7 text-base font-bold text-white"
           >
             Create your event — free →
           </Link>

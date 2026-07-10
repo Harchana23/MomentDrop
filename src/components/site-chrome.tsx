@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-[#E4D9CF]">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+    <header className="px-4 pt-4">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full glass px-4 py-2.5 md:px-5">
         <Link href="/" className="inline-flex items-center gap-2 text-lg font-bold tracking-tight text-[#2A1B24]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.png" alt="" aria-hidden="true" className="h-7 w-auto" />
@@ -27,7 +27,7 @@ export function SiteHeader() {
           </Link>
           <Link
             href="/signup"
-            className="inline-flex h-9 items-center rounded-full bg-[#B5654A] px-4 font-bold text-white hover:bg-[#8F4A34]"
+            className="inline-flex h-9 items-center rounded-full btn-grad px-4 font-bold text-white"
           >
             Create event
           </Link>

@@ -39,7 +39,7 @@ function StatusButton({
       <button
         className={
           primary
-            ? "h-9 rounded-full bg-[#B5654A] px-4 text-xs font-bold text-white transition hover:bg-[#8F4A34]"
+            ? "h-9 rounded-full btn-grad px-4 text-xs font-bold text-white transition"
             : "h-9 rounded-full border border-[#E4D9CF] px-4 text-xs font-bold text-[#4A3540] transition hover:border-[#B5654A] hover:text-[#B5654A]"
         }
       >
@@ -97,7 +97,7 @@ export default async function MediaPage({
             {hasAny && (
               <a
                 href={`/dashboard/events/${id}/export`}
-                className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-[#B5654A] px-6 text-sm font-bold text-white hover:bg-[#8F4A34]"
+                className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full btn-grad px-6 text-sm font-bold text-white"
               >
                 ⬇ Download all (ZIP)
               </a>
@@ -137,7 +137,7 @@ export default async function MediaPage({
             {items.map((u) => (
               <div
                 key={u.id}
-                className="mb-4 break-inside-avoid overflow-hidden rounded-2xl border border-[#E4D9CF] bg-white"
+                className="mb-4 break-inside-avoid overflow-hidden rounded-2xl glass"
               >
                 <a
                   href={u.viewUrl ?? "#"}

@@ -79,7 +79,7 @@ export default function DemoPage() {
 
       <div className="mx-auto -mt-8 max-w-5xl px-4">
         {/* Upload card */}
-        <section className="relative rounded-3xl border border-[#E4D9CF] bg-white p-6 shadow-[0_24px_60px_rgba(90,50,40,0.14)] md:p-8">
+        <section className="relative rounded-3xl glass p-6 shadow-[0_24px_60px_rgba(90,50,40,0.14)] md:p-8">
           <div className="mx-auto max-w-xl text-center">
             <h2 className="font-serif text-2xl font-bold text-[#2A1B24]">Add your photos &amp; videos</h2>
             <p className="mt-1 text-sm text-[#7A6570]">
@@ -105,7 +105,7 @@ export default function DemoPage() {
                 <span className="text-[#B5654A]">3 of 10 added</span>
               </div>
               <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-[#f0e2d0]">
-                <div className="h-full rounded-full bg-[#B5654A]" style={{ width: "30%" }} />
+                <div className="h-full rounded-full btn-grad" style={{ width: "30%" }} />
               </div>
               <p className="mt-1.5 text-center text-xs text-[#9B8676]">
                 7 left — the host set a limit so every guest gets a turn
@@ -119,7 +119,7 @@ export default function DemoPage() {
             />
             <button
               disabled
-              className="md-cta mt-3 inline-flex h-12 w-full items-center justify-center rounded-full bg-[#B5654A] text-base font-bold text-white"
+              className="md-cta mt-3 inline-flex h-12 w-full items-center justify-center rounded-full btn-grad text-base font-bold text-white"
             >
               Share your photos →
             </button>
@@ -185,7 +185,7 @@ export default function DemoPage() {
         </section>
 
         {/* Behind the scenes — the host control that sets the per-guest limit */}
-        <section className="mb-16 rounded-3xl border border-[#E4D9CF] bg-white p-6 md:p-8">
+        <section className="mb-16 rounded-3xl glass p-6 md:p-8">
           <div className="text-center">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f1ece2] px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-[#7A6570]">
               👑 Host view
@@ -208,7 +208,7 @@ export default function DemoPage() {
               <span className="font-serif text-4xl font-bold text-[#2A1B24]">10</span>
               <button
                 disabled
-                className="grid h-11 w-11 place-items-center rounded-full bg-[#B5654A] text-xl font-bold text-white"
+                className="grid h-11 w-11 place-items-center rounded-full btn-grad text-xl font-bold text-white"
               >
                 +
               </button>

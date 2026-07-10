@@ -215,7 +215,7 @@ export default function GuestUploader({
         </p>
         <button
           onClick={reset}
-          className="mt-7 inline-flex h-12 w-full items-center justify-center rounded-full bg-[#B5654A] text-base font-bold text-white transition hover:bg-[#8F4A34]"
+          className="mt-7 inline-flex h-12 w-full items-center justify-center rounded-full btn-grad text-base font-bold text-white transition"
         >
           Add more photos
         </button>
@@ -307,7 +307,7 @@ export default function GuestUploader({
           type="button"
           onClick={() => setCameraOpen(true)}
           disabled={busy}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-[#E4D9CF] bg-white py-3.5 text-sm font-bold text-[#4A3540] transition hover:border-[#B5654A] hover:text-[#B5654A] disabled:opacity-60"
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl glass py-3.5 text-sm font-bold text-[#4A3540] transition hover:border-[#B5654A] hover:text-[#B5654A] disabled:opacity-60"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-5 w-5" aria-hidden="true">
             <path d="M4 8.5A1.5 1.5 0 0 1 5.5 7H8l1-1.5h6L16 7h2.5A1.5 1.5 0 0 1 20 8.5v9A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5z" strokeLinecap="round" strokeLinejoin="round" />
@@ -343,7 +343,7 @@ export default function GuestUploader({
           </div>
           <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-[#f0e2d0]">
             <div
-              className="h-full rounded-full bg-[#B5654A] transition-all"
+              className="h-full rounded-full btn-grad transition-all"
               style={{ width: `${(Math.min(files.length, perGuestLimit) / perGuestLimit) * 100}%` }}
             />
           </div>
@@ -353,7 +353,7 @@ export default function GuestUploader({
       {busy && (
         <div>
           <div className="h-2.5 w-full overflow-hidden rounded-full bg-[#f0e2d0]">
-            <div className="h-full rounded-full bg-[#B5654A] transition-all" style={{ width: `${pct}%` }} />
+            <div className="h-full rounded-full btn-grad transition-all" style={{ width: `${pct}%` }} />
           </div>
           <p className="mt-2 text-sm font-semibold text-[#B5654A]">Uploading… {pct}%</p>
         </div>
@@ -366,7 +366,7 @@ export default function GuestUploader({
       )}
 
       <button
-        className="inline-flex h-12 w-full items-center justify-center rounded-full bg-[#B5654A] text-base font-bold text-white transition hover:bg-[#8F4A34] disabled:opacity-60"
+        className="inline-flex h-12 w-full items-center justify-center rounded-full btn-grad text-base font-bold text-white transition disabled:opacity-60"
         type="submit"
         disabled={busy}
       >

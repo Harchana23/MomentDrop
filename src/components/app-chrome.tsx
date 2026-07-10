@@ -9,7 +9,7 @@ export async function AppHeader() {
   const email = data?.claims?.email ?? "";
 
   return (
-    <header className="border-b border-[#E4D9CF] bg-[#F4ECE3]">
+    <header className="sticky top-0 z-40 border-b border-[#E4D9CF] bg-[#F4ECE3]/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
         <Link href="/dashboard" className="inline-flex items-center gap-2 text-lg font-bold tracking-tight text-[#2A1B24]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -41,7 +41,7 @@ export async function AppHeader() {
 /** Slim brand bar for the auth pages (login / signup / reset). */
 export function AuthHeader() {
   return (
-    <header className="border-b border-[#E4D9CF] bg-[#F4ECE3]">
+    <header className="sticky top-0 z-40 border-b border-[#E4D9CF] bg-[#F4ECE3]/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
         <Link href="/" className="inline-flex items-center gap-2 text-lg font-bold tracking-tight text-[#2A1B24]">
           {/* eslint-disable-next-line @next/next/no-img-element */}

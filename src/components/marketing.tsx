@@ -172,7 +172,7 @@ export function UseCaseLayout({
       <section className="mx-auto max-w-5xl px-5 py-14">
         <div className="grid gap-4 sm:grid-cols-2">
           {benefits.map((b) => (
-            <div key={b.t} className="border border-[#E4D9CF] bg-white p-6">
+            <div key={b.t} className="glass p-6">
               <h3 className="text-lg font-semibold">{b.t}</h3>
               <p className="mt-2 text-sm leading-6 text-[#7A6570]">{b.d}</p>
             </div>
