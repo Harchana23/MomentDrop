@@ -11,7 +11,9 @@ export async function AppHeader() {
   return (
     <header className="border-b border-[#e6ddcf] bg-[#fbf6ee]">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-        <Link href="/dashboard" className="text-lg font-bold tracking-tight text-[#231a12]">
+        <Link href="/dashboard" className="inline-flex items-center gap-2 text-lg font-bold tracking-tight text-[#231a12]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="" aria-hidden="true" className="h-7 w-auto" />
           Moment<span className="text-[#e0734f]">Drop</span>
         </Link>
         <div className="flex items-center gap-3 text-sm sm:gap-4">
@@ -41,7 +43,9 @@ export function AuthHeader() {
   return (
     <header className="border-b border-[#e6ddcf] bg-[#fbf6ee]">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-        <Link href="/" className="text-lg font-bold tracking-tight text-[#231a12]">
+        <Link href="/" className="inline-flex items-center gap-2 text-lg font-bold tracking-tight text-[#231a12]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="" aria-hidden="true" className="h-7 w-auto" />
           Moment<span className="text-[#e0734f]">Drop</span>
         </Link>
         <Link href="/" className="text-sm text-[#5c4a2e] hover:underline">

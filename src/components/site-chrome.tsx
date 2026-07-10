@@ -4,7 +4,9 @@ export function SiteHeader() {
   return (
     <header className="border-b border-[#e6ddcf]">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-        <Link href="/" className="text-lg font-bold tracking-tight text-[#231a12]">
+        <Link href="/" className="inline-flex items-center gap-2 text-lg font-bold tracking-tight text-[#231a12]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="" aria-hidden="true" className="h-7 w-auto" />
           Moment<span className="text-[#e0734f]">Drop</span>
         </Link>
         <nav className="flex items-center gap-5 text-sm">
