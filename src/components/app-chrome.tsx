@@ -14,8 +14,17 @@ export async function AppHeader() {
         <Link href="/dashboard" className="text-lg font-bold tracking-tight text-[#231a12]">
           Moment<span className="text-[#e0734f]">Drop</span>
         </Link>
-        <div className="flex items-center gap-4 text-sm">
-          {email && <span className="hidden text-[#74664f] sm:inline">{String(email)}</span>}
+        <div className="flex items-center gap-3 text-sm sm:gap-4">
+          {email && <span className="hidden text-[#74664f] md:inline">{String(email)}</span>}
+          <Link
+            href="/contact"
+            className="inline-flex h-9 items-center gap-1.5 rounded-full px-2 font-semibold text-[#5c4a2e] hover:text-[#c85f3c]"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" className="h-4 w-4" aria-hidden="true">
+              <path d="M4 5h16v12H7l-3 3z" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Support
+          </Link>
           <form action={signOut}>
             <button className="h-9 rounded-full border border-[#d8cdbb] px-4 font-semibold text-[#5c4a2e] hover:border-[#8d7147]">
               Sign out
