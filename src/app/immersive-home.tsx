@@ -7,6 +7,24 @@ import { OCCASIONS } from "@/components/site-chrome";
 /* ─────────── data ─────────── */
 
 const PHOTOS = [
+  // newly uploaded photos (Pexels) — carry the hero dive
+  "pexels-aalap-creation-2158557916-35457633",
+  "pexels-alivhi-29226150",
+  "pexels-azman-aziz-114407020-10258456",
+  "pexels-khidir-29532498",
+  "pexels-muhammad-nashrullah-980011-30577483",
+  "pexels-nguy-n-ti-n-th-nh-2150376175-33104577",
+  "pexels-photographer-gyanu-1357219108-38259809",
+  "pexels-rebornfilmes-31128695",
+  "pexels-sadman-2058070",
+  "pexels-silverkblack-36713489",
+  "pexels-silverkblack-36729424",
+  "pexels-simeart-30311769",
+  "pexels-stockphotoartist-1094995",
+  "pexels-thirdman-7652041",
+  "pexels-tobiasbjorkli-13293704",
+  "pexels-trungnguyenphotog-5096300",
+  // original curated set
   "hero", "event-wedding", "event-party", "event-festival", "event-corporate",
   "gallery-1", "gallery-2", "gallery-3", "gallery-4", "gallery-5", "gallery-6", "testimonial",
 ].map((n) => `/marketing/${n}.jpg`);
@@ -14,7 +32,8 @@ const PHOTOS = [
 const SPOTS: [number, number][] = [
   [-460, -240], [420, -200], [-520, 120], [500, 140], [-260, -360], [300, -360],
   [-360, 300], [360, 320], [-140, -140], [180, -120], [-200, 200], [220, 180],
-  [-60, -320], [80, 300],
+  [-60, -320], [80, 300], [-580, -40], [560, -60], [-420, -420], [440, 420],
+  [-40, 70], [60, -30], [-300, -60], [320, 40],
 ];
 const PLANES = SPOTS.map((s, i) => {
   const w = 150 + (i % 4) * 40;
@@ -334,7 +353,7 @@ export default function ImmersiveHome() {
             <div data-scene style={{ position: "absolute", inset: 0, perspective: "900px", perspectiveOrigin: "50% 50%", pointerEvents: "none" }}>
               <div data-tunnel style={{ position: "absolute", inset: 0, transformStyle: "preserve-3d" }}>
                 {PLANES.map((p, i) => (
-                  <div key={i} data-plane data-z={p.z} style={{ position: "absolute", left: "50%", top: "50%", width: p.w, height: p.h, marginLeft: p.mx, marginTop: p.my, borderRadius: 16, backgroundImage: `url(${p.img})`, backgroundSize: "cover", backgroundPosition: "center", boxShadow: "0 30px 70px -20px rgba(0,0,0,.8)", border: "1px solid rgba(255,255,255,.14)", willChange: "transform, opacity" }} />
+                  <div key={i} data-plane data-z={p.z} style={{ position: "absolute", left: "50%", top: "50%", width: p.w, height: p.h, marginLeft: p.mx, marginTop: p.my, borderRadius: 16, backgroundImage: `url(${p.img})`, backgroundSize: "cover", backgroundPosition: "center", boxShadow: "0 30px 70px -20px rgba(0,0,0,.8)", border: "1px solid rgba(255,255,255,.14)", filter: "blur(2px)", WebkitFilter: "blur(2px)", willChange: "transform, opacity" }} />
                 ))}
               </div>
             </div>
