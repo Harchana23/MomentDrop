@@ -30,16 +30,21 @@ const PHOTOS = [
 ].map((n) => `/marketing/${n}.jpg`);
 
 const SPOTS: [number, number][] = [
-  [-460, -240], [420, -200], [-520, 120], [500, 140], [-260, -360], [300, -360],
+  // wide outer ring (nearest planes — spread to fill the edges of the frame)
+  [-880, -360], [880, -340], [-920, 140], [900, 160], [-760, 440], [780, 460],
+  [-820, -120], [820, -100], [-560, -480], [560, -480], [-600, 340], [600, 360],
+  // mid ring
+  [-500, 60], [500, 40], [-320, -460], [340, -460], [-380, 460], [380, 440],
+  [-460, -240], [420, -200], [-520, 200], [500, 220], [-260, -360], [300, -360],
+  // inner cluster (deeper background tiles)
   [-360, 300], [360, 320], [-140, -140], [180, -120], [-200, 200], [220, 180],
-  [-60, -320], [80, 300], [-580, -40], [560, -60], [-420, -420], [440, 420],
-  [-40, 70], [60, -30], [-300, -60], [320, 40],
+  [-60, -320], [80, 300], [-40, 70], [60, -30],
 ];
 const PLANES = SPOTS.map((s, i) => {
-  const w = 150 + (i % 4) * 40;
-  const h = Math.round(w * (i % 2 ? 1.25 : 0.8));
+  const w = 200 + (i % 4) * 60; // bigger tiles fill more of the frame
+  const h = Math.round(w * (i % 2 ? 1.25 : 0.82));
   return {
-    z: -(300 + i * 220),
+    z: -(240 + i * 165),
     w, h,
     mx: s[0] - w / 2,
     my: s[1] - h / 2,
@@ -348,7 +353,7 @@ export default function ImmersiveHome() {
         </div>
 
         {/* HERO + DIVE */}
-        <section data-dive-wrap style={{ position: "relative", height: "340vh" }}>
+        <section data-dive-wrap style={{ position: "relative", height: "200vh" }}>
           <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden" }}>
             <div data-scene style={{ position: "absolute", inset: 0, perspective: "900px", perspectiveOrigin: "50% 50%", pointerEvents: "none" }}>
               <div data-tunnel style={{ position: "absolute", inset: 0, transformStyle: "preserve-3d" }}>
@@ -380,7 +385,7 @@ export default function ImmersiveHome() {
           </section>
 
           {/* PHONE FLOW */}
-          <section data-phone-wrap style={{ position: "relative", height: "520vh" }}>
+          <section data-phone-wrap style={{ position: "relative", height: "360vh" }}>
             <div style={{ position: "sticky", top: 0, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "90px 24px" }}>
               <div style={{ width: "100%", maxWidth: 1120, display: "grid", gridTemplateColumns: "1fr auto", gap: 60, alignItems: "center" }}>
                 {/* caption column */}
