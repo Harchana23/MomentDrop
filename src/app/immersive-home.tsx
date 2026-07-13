@@ -27,7 +27,9 @@ const PHOTOS = [
   // original curated set
   "hero", "event-wedding", "event-party", "event-festival", "event-corporate",
   "gallery-1", "gallery-2", "gallery-3", "gallery-4", "gallery-5", "gallery-6", "testimonial",
-].map((n) => `/marketing/${n}.jpg`);
+  // Small, pre-blurred copies (/marketing/hero/*) so the dive needs no runtime
+  // CSS blur filter — much lighter to composite while scrolling.
+].map((n) => `/marketing/hero/${n}.jpg`);
 
 const SPOTS: [number, number][] = [
   // wide outer ring (nearest planes — spread to fill the edges of the frame)
@@ -188,37 +190,55 @@ export default function ImmersiveHome() {
     const phoneWrap = q<HTMLElement>("[data-phone-wrap]");
     const tunnel = q<HTMLElement>("[data-tunnel]");
     const CAM = 3200;
+    // Cache per-element constants once (avoids parseFloat/dataset reads each frame).
+    const planeZ = planes.map((pl) => parseFloat(pl.dataset.z || "0"));
+    const parS = pars.map((p) => parseFloat(p.dataset.par || "0"));
 
-    const onScroll = () => {
+    // Cache layout metrics; recompute only on resize so scrolling never reflows.
+    let diveRange = 1, phoneTop = 0, phoneRange = 1;
+    const measure = () => {
+      const vh = window.innerHeight;
+      diveRange = diveWrap ? Math.max(1, diveWrap.offsetHeight - vh) : 1;
+      if (phoneWrap) { phoneTop = phoneWrap.offsetTop; phoneRange = Math.max(1, phoneWrap.offsetHeight - vh); }
+    };
+    measure();
+
+    const render = () => {
       const y = window.scrollY;
-      pars.forEach((p) => { const s = parseFloat(p.dataset.par || "0"); p.style.transform = `translateX(-50%) translateY(${y * s}px)`; });
-      const range = diveWrap ? diveWrap.offsetHeight - window.innerHeight : 1;
-      const prog = clamp(y / range, 0, 1);
+      for (let i = 0; i < pars.length; i++) pars[i].style.transform = `translateX(-50%) translateY(${y * parS[i]}px)`;
+      const prog = clamp(y / diveRange, 0, 1);
       const travel = prog * CAM;
-      planes.forEach((pl) => {
-        const z = parseFloat(pl.dataset.z || "0") + travel;
+      for (let i = 0; i < planes.length; i++) {
+        const z = planeZ[i] + travel;
+        const pl = planes[i];
         pl.style.transform = `translateZ(${z}px)`;
         let op = 1;
         if (z > 120) op = clamp(1 - (z - 120) / 220, 0, 1);
         else if (z < -2400) op = clamp(1 - (-z - 2400) / 600, 0, 1);
         pl.style.opacity = String(op);
-      });
+      }
       if (copy) { copy.style.transform = `scale(${1 + prog * 0.6})`; copy.style.opacity = String(clamp(1 - prog * 1.8, 0, 1)); }
       if (cue) cue.style.opacity = String(clamp(1 - prog * 4, 0, 1));
-      if (phoneWrap && screens.length) {
-        const top = phoneWrap.offsetTop;
-        const r2 = phoneWrap.offsetHeight - window.innerHeight;
-        const pp = clamp((window.scrollY - top) / r2, 0, 1);
+      if (screens.length) {
+        const pp = clamp((y - phoneTop) / phoneRange, 0, 1);
         setStep(clamp(Math.floor(pp * screens.length), 0, screens.length - 1));
       }
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
 
+    // rAF-coalesce: at most one update per frame, no matter how many events fire.
+    let scrollTick = false;
+    const onScroll = () => { if (!scrollTick) { scrollTick = true; requestAnimationFrame(() => { render(); scrollTick = false; }); } };
+    const onResize = () => { measure(); render(); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
+    render();
+
+    let mvx = 0, mvy = 0, moveTick = false;
+    const applyTilt = () => { if (tunnel) tunnel.style.transform = `rotateY(${mvx * 6}deg) rotateX(${-mvy * 6}deg)`; moveTick = false; };
     const onMove = (ev: MouseEvent) => {
-      const dx = (ev.clientX - window.innerWidth / 2) / window.innerWidth;
-      const dy = (ev.clientY - window.innerHeight / 2) / window.innerHeight;
-      if (tunnel) tunnel.style.transform = `rotateY(${dx * 6}deg) rotateX(${-dy * 6}deg)`;
+      mvx = (ev.clientX - window.innerWidth / 2) / window.innerWidth;
+      mvy = (ev.clientY - window.innerHeight / 2) / window.innerHeight;
+      if (!moveTick) { moveTick = true; requestAnimationFrame(applyTilt); }
     };
     window.addEventListener("mousemove", onMove, { passive: true });
 
@@ -226,6 +246,7 @@ export default function ImmersiveHome() {
       if (timers.pi) clearInterval(timers.pi); if (timers.pt) clearTimeout(timers.pt);
       document.removeEventListener("visibilitychange", onVis); window.removeEventListener("focus", onVis);
       window.removeEventListener("scroll", onScroll); window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("resize", onResize);
     };
   }, []);
 
@@ -358,7 +379,7 @@ export default function ImmersiveHome() {
             <div data-scene style={{ position: "absolute", inset: 0, perspective: "900px", perspectiveOrigin: "50% 50%", pointerEvents: "none" }}>
               <div data-tunnel style={{ position: "absolute", inset: 0, transformStyle: "preserve-3d" }}>
                 {PLANES.map((p, i) => (
-                  <div key={i} data-plane data-z={p.z} style={{ position: "absolute", left: "50%", top: "50%", width: p.w, height: p.h, marginLeft: p.mx, marginTop: p.my, borderRadius: 16, backgroundImage: `url(${p.img})`, backgroundSize: "cover", backgroundPosition: "center", boxShadow: "0 30px 70px -20px rgba(0,0,0,.8)", border: "1px solid rgba(255,255,255,.14)", filter: "blur(2px)", WebkitFilter: "blur(2px)", willChange: "transform, opacity" }} />
+                  <div key={i} data-plane data-z={p.z} style={{ position: "absolute", left: "50%", top: "50%", width: p.w, height: p.h, marginLeft: p.mx, marginTop: p.my, borderRadius: 16, backgroundImage: `url(${p.img})`, backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#E4D3BF", boxShadow: "0 30px 70px -20px rgba(0,0,0,.8)", border: "1px solid rgba(255,255,255,.14)", willChange: "transform, opacity" }} />
                 ))}
               </div>
             </div>
