@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Caveat, Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import { GlobalLoader, RouteProgress } from "@/components/global-loader";
+import { ChatWidget } from "@/components/chat-widget";
 import "./globals.css";
 
 const grotesk = Space_Grotesk({
@@ -51,6 +52,7 @@ export default function RootLayout({
         <RouteProgress />
         {children}
         <GlobalLoader />
+        <ChatWidget />
       </body>
     </html>
   );
