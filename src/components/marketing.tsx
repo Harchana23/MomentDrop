@@ -140,12 +140,17 @@ export function UseCaseLayout({
   subtitle,
   benefits,
   ctaLabel,
+  image,
+  galleryTitle = "Real moments guests capture",
 }: {
   eyebrow: string;
   title: string;
   subtitle: string;
   benefits: { t: string; d: string }[];
   ctaLabel: string;
+  /** Hero event photo from /public/marketing (e.g. "/marketing/event-wedding.jpg"). */
+  image: string;
+  galleryTitle?: string;
 }) {
   return (
     <div className="min-h-screen bg-[#F4ECE3] text-[#2A1B24]">
@@ -159,20 +164,35 @@ export function UseCaseLayout({
           <p className="mt-5 max-w-lg text-lg leading-8 text-[#7A6570]">{subtitle}</p>
           <Link
             href="/signup"
-            className="mt-8 inline-flex h-12 items-center justify-center bg-[#1f1b16] px-7 text-base font-semibold text-white hover:bg-[#3a3127]"
+            className="mt-8 inline-flex h-12 items-center justify-center rounded-full btn-grad px-7 text-base font-semibold text-white"
           >
             {ctaLabel}
           </Link>
         </div>
+        {/* Real event photo, with a floating QR card telling the "scan to share" story. */}
         <div className="flex justify-center">
-          <PhoneMock />
+          <div className="relative w-full max-w-[400px]">
+            <Photo
+              src={image}
+              alt={`${eyebrow} — guests sharing photos`}
+              className="aspect-[3/4] w-full rounded-3xl shadow-[0_40px_90px_-30px_rgba(90,50,40,0.55)]"
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 rounded-3xl"
+              style={{ background: "linear-gradient(to top, rgba(30,15,22,0.4), transparent 46%)" }}
+            />
+            <div className="absolute bottom-4 left-4 hidden origin-bottom-left scale-[0.72] sm:block">
+              <QrCardMock title="Scan to join" />
+            </div>
+          </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-5xl px-5 py-14">
         <div className="grid gap-4 sm:grid-cols-2">
           {benefits.map((b) => (
-            <div key={b.t} className="glass p-6">
+            <div key={b.t} className="glass rounded-2xl p-6">
               <h3 className="text-lg font-semibold">{b.t}</h3>
               <p className="mt-2 text-sm leading-6 text-[#7A6570]">{b.d}</p>
             </div>
@@ -180,12 +200,21 @@ export function UseCaseLayout({
         </div>
       </section>
 
+      {/* Real candid photos from /public/marketing/gallery-*.jpg */}
+      <section className="mx-auto max-w-5xl px-5 py-10">
+        <h2 className="text-center text-3xl font-semibold tracking-tight">{galleryTitle}</h2>
+        <p className="mx-auto mt-3 max-w-xl text-center text-[#7A6570]">
+          The toasts, the dance floor, the quiet in-betweens — every angle your photographer can&apos;t be.
+        </p>
+        <PhotoGrid count={6} className="mt-8 rounded-2xl" />
+      </section>
+
       <section className="mx-auto max-w-3xl px-5 py-10 text-center">
         <h2 className="text-3xl font-semibold tracking-tight">Ready in minutes</h2>
         <p className="mt-3 text-[#7A6570]">Create your event, share the QR, and collect every memory. Free to start.</p>
         <Link
           href="/signup"
-          className="mt-7 inline-flex h-12 items-center justify-center bg-[#1f1b16] px-7 text-base font-semibold text-white hover:bg-[#3a3127]"
+          className="mt-7 inline-flex h-12 items-center justify-center rounded-full btn-grad px-7 text-base font-semibold text-white"
         >
           {ctaLabel}
         </Link>

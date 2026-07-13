@@ -11,6 +11,7 @@ export default function BirthdayUseCasePage() {
   return (
     <UseCaseLayout
       eyebrow="For birthdays"
+      image="/marketing/event-party.jpg"
       title="Every candid from the party."
       subtitle="Set a QR by the cake. Friends and family upload their snaps and clips, and you get the whole celebration in one place."
       ctaLabel="Create your birthday event"

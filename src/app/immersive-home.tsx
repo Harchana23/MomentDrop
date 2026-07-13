@@ -449,7 +449,10 @@ export default function ImmersiveHome() {
             <div className="ih-rv" style={{ padding: "56px 48px", borderRadius: 28, textAlign: "center", ...glassLg }}>
               <div style={{ color: "#E8B85C", fontSize: 20, letterSpacing: 3, marginBottom: 22 }}>★★★★★</div>
               <p className="g" style={{ margin: 0, fontWeight: 500, fontSize: "clamp(23px,3.2vw,38px)", lineHeight: 1.3, letterSpacing: "-.01em" }}>&ldquo;We got hundreds of photos we&apos;d never have seen otherwise — the dance floor, the kids&apos; table, all of it. The QR on every table just worked.&rdquo;</p>
-              <div style={{ marginTop: 26, fontWeight: 700, color: "#B5654A" }}>Aisyah &amp; Daniel · KL wedding</div>
+              <div style={{ marginTop: 30, display: "flex", alignItems: "center", justifyContent: "center", gap: 14 }}>
+                <div role="img" aria-label="A happy MomentDrop couple" style={{ width: 56, height: 56, borderRadius: "50%", backgroundImage: "url(/marketing/testimonial.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#E4D3BF", border: "2px solid rgba(255,255,255,.85)", boxShadow: "0 10px 24px -10px rgba(90,50,40,.5)" }} />
+                <div style={{ fontWeight: 700, color: "#B5654A" }}>Aisyah &amp; Daniel · KL wedding</div>
+              </div>
             </div>
           </section>
 

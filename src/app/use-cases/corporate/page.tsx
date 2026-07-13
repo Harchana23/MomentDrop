@@ -11,6 +11,7 @@ export default function CorporateUseCasePage() {
   return (
     <UseCaseLayout
       eyebrow="For corporate events"
+      image="/marketing/event-corporate.jpg"
       title="Conferences, launches, off-sites — captured."
       subtitle="Display a QR on stage and on tables. Attendees contribute their photos and videos, and your team gets a ready-to-use library."
       ctaLabel="Create your event"

@@ -11,6 +11,7 @@ export default function WeddingUseCasePage() {
   return (
     <UseCaseLayout
       eyebrow="For weddings"
+      image="/marketing/event-wedding.jpg"
       title="Every guest's view of your wedding day."
       subtitle="Put a QR code on each table. Guests scan, upload their photos and videos, and you walk away with the whole day — from every angle."
       ctaLabel="Create your wedding event"
