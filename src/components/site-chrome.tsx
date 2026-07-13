@@ -1,5 +1,12 @@
 import Link from "next/link";
 
+export const OCCASIONS = [
+  { href: "/use-cases/wedding", label: "Weddings", icon: "💍", blurb: "Malay, Chinese, Indian, church" },
+  { href: "/use-cases/birthday", label: "Birthdays", icon: "🎂", blurb: "Every candid from the night" },
+  { href: "/use-cases/party", label: "Parties & festivals", icon: "🪔", blurb: "Raya, CNY, Deepavali, Christmas" },
+  { href: "/use-cases/corporate", label: "Corporate events", icon: "🏢", blurb: "Annual dinners, launches, off-sites" },
+] as const;
+
 export function SiteHeader() {
   return (
     <header className="px-4 pt-4">
@@ -13,9 +20,34 @@ export function SiteHeader() {
           <Link href="/how-it-works" className="hidden text-[#4A3540] hover:underline sm:inline">
             How it works
           </Link>
-          <Link href="/use-cases/wedding" className="hidden text-[#4A3540] hover:underline sm:inline">
-            Weddings
-          </Link>
+
+          {/* Occasions dropdown — reveals on hover and keyboard focus */}
+          <div className="group relative hidden sm:block">
+            <button
+              type="button"
+              aria-haspopup="true"
+              className="inline-flex items-center gap-1 text-[#4A3540] group-hover:text-[#2A1B24]"
+            >
+              Occasions
+              <span aria-hidden="true" className="text-[11px] transition-transform group-hover:rotate-180 group-focus-within:rotate-180">▾</span>
+            </button>
+            <div className="invisible absolute left-1/2 top-full z-50 mt-3 w-72 -translate-x-1/2 translate-y-1 rounded-2xl glass p-2 opacity-0 shadow-[0_20px_50px_-20px_rgba(90,50,40,0.4)] transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+              {OCCASIONS.map((o) => (
+                <Link
+                  key={o.href}
+                  href={o.href}
+                  className="flex items-start gap-3 rounded-xl px-3 py-2.5 hover:bg-white/60"
+                >
+                  <span aria-hidden="true" className="text-lg leading-none">{o.icon}</span>
+                  <span>
+                    <span className="block font-semibold text-[#2A1B24]">{o.label}</span>
+                    <span className="block text-xs text-[#7A6570]">{o.blurb}</span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
           <Link href="/pricing" className="text-[#4A3540] hover:underline">
             Pricing
           </Link>

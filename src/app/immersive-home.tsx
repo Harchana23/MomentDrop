@@ -1,7 +1,8 @@
 "use client";
 /* eslint-disable @next/next/no-html-link-for-pages -- ported marketing page; CTAs full-nav to app routes is fine */
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { OCCASIONS } from "@/components/site-chrome";
 
 /* ─────────── data ─────────── */
 
@@ -85,9 +86,13 @@ const glassSm = { background: "rgba(255,251,246,.55)", border: "1px solid rgba(2
 const gradText = { background: "linear-gradient(135deg,#C97F52,#E8B85C)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" } as const;
 const eyebrow = { fontWeight: 700, fontSize: 13, letterSpacing: ".18em", textTransform: "uppercase", color: "#B5654A" } as const;
 const h2Style = { margin: 0, fontWeight: 700, fontSize: "clamp(34px,5vw,66px)", lineHeight: 1, letterSpacing: "-.02em" } as const;
+const navLink = { padding: "9px 14px", borderRadius: 100, fontWeight: 600, fontSize: 14.5, color: "#4A3540" } as const;
+const panelLink = { display: "block", padding: "11px 12px", borderRadius: 12, fontWeight: 600, fontSize: 15.5, color: "#2A1B24" } as const;
 
 export default function ImmersiveHome() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -99,14 +104,13 @@ export default function ImmersiveHome() {
     const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 
     /* preloader */
-    const pre = q<HTMLElement>("[data-preloader]");
     const bar = q<HTMLElement>("[data-loadbar]");
     const txt = q<HTMLElement>("[data-loadtext]");
     const msgs = ["Gathering moments…", "Adding sparkle…", "Arranging photos…", "Almost there…"];
     const DUR = 2200; const start = Date.now(); let mi = -1, done = false;
     const ease = (t: number) => 1 - Math.pow(1 - t, 2);
     const timers: { pi?: ReturnType<typeof setInterval>; pt?: ReturnType<typeof setTimeout> } = {};
-    const hide = () => { if (done) return; done = true; if (timers.pi) clearInterval(timers.pi); if (pre) { pre.style.opacity = "0"; pre.style.visibility = "hidden"; } };
+    const hide = () => { if (done) return; done = true; if (timers.pi) clearInterval(timers.pi); setLoaded(true); };
     const stepPre = () => {
       const t = Math.min(1, (Date.now() - start) / DUR);
       if (bar) bar.style.width = Math.round(ease(t) * 100) + "%";
@@ -220,13 +224,28 @@ export default function ImmersiveHome() {
         .ih [data-screen], .ih [data-cap] { transition: opacity .55s ease, transform .55s ease; }
         .ih details summary::-webkit-details-marker { display: none; }
         .ih details[open] summary span.ih-plus { transform: rotate(45deg); }
-        @media (max-width: 860px) { .ih .navlinks a:not(.navcta) { display: none; } }
         @media (max-width: 820px) { .ih .phone-copy { display: none; } }
         @media (prefers-reduced-motion: reduce) { .ih .ih-rv { opacity: 1; transform: none; transition: none; } }
+
+        /* nav: inline links (desktop) vs hamburger (mobile) */
+        .ih .navburger { display: none; }
+        @media (max-width: 1000px) {
+          .ih .navlinks-inline { display: none !important; }
+          .ih .navburger { display: inline-flex !important; }
+        }
+        /* Occasions dropdown — reveal on hover / keyboard focus */
+        .ih .occ-menu { opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(8px); transition: opacity .18s ease, transform .18s ease, visibility .18s; }
+        .ih .occ:hover .occ-menu, .ih .occ:focus-within .occ-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .ih .occ:hover .occ-caret, .ih .occ:focus-within .occ-caret { transform: rotate(180deg); }
+        .ih .occ-item:hover { background: rgba(255,255,255,.6); }
+        /* mobile dropdown panel */
+        .ih .navpanel { display: none; }
+        .ih .navpanel[data-open="true"] { display: block; }
+        @media (min-width: 1001px) { .ih .navpanel { display: none !important; } }
       `}</style>
 
       {/* PRELOADER */}
-      <div data-preloader style={{ position: "fixed", inset: 0, zIndex: 200, background: "#F4ECE3", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 26, transition: "opacity .8s ease, visibility .8s" }}>
+      <div data-preloader style={{ position: "fixed", inset: 0, zIndex: 200, background: "#F4ECE3", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 26, opacity: loaded ? 0 : 1, visibility: loaded ? "hidden" : "visible", pointerEvents: loaded ? "none" : "auto", transition: "opacity .8s ease, visibility .8s" }}>
         <div style={{ position: "absolute", width: "50vw", height: "50vw", borderRadius: "50%", background: "radial-gradient(circle, rgba(243,183,160,.75), transparent 65%)", filter: "blur(60px)", animation: "ih-glow 2.4s ease-in-out infinite" }} />
         <div className="g" style={{ position: "relative", display: "flex", alignItems: "center", gap: 14, fontWeight: 700, fontSize: 26, letterSpacing: "-.02em" }}>
           <div className="md-cam" style={{ width: 52, height: 52 }}>
@@ -257,13 +276,57 @@ export default function ImmersiveHome() {
             <img src="/logo.png" alt="" aria-hidden="true" style={{ width: 32, height: 32, objectFit: "contain" }} />
             MomentDrop
           </a>
-          <div className="navlinks" style={{ display: "flex", alignItems: "center", gap: 4 }}>
-            <a href="#how" style={{ padding: "9px 15px", borderRadius: 100, fontWeight: 600, fontSize: 14.5, color: "#4A3540" }}>How it works</a>
-            <a href="#uses" style={{ padding: "9px 15px", borderRadius: 100, fontWeight: 600, fontSize: 14.5, color: "#4A3540" }}>Occasions</a>
-            <a href="#faq" style={{ padding: "9px 15px", borderRadius: 100, fontWeight: 600, fontSize: 14.5, color: "#4A3540" }}>FAQ</a>
+          {/* desktop inline links */}
+          <div className="navlinks-inline" style={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <a href="#how" style={navLink}>How it works</a>
+
+            {/* Occasions dropdown */}
+            <div className="occ" style={{ position: "relative" }}>
+              <a href="#uses" style={{ ...navLink, display: "inline-flex", alignItems: "center", gap: 5 }}>
+                Occasions
+                <span className="occ-caret" aria-hidden="true" style={{ fontSize: 11, transition: "transform .18s ease" }}>▾</span>
+              </a>
+              <div className="occ-menu" role="menu" style={{ position: "absolute", top: "100%", left: "50%", marginTop: 12, width: 292, padding: 8, borderRadius: 18, background: "rgba(255,251,246,.85)", backdropFilter: "blur(20px) saturate(140%)", WebkitBackdropFilter: "blur(20px) saturate(140%)", border: "1px solid rgba(255,255,255,.7)", boxShadow: "0 24px 60px -20px rgba(90,50,40,.45)" }}>
+                {OCCASIONS.map((o) => (
+                  <a key={o.href} href={o.href} className="occ-item" role="menuitem" style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "10px 12px", borderRadius: 12, color: "#2A1B24" }}>
+                    <span aria-hidden="true" style={{ fontSize: 18, lineHeight: 1 }}>{o.icon}</span>
+                    <span>
+                      <span style={{ display: "block", fontWeight: 700, fontSize: 14.5 }}>{o.label}</span>
+                      <span style={{ display: "block", fontSize: 12.5, color: "rgba(90,69,80,.8)" }}>{o.blurb}</span>
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <a href="/pricing" style={navLink}>Pricing</a>
+            <a href="/contact" style={navLink}>Contact</a>
+            <a href="#faq" style={navLink}>FAQ</a>
+            <a href="/login" style={navLink}>Log in</a>
             <a className="navcta" href="/signup" style={{ marginLeft: 6, padding: "11px 22px", borderRadius: 100, fontWeight: 700, fontSize: 14.5, color: "#fff", background: "linear-gradient(135deg,#C97F52,#B5654A)" }}>Create event</a>
           </div>
+
+          {/* mobile hamburger */}
+          <button className="navburger" type="button" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen((v) => !v)} style={{ display: "none", alignItems: "center", justifyContent: "center", width: 42, height: 42, borderRadius: 100, border: "1px solid rgba(255,255,255,.7)", background: "rgba(255,251,246,.55)", color: "#2A1B24", cursor: "pointer", fontSize: 17 }}>
+            <span aria-hidden="true">{menuOpen ? "✕" : "☰"}</span>
+          </button>
         </nav>
+
+        {/* mobile dropdown panel */}
+        <div className="navpanel" data-open={menuOpen ? "true" : "false"} style={{ position: "fixed", top: 76, left: "50%", transform: "translateX(-50%)", zIndex: 59, width: "min(1200px, calc(100% - 36px))", padding: 12, borderRadius: 22, background: "rgba(255,251,246,.92)", backdropFilter: "blur(20px) saturate(140%)", WebkitBackdropFilter: "blur(20px) saturate(140%)", border: "1px solid rgba(255,255,255,.7)", boxShadow: "0 24px 60px -18px rgba(90,50,40,.4)" }}>
+          <a href="#how" onClick={() => setMenuOpen(false)} style={panelLink}>How it works</a>
+          <div style={{ padding: "10px 12px 4px", fontSize: 12, fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "#B5654A" }}>Occasions</div>
+          {OCCASIONS.map((o) => (
+            <a key={o.href} href={o.href} onClick={() => setMenuOpen(false)} style={{ ...panelLink, paddingLeft: 22 }}>
+              <span aria-hidden="true" style={{ marginRight: 8 }}>{o.icon}</span>{o.label}
+            </a>
+          ))}
+          <a href="/pricing" onClick={() => setMenuOpen(false)} style={panelLink}>Pricing</a>
+          <a href="/contact" onClick={() => setMenuOpen(false)} style={panelLink}>Contact</a>
+          <a href="#faq" onClick={() => setMenuOpen(false)} style={panelLink}>FAQ</a>
+          <a href="/login" onClick={() => setMenuOpen(false)} style={panelLink}>Log in</a>
+          <a href="/signup" onClick={() => setMenuOpen(false)} style={{ display: "block", textAlign: "center", marginTop: 8, padding: "13px", borderRadius: 100, fontWeight: 700, color: "#fff", background: "linear-gradient(135deg,#C97F52,#B5654A)" }}>Create event</a>
+        </div>
 
         {/* HERO + DIVE */}
         <section data-dive-wrap style={{ position: "relative", height: "340vh" }}>
