@@ -11,6 +11,7 @@ export default function PartyUseCasePage() {
   return (
     <UseCaseLayout
       eyebrow="For parties"
+      image="/marketing/event-festival.jpg"
       title="The whole night, from everyone."
       subtitle="Drop a QR at the bar and on the tables. Everyone's photos and clips land in one shared album you actually keep."
       ctaLabel="Create your party event"
