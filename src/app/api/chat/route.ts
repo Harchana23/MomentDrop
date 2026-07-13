@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenAI, type Content } from "@google/genai";
 import { buildSystemPrompt } from "@/lib/chat/knowledge";
 import { supabaseServer } from "@/lib/supabase/server";
 
@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 type Role = "user" | "assistant";
 type ClientMessage = { role: Role; content: string };
 
-const MODEL = "claude-opus-4-8";
+const MODEL = "gemini-2.5-flash";
 const MAX_TOKENS = 800;
 const MAX_HISTORY = 12; // keep the last few turns; the widget also caps this
 
@@ -23,15 +23,24 @@ function sanitize(messages: unknown): ClientMessage[] {
       if (trimmed) out.push({ role, content: trimmed });
     }
   }
-  // Conversation must start with a user turn.
+  // Conversation must start with a user turn (Gemini requires role[0] === "user").
   while (out.length && out[0].role !== "user") out.shift();
   return out.slice(-MAX_HISTORY);
 }
 
+/** Map the widget's messages to Gemini's content format (assistant → "model"). */
+function toContents(messages: ClientMessage[]): Content[] {
+  return messages.map((m) => ({
+    role: m.role === "assistant" ? "model" : "user",
+    parts: [{ text: m.content }],
+  }));
+}
+
 export async function POST(req: Request) {
-  if (!process.env.ANTHROPIC_API_KEY) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
     return Response.json(
-      { error: "The assistant isn't configured yet. Please set ANTHROPIC_API_KEY." },
+      { error: "The assistant isn't configured yet. Please set GEMINI_API_KEY." },
       { status: 503 },
     );
   }
@@ -58,33 +67,29 @@ export async function POST(req: Request) {
     // Auth is best-effort; default to visitor framing.
   }
 
-  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  const ai = new GoogleGenAI({ apiKey });
 
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
       const encoder = new TextEncoder();
       try {
-        const anthropicStream = client.messages.stream({
+        const result = await ai.models.generateContentStream({
           model: MODEL,
-          max_tokens: MAX_TOKENS,
-          system: [
-            {
-              type: "text",
-              text: buildSystemPrompt(audience),
-              cache_control: { type: "ephemeral" },
-            },
-          ],
-          messages,
+          contents: toContents(messages),
+          config: {
+            systemInstruction: buildSystemPrompt(audience),
+            maxOutputTokens: MAX_TOKENS,
+            // Direct FAQ-style answers — no visible "thinking" latency/cost.
+            thinkingConfig: { thinkingBudget: 0 },
+          },
         });
 
-        anthropicStream.on("text", (delta) => {
-          controller.enqueue(encoder.encode(delta));
-        });
-
-        await anthropicStream.finalMessage();
+        for await (const chunk of result) {
+          const text = chunk.text;
+          if (text) controller.enqueue(encoder.encode(text));
+        }
         controller.close();
       } catch (err) {
-        // If nothing has streamed yet, surface a friendly fallback line.
         console.error("chat route error", err);
         controller.enqueue(
           encoder.encode(
