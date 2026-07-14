@@ -2,7 +2,7 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- marketing page; CTAs full-nav to app routes is fine */
 
 import { useEffect, useRef, useState } from "react";
-import { OCCASIONS } from "@/components/site-chrome";
+import { OCCASIONS, SiteFooter } from "@/components/site-chrome";
 
 /* ─────────── data ─────────── */
 
@@ -125,6 +125,7 @@ export default function ImmersiveHome() {
   }, []);
 
   return (
+    <>
     <div
       ref={rootRef}
       className="ih"
@@ -393,32 +394,10 @@ export default function ImmersiveHome() {
             </div>
           </section>
 
-          {/* FOOTER */}
-          <footer style={{ maxWidth: 1200, margin: "0 auto", padding: "20px 24px 70px", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 30, borderTop: "1px solid rgba(90,50,40,.14)" }}>
-            <div style={{ maxWidth: 300, paddingTop: 30 }}>
-              <div className="g" style={{ display: "flex", alignItems: "center", gap: 10, fontWeight: 700, fontSize: 18, marginBottom: 12 }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/logo.png" alt="" aria-hidden="true" style={{ width: 30, height: 30, objectFit: "contain" }} />MomentDrop
-              </div>
-              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: "rgba(90,69,80,.7)" }}>Collect every guest&apos;s photos and videos with one QR scan. Scan. Drop. Remember.</p>
-            </div>
-            <div style={{ display: "flex", gap: 56, paddingTop: 30, flexWrap: "wrap" }}>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: ".1em", color: "#B5654A", marginBottom: 14 }}>Occasions</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 9, fontSize: 14.5 }}>
-                  <a href="/use-cases/wedding">Weddings</a><a href="/use-cases/birthday">Birthdays</a><a href="/use-cases/party">Parties</a><a href="/use-cases/corporate">Corporate</a>
-                </div>
-              </div>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: ".1em", color: "#B5654A", marginBottom: 14 }}>Product</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 9, fontSize: 14.5 }}>
-                  <a href="#how">How it works</a><a href="/pricing">Pricing</a><a href="#faq">FAQ</a><a href="/contact">Contact</a>
-                </div>
-              </div>
-            </div>
-          </footer>
         </div>
       </div>
     </div>
+    <SiteFooter />
+    </>
   );
 }
