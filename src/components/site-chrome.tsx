@@ -208,8 +208,13 @@ export function SiteFooter() {
         />
         {/* copyright bar sits over the light top of the photo */}
         <div className="absolute inset-x-0 top-0">
-          <div className="mx-auto flex max-w-6xl flex-col gap-1 px-6 py-5 text-xs text-[#6B5B54] sm:flex-row sm:items-center sm:justify-between">
-            <span>© {year} MomentDrop. Made for Malaysian celebrations.</span>
+          <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-5 text-xs text-[#6B5B54] sm:flex-row sm:items-center sm:justify-between">
+            <span>© {year} MomentDrop</span>
+            <span className="flex items-center gap-4">
+              <Link href="/privacy" className="transition hover:text-[#B5654A]">Privacy</Link>
+              <Link href="/terms" className="transition hover:text-[#B5654A]">Terms</Link>
+              <Link href="/security" className="transition hover:text-[#B5654A]">Security</Link>
+            </span>
             <span className="font-semibold tracking-wide">Scan. Drop. Remember.</span>
           </div>
         </div>
