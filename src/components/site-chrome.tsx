@@ -77,7 +77,6 @@ const FOOTER_COLS: { title: string; links: [string, string][] }[] = [
       ["How it works", "/how-it-works"],
       ["Pricing", "/pricing"],
       ["FAQ", "/faq"],
-      ["Live demo", "/demo"],
     ],
   },
   {
@@ -95,6 +94,14 @@ const FOOTER_COLS: { title: string; links: [string, string][] }[] = [
       ["Contact", "/contact"],
       ["Log in", "/login"],
       ["Create event", "/signup"],
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      ["Terms", "/terms"],
+      ["Privacy", "/privacy"],
+      ["Security", "/security"],
     ],
   },
 ];
@@ -141,7 +148,7 @@ export function SiteFooter() {
   return (
     <footer className="relative mt-24 overflow-hidden rounded-t-[32px] bg-[#EDE4D8] text-[#2A1B24]">
       {/* content panel */}
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 pb-16 pt-16 md:grid-cols-[1.6fr_1fr_1fr_1fr]">
+      <div className="mx-auto grid max-w-6xl gap-x-8 gap-y-10 px-6 pb-16 pt-16 md:grid-cols-[1.5fr_1fr_1fr_1fr_1fr]">
         {/* brand + statement */}
         <div>
           <Link href="/" className="inline-flex items-center gap-2 text-xl font-bold tracking-tight text-[#2A1B24]">
@@ -208,13 +215,8 @@ export function SiteFooter() {
         />
         {/* copyright bar sits over the light top of the photo */}
         <div className="absolute inset-x-0 top-0">
-          <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-5 text-xs text-[#6B5B54] sm:flex-row sm:items-center sm:justify-between">
-            <span>© {year} MomentDrop</span>
-            <span className="flex items-center gap-4">
-              <Link href="/privacy" className="transition hover:text-[#B5654A]">Privacy</Link>
-              <Link href="/terms" className="transition hover:text-[#B5654A]">Terms</Link>
-              <Link href="/security" className="transition hover:text-[#B5654A]">Security</Link>
-            </span>
+          <div className="mx-auto flex max-w-6xl flex-col gap-1 px-6 py-5 text-xs text-[#6B5B54] sm:flex-row sm:items-center sm:justify-between">
+            <span>© {year} MomentDrop. Made for Malaysian celebrations.</span>
             <span className="font-semibold tracking-wide">Scan. Drop. Remember.</span>
           </div>
         </div>
