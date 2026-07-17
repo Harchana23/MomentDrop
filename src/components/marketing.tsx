@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
+import { JsonLd, graph, breadcrumbSchema } from "@/lib/seo";
+import type { FaqItem } from "@/lib/faqs";
 
 const PHOTO_FILLS = [
   "#d8c3a3", "#c9a98a", "#E4D3BF", "#b98e6e", "#cdb39a",
@@ -141,6 +143,8 @@ export function UseCaseLayout({
   benefits,
   ctaLabel,
   image,
+  faqs,
+  crumb,
   galleryTitle = "Real moments guests capture",
 }: {
   eyebrow: string;
@@ -150,10 +154,17 @@ export function UseCaseLayout({
   ctaLabel: string;
   /** Hero event photo from /public/marketing (e.g. "/marketing/event-wedding.jpg"). */
   image: string;
+  /** Questions specific to this occasion — see src/lib/faqs.ts. */
+  faqs: FaqItem[];
+  /** This page's breadcrumb trail below Home, e.g. { name: "Weddings", path: "/use-cases/wedding" }. */
+  crumb: { name: string; path: string };
   galleryTitle?: string;
 }) {
   return (
     <div className="min-h-screen bg-[#F4ECE3] text-[#2A1B24]">
+      {/* Home > this occasion. No intermediate "Occasions" crumb: /use-cases has
+          no index page, and a breadcrumb must point at pages that exist. */}
+      <JsonLd schema={graph(breadcrumbSchema([crumb]))} />
       <SiteHeader />
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 pt-16 md:grid-cols-[1.1fr_0.9fr] md:pt-24">
         <div>
@@ -207,6 +218,11 @@ export function UseCaseLayout({
           The toasts, the dance floor, the quiet in-betweens — every angle your photographer can&apos;t be.
         </p>
         <PhotoGrid count={6} className="mt-8 rounded-2xl" />
+      </section>
+
+      <section className="mx-auto max-w-3xl px-5 py-12">
+        <h2 className="mb-8 text-center text-3xl font-semibold tracking-tight">Questions hosts ask</h2>
+        <Faq items={faqs} />
       </section>
 
       <section className="mx-auto max-w-3xl px-5 py-10 text-center">

@@ -1,11 +1,15 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
+import { Faq } from "@/components/marketing";
+import { PRICING_FAQS } from "@/lib/faqs";
+import { JsonLd, graph, breadcrumbSchema, softwareApplicationSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Pricing — MomentDrop",
+  title: "Pricing",
   description:
     "Simple per-event pricing, no subscription. Start free, then upgrade only the events that need more uploads, more guests, and longer storage.",
+  alternates: { canonical: "/pricing" },
 };
 
 type Plan = {
@@ -97,6 +101,14 @@ function FeatureText({ text }: { text: string }) {
 export default function PricingPage() {
   return (
     <div className="min-h-screen bg-[#F4ECE3] text-[#2A1B24]">
+      {/* Offers mirror the PLANS cards below. Change both together — marking up
+          a price the visitor can't see on the page is a policy violation. */}
+      <JsonLd
+        schema={graph(
+          softwareApplicationSchema,
+          breadcrumbSchema([{ name: "Pricing", path: "/pricing" }]),
+        )}
+      />
       <SiteHeader />
 
       <section className="mx-auto max-w-5xl px-5 pt-16 pb-4 text-center md:pt-24">
@@ -182,6 +194,13 @@ export default function PricingPage() {
           Every event starts free — upgrade from your dashboard whenever you&apos;re ready. Prices in
           Malaysian Ringgit (MYR), one-time per event.
         </p>
+      </section>
+
+      <section className="mx-auto max-w-3xl px-5 pb-16">
+        <h2 className="font-serif mb-8 text-center text-3xl font-bold tracking-tight">
+          Pricing questions
+        </h2>
+        <Faq items={PRICING_FAQS} />
       </section>
 
       <SiteFooter />

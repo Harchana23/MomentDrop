@@ -3,9 +3,10 @@ import Link from "next/link";
 import { LegalPage } from "@/components/legal";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — MomentDrop",
+  title: "Privacy Policy",
   description:
     "How MomentDrop collects, uses, stores, and protects personal data, and your rights under Malaysia's PDPA 2010.",
+  alternates: { canonical: "/privacy" },
 };
 
 const EMAIL = "momentdropsharing@gmail.com";

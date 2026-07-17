@@ -3,9 +3,10 @@ import Link from "next/link";
 import { LegalPage } from "@/components/legal";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions — MomentDrop",
+  title: "Terms & Conditions",
   description:
     "The terms that govern your use of MomentDrop — accounts, content, acceptable use, payments, and liability.",
+  alternates: { canonical: "/terms" },
 };
 
 const EMAIL = "momentdropsharing@gmail.com";

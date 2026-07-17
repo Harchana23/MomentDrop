@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "See MomentDrop in action — live event album",
+  title: { absolute: "See MomentDrop in action — live event album" },
   description:
     "A live look at the MomentDrop guest experience: scan, add your photos and videos, and watch the shared album fill up in real time.",
 };
