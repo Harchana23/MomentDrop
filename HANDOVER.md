@@ -111,7 +111,6 @@ Get each value from the matching service console (Section 5).
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon (browser-safe) key |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase service-role key (**server-only secret**) |
-| `NEXT_PUBLIC_EVENT_SLUG` | Default/demo event slug |
 | `STRIPE_SECRET_KEY` | Stripe secret key (`sk_test_…` now) |
 | `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret (`whsec_…`) |
 | `GDRIVE_CLIENT_ID` / `GDRIVE_CLIENT_SECRET` | Google OAuth app for Drive |
