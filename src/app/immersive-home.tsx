@@ -172,7 +172,25 @@ export default function ImmersiveHome() {
         .ih details summary::-webkit-details-marker { display: none; }
         .ih details[open] summary span.ih-plus { transform: rotate(45deg); }
         @media (max-width: 860px) { .ih .how-grid { grid-template-columns: 1fr !important; justify-items: center; } }
-        @media (prefers-reduced-motion: reduce) { .ih .ih-rv { opacity: 1; transform: none; transition: none; } }
+
+        /* Testimonials marquee — loops seamlessly, pauses on hover/focus.
+           Cards carry their own right margin (not a flex gap) so one full set
+           is exactly 50% of the track and translateX(-50%) lands seamlessly. */
+        .ih .tmarquee {
+          overflow: hidden;
+          -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+        }
+        .ih .tmarquee-track { display: flex; width: max-content; animation: t-scroll 48s linear infinite; }
+        .ih .tmarquee:hover .tmarquee-track,
+        .ih .tmarquee:focus-within .tmarquee-track { animation-play-state: paused; }
+        @keyframes t-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        @media (prefers-reduced-motion: reduce) {
+          .ih .ih-rv { opacity: 1; transform: none; transition: none; }
+          .ih .tmarquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+          .ih .tmarquee-track { animation: none; }
+        }
 
         /* nav: inline links (desktop) vs hamburger (mobile) */
         .ih .navburger { display: none; }
@@ -386,18 +404,25 @@ export default function ImmersiveHome() {
               </div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 16, marginTop: 16 }}>
-              {TESTIMONIALS.map((t) => (
-                <figure key={t.name} className="ih-rv" style={{ display: "flex", flexDirection: "column", margin: 0, padding: 24, borderRadius: 18, ...glassSm }}>
-                  <blockquote style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: "rgba(90,69,80,.9)" }}>
-                    “{t.quote}”
-                  </blockquote>
-                  <figcaption style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid rgba(90,50,40,.1)" }}>
-                    <div style={{ fontWeight: 700, fontSize: 14, color: "#2A1B24" }}>{t.name}</div>
-                    <div style={{ fontSize: 12.5, color: "#B5654A" }}>{t.event}</div>
-                  </figcaption>
-                </figure>
-              ))}
+            <div className="tmarquee ih-rv" style={{ marginTop: 16 }}>
+              <div className="tmarquee-track">
+                {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
+                  <figure
+                    key={i}
+                    /* the duplicate set is decorative — don't read it twice */
+                    aria-hidden={i >= TESTIMONIALS.length}
+                    style={{ flex: "0 0 320px", display: "flex", flexDirection: "column", margin: "0 16px 0 0", padding: 24, borderRadius: 18, ...glassSm }}
+                  >
+                    <blockquote style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: "rgba(90,69,80,.9)" }}>
+                      “{t.quote}”
+                    </blockquote>
+                    <figcaption style={{ marginTop: "auto", paddingTop: 14, borderTop: "1px solid rgba(90,50,40,.1)" }}>
+                      <div style={{ fontWeight: 700, fontSize: 14, color: "#2A1B24" }}>{t.name}</div>
+                      <div style={{ fontSize: 12.5, color: "#B5654A" }}>{t.event}</div>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
             </div>
           </section>
 
