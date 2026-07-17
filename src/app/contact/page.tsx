@@ -5,9 +5,10 @@ import { submitContact } from "@/lib/contact-actions";
 import { SUPPORT_EMAIL } from "@/lib/support";
 
 export const metadata: Metadata = {
-  title: "Contact us — MomentDrop",
+  title: "Contact us",
   description:
     "Questions about collecting your event photos with MomentDrop? Reach our team — we're happy to help.",
+  alternates: { canonical: "/contact" },
 };
 
 export default async function ContactPage({

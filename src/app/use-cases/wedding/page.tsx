@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
 import { UseCaseLayout } from "@/components/marketing";
+import { WEDDING_FAQS } from "@/lib/faqs";
 
 export const metadata: Metadata = {
-  title: "Wedding photo sharing — MomentDrop",
+  title: "Wedding photo sharing",
   description:
     "Collect every wedding photo and video from your guests with one QR code. No app, no account. Download everything as one album.",
+  alternates: { canonical: "/use-cases/wedding" },
 };
 
 export default function WeddingUseCasePage() {
   return (
     <UseCaseLayout
+      faqs={WEDDING_FAQS}
+      crumb={{ name: "Weddings", path: "/use-cases/wedding" }}
       eyebrow="For weddings"
       image="/marketing/event-wedding.jpg"
       title="Every guest's view of your wedding day."

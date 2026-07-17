@@ -3,9 +3,10 @@ import Link from "next/link";
 import { LegalPage } from "@/components/legal";
 
 export const metadata: Metadata = {
-  title: "Security — MomentDrop",
+  title: "Security",
   description:
     "How MomentDrop keeps your events, photos, and account safe — encryption, private storage, access controls, and payment security.",
+  alternates: { canonical: "/security" },
 };
 
 const EMAIL = "momentdropsharing@gmail.com";

@@ -119,9 +119,14 @@ Get each value from the matching service console (Section 5).
 | `GDRIVE_ROOT_FOLDER_ID` | Drive folder that holds all event uploads |
 | `MAKE_CONTACT_WEBHOOK_URL` | Make.com contact webhook |
 | `GEMINI_API_KEY` | Gemini key powering the chatbot |
+| `NEXT_PUBLIC_SITE_URL` | Public origin (e.g. `https://momentdrop.com`). Feeds canonical URLs, `sitemap.xml`, `robots.txt`, OG images, and JSON-LD `@id`s |
 
 > **Production reminder:** the deployed site needs every one of these set in **Vercel**.
 > `.env.local` only affects your local machine.
+>
+> `NEXT_PUBLIC_SITE_URL` is special: `NEXT_PUBLIC_*` values are **inlined at build
+> time**, not read at runtime. It must be set in Vercel *before* the build, or the
+> sitemap and canonical tags ship pointing at `localhost:3000`.
 
 ---
 

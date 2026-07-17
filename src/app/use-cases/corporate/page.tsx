@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
 import { UseCaseLayout } from "@/components/marketing";
+import { CORPORATE_FAQS } from "@/lib/faqs";
 
 export const metadata: Metadata = {
-  title: "Corporate event photo sharing — MomentDrop",
+  title: "Corporate event photo sharing",
   description:
     "Collect attendee photos from conferences, launches, and off-sites with one QR code — no app, no account.",
+  alternates: { canonical: "/use-cases/corporate" },
 };
 
 export default function CorporateUseCasePage() {
   return (
     <UseCaseLayout
+      faqs={CORPORATE_FAQS}
+      crumb={{ name: "Corporate events", path: "/use-cases/corporate" }}
       eyebrow="For corporate events"
       image="/marketing/event-corporate.jpg"
       title="Conferences, launches, off-sites — captured."

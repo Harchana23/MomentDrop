@@ -1,17 +1,21 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
-import { PhoneMock, QrCardMock, PhotoWallMock } from "@/components/marketing";
+import { PhoneMock, QrCardMock, PhotoWallMock, Faq } from "@/components/marketing";
+import { HOW_IT_WORKS_FAQS } from "@/lib/faqs";
+import { JsonLd, graph, breadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "How MomentDrop works",
+  title: "How it works",
   description:
     "Create an event, share a QR, guests upload from their phones, and you download everything. Here's the whole flow.",
+  alternates: { canonical: "/how-it-works" },
 };
 
 export default function HowItWorksPage() {
   return (
     <div className="min-h-screen bg-[#F4ECE3] text-[#2A1B24]">
+      <JsonLd schema={graph(breadcrumbSchema([{ name: "How it works", path: "/how-it-works" }]))} />
       <SiteHeader />
 
       <section className="mx-auto max-w-3xl px-5 pt-16 text-center md:pt-24">
@@ -69,6 +73,11 @@ export default function HowItWorksPage() {
           </div>
         </section>
       </div>
+
+      <section className="mx-auto max-w-3xl px-5 pb-12">
+        <h2 className="mb-8 text-center text-3xl font-semibold tracking-tight">The practical bits</h2>
+        <Faq items={HOW_IT_WORKS_FAQS} />
+      </section>
 
       <section className="mx-auto max-w-3xl px-5 pb-6 text-center">
         <h2 className="text-3xl font-semibold tracking-tight">That&apos;s the whole thing</h2>

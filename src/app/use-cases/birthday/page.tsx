@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
 import { UseCaseLayout } from "@/components/marketing";
+import { BIRTHDAY_FAQS } from "@/lib/faqs";
 
 export const metadata: Metadata = {
-  title: "Birthday photo sharing — MomentDrop",
+  title: "Birthday photo sharing",
   description:
     "Collect every candid from the party with one QR code. Guests upload from their phones — no app, no account.",
+  alternates: { canonical: "/use-cases/birthday" },
 };
 
 export default function BirthdayUseCasePage() {
   return (
     <UseCaseLayout
+      faqs={BIRTHDAY_FAQS}
+      crumb={{ name: "Birthdays", path: "/use-cases/birthday" }}
       eyebrow="For birthdays"
       image="/marketing/event-party.jpg"
       title="Every candid from the party."
