@@ -29,6 +29,20 @@ export const SITE_URL = (
 /** Absolute URL for a site-relative path. */
 export const abs = (path: string) => new URL(path, SITE_URL).toString();
 
+/**
+ * Whether this deployment should be indexed by search engines.
+ *
+ * Only the real domain is. A vercel.app URL is a staging address we don't own —
+ * letting Google index it would make it the canonical MomentDrop, and moving to
+ * the real domain later would then mean redirects and re-earning authority.
+ *
+ * Deliberately derived from SITE_URL rather than a manual flag: indexing switches
+ * itself on the moment NEXT_PUBLIC_SITE_URL points at the real domain. A hand-set
+ * "noindex" that someone forgets to remove at launch is the expensive failure here
+ * — the site goes live and is invisible for months, with nothing obviously broken.
+ */
+export const IS_INDEXABLE = !/^https?:\/\/(localhost|127\.0\.0\.1)|\.vercel\.app$/i.test(SITE_URL);
+
 /** Stable @id values so the graph nodes can reference each other. */
 const ORG_ID = `${SITE_URL}/#organization`;
 const SITE_ID = `${SITE_URL}/#website`;
