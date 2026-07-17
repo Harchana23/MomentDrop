@@ -1,4 +1,19 @@
-# MomentDrop Project Handover
+# MomentDrop Project Handover (ARCHIVED — historical only)
+
+> **This document is superseded and describes a product that no longer exists.**
+> It is the original 29 June 2026 plan, when MomentDrop was going to be a
+> single private site for one wedding, storing metadata in Firebase.
+>
+> What actually happened: the app went multi-tenant SaaS on Supabase (29–30 June),
+> the hard-coded `harchana-wedding` event slug was replaced by `/e/[slug]`, the
+> `/admin` page was replaced by `/dashboard`, and none of the Firebase or
+> `SESSION_SECRET`/`ADMIN_EMAIL` variables below were ever used in production.
+>
+> **Do not follow the setup steps or environment variables in this file.**
+> The current documentation is [`HANDOVER.md`](../../HANDOVER.md).
+>
+> Kept because it records why the name, the tagline, and the Drive-storage
+> decision are what they are.
 
 Last updated: 2026-06-29
 

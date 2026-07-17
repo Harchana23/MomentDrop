@@ -269,4 +269,8 @@ the homepage is `src/app/immersive-home.tsx`.
 
 ---
 
-_Last updated: handover generated at the end of the Gemini-chatbot integration._
+_Docs map: this file is the source of truth. [README.md](README.md) is the local-setup
+quick start. `docs/superpowers/` holds design specs and implementation plans.
+`docs/archive/` is superseded history — do not follow it._
+
+_Last updated: 17 July 2026 (SEO foundation, per-page FAQs, docs cleanup)._
