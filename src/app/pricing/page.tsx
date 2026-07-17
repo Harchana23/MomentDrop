@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { Faq } from "@/components/marketing";
 import { PRICING_FAQS } from "@/lib/faqs";
+import { planBy } from "@/lib/plans";
 import { JsonLd, graph, breadcrumbSchema, softwareApplicationSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -23,50 +24,57 @@ type Plan = {
   features: { label: string }[];
 };
 
-const PLANS: Plan[] = [
+/* Plan facts come from lib/plans.ts so the cards and the JSON-LD offers can't drift.
+   The extra bullets below (Photo Wall, branding, print templates) are copy, not
+   facts, so they stay written out here. */
+const free = planBy("Free");
+const plus = planBy("Plus");
+const pro = planBy("Pro");
+
+const PLAN_CARDS: Plan[] = [
   {
-    name: "Free",
-    blurb: "Try MomentDrop risk-free at your next small gathering.",
-    price: "RM0",
+    name: free.name,
+    blurb: free.blurb,
+    price: free.priceLabel,
     unit: "no card required",
     cta: "Start free",
     features: [
-      { label: "**30** photo & video uploads" },
+      { label: `**${free.uploadsLabel}** photo & video uploads` },
       { label: "Up to **10 guests**" },
-      { label: "Saved for **7 days**" },
+      { label: `Saved for **${free.retentionLabel}**` },
       { label: "QR code + shareable link" },
       { label: "Approve uploads before they show" },
       { label: "Download everything as a ZIP" },
     ],
   },
   {
-    name: "Plus",
-    blurb: "Perfect for birthdays, engagements and mid-size events.",
-    price: "RM49",
+    name: plus.name,
+    blurb: plus.blurb,
+    price: plus.priceLabel,
     unit: "one-time, per event",
     cta: "Choose Plus",
     intro: "Everything in Free, plus:",
     features: [
-      { label: "**400** photo & video uploads" },
+      { label: `**${plus.uploadsLabel}** photo & video uploads` },
       { label: "**Unlimited** guests" },
-      { label: "Saved for **3 months**" },
+      { label: `Saved for **${plus.retentionLabel}**` },
       { label: "Live **Photo Wall** slideshow" },
       { label: "**Custom branding**" },
       { label: "**Countdown** page" },
     ],
   },
   {
-    name: "Pro",
-    blurb: "Built for weddings and large, branded celebrations.",
-    price: "RM99",
+    name: pro.name,
+    blurb: pro.blurb,
+    price: pro.priceLabel,
     unit: "one-time, per event",
     cta: "Choose Pro",
     popular: true,
     intro: "Everything in Plus, plus:",
     features: [
-      { label: "**1,000** photo & video uploads" },
+      { label: `**${pro.uploadsLabel}** photo & video uploads` },
       { label: "**Unlimited** guests" },
-      { label: "Saved for **6 months**" },
+      { label: `Saved for **${pro.retentionLabel}**` },
       { label: "**Custom event URL**" },
       { label: "**Print templates** (QR cards & signs)" },
       { label: "Full brand control" },
@@ -101,8 +109,9 @@ function FeatureText({ text }: { text: string }) {
 export default function PricingPage() {
   return (
     <div className="min-h-screen bg-[#F4ECE3] text-[#2A1B24]">
-      {/* Offers mirror the PLANS cards below. Change both together — marking up
-          a price the visitor can't see on the page is a policy violation. */}
+      {/* Offers and the cards below both derive from lib/plans.ts, so the markup
+          can't claim a price the visitor doesn't see — which would be a policy
+          violation, not a typo. */}
       <JsonLd
         schema={graph(
           softwareApplicationSchema,
@@ -137,7 +146,7 @@ export default function PricingPage() {
 
       <section className="mx-auto max-w-6xl px-5 py-8">
         <div className="grid items-start gap-6 lg:grid-cols-3">
-          {PLANS.map((p) => (
+          {PLAN_CARDS.map((p) => (
             <div
               key={p.name}
               className={`relative flex flex-col rounded-3xl bg-white p-7 transition ${

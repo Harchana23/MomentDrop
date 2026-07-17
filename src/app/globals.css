@@ -189,3 +189,14 @@ html {
 .legalprose a:hover { color: #8F4A34; }
 .legalprose strong { color: #2A1B24; font-weight: 700; }
 .legalprose .muted { color: #7A6570; font-size: 13.5px; }
+
+/* ── Guide pages prose ──────────────────────────────────────── */
+.guideprose { color: #4A3540; font-size: 16.5px; line-height: 1.75; }
+.guideprose h2 { font-family: var(--font-grotesk), "Space Grotesk", sans-serif; font-size: 26px; font-weight: 700; color: #2A1B24; letter-spacing: -0.01em; margin: 48px 0 14px; }
+.guideprose h2:first-child { margin-top: 0; }
+.guideprose p { margin: 0 0 16px; }
+.guideprose ul { margin: 0 0 18px; padding-left: 20px; list-style: disc; }
+.guideprose li { margin: 0 0 8px; }
+.guideprose a { color: #B5654A; font-weight: 600; }
+.guideprose a:hover { color: #8F4A34; }
+.guideprose strong { color: #2A1B24; font-weight: 700; }

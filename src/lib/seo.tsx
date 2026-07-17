@@ -1,3 +1,5 @@
+import { PLANS } from "@/lib/plans";
+
 /**
  * SEO foundation: canonical origin, JSON-LD emitter, and the schema builders.
  *
@@ -101,8 +103,8 @@ export function breadcrumbSchema(trail: { name: string; path: string }[]) {
 }
 
 /**
- * The product node for /pricing. Prices mirror the plan cards exactly; if the
- * cards change, change these in the same commit or the markup becomes a lie.
+ * The product node for /pricing. Offers are generated from lib/plans.ts — the same
+ * source the visible plan cards render from, so the two cannot drift apart.
  */
 export const softwareApplicationSchema = {
   "@type": "SoftwareApplication",
@@ -113,16 +115,12 @@ export const softwareApplicationSchema = {
   publisher: { "@id": ORG_ID },
   description:
     "Collect every guest's photos and videos at an event with one QR scan. Guests upload from any phone browser — no app, no account. Priced one-time per event.",
-  offers: [
-    { name: "Free", price: "0", description: "30 uploads, up to 10 guests, saved for 7 days." },
-    { name: "Plus", price: "49", description: "400 uploads, unlimited guests, saved for 3 months, Live Photo Wall." },
-    { name: "Pro", price: "99", description: "1,000 uploads, unlimited guests, saved for 6 months, custom event URL." },
-  ].map((o) => ({
+  offers: PLANS.map((p) => ({
     "@type": "Offer",
-    name: o.name,
-    price: o.price,
+    name: p.name,
+    price: String(p.price),
     priceCurrency: "MYR",
-    description: o.description,
+    description: `${p.uploadsLabel} uploads, ${p.guestsLabel}, saved for ${p.retentionLabel}.`,
     url: abs("/pricing"),
     availability: "https://schema.org/InStock",
   })),
