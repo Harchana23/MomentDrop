@@ -60,6 +60,37 @@ const FAQS = [
   { q: "How much does it cost?", a: "Every event starts free. Upgrade a specific event for more uploads and a longer window. See the pricing page for details." },
 ];
 
+/**
+ * PLACEHOLDER testimonials — these are illustrative, not real customer quotes.
+ * Replace with genuine, permissioned quotes before launch.
+ */
+const TESTIMONIALS = [
+  {
+    quote:
+      "Letak QR atas setiap meja, tetamu scan terus upload — tak payah install apa-apa. Lepas majlis, download semua jadi satu ZIP. Tak payah kejar orang dalam group WhatsApp dah.",
+    name: "Nurul H.",
+    event: "Majlis kahwin · Shah Alam",
+  },
+  {
+    quote:
+      "Last time we chase people in the group chat for photos one, damn leceh. This one just scan lah, then everything also inside already. Got 300+ photos in one ZIP.",
+    name: "Wei Ling T.",
+    event: "21st birthday · PJ",
+  },
+  {
+    quote:
+      "Aiyo, my relatives all not so tech-savvy one, but no app to install so they also can manage. I switch on the approval first ah, so I check before anything shows up.",
+    name: "Kavitha R.",
+    event: "Deepavali open house · Klang",
+  },
+  {
+    quote:
+      "Put the live photo wall on the big screen at our annual dinner and people actually started uploading — before this nobody bothered. Setup took about two minutes.",
+    name: "Daniel L.",
+    event: "Company annual dinner · KL",
+  },
+];
+
 /* ─────────── reusable style bits ─────────── */
 const glassLg = { background: "rgba(255,251,246,.6)", border: "1px solid rgba(255,255,255,.75)", boxShadow: "0 24px 60px -22px rgba(90,50,40,.3)" } as const;
 const glassSm = { background: "rgba(255,251,246,.55)", border: "1px solid rgba(255,255,255,.68)", boxShadow: "0 14px 40px -22px rgba(90,50,40,.25)" } as const;
@@ -344,15 +375,29 @@ export default function ImmersiveHome() {
             </div>
           </section>
 
-          {/* TESTIMONIAL */}
-          <section style={{ maxWidth: 900, margin: "0 auto", padding: "20px 24px 110px" }}>
-            <div className="ih-rv" style={{ padding: "56px 48px", borderRadius: 28, textAlign: "center", ...glassLg }}>
+          {/* TESTIMONIALS */}
+          <section style={{ maxWidth: 1200, margin: "0 auto", padding: "20px 24px 110px" }}>
+            <div className="ih-rv" style={{ maxWidth: 900, margin: "0 auto", padding: "56px 48px", borderRadius: 28, textAlign: "center", ...glassLg }}>
               <div style={{ color: "#E8B85C", fontSize: 20, letterSpacing: 3, marginBottom: 22 }}>★★★★★</div>
               <p className="g" style={{ margin: 0, fontWeight: 500, fontSize: "clamp(23px,3.2vw,38px)", lineHeight: 1.3, letterSpacing: "-.01em" }}>&ldquo;We got hundreds of photos we&apos;d never have seen otherwise — the dance floor, the kids&apos; table, all of it. The QR on every table just worked.&rdquo;</p>
               <div style={{ marginTop: 30, display: "flex", alignItems: "center", justifyContent: "center", gap: 14 }}>
                 <div role="img" aria-label="A happy MomentDrop couple" style={{ width: 56, height: 56, borderRadius: "50%", backgroundImage: "url(/marketing/testimonial.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#E4D3BF", border: "2px solid rgba(255,255,255,.85)", boxShadow: "0 10px 24px -10px rgba(90,50,40,.5)" }} />
                 <div style={{ fontWeight: 700, color: "#B5654A" }}>Aisyah &amp; Daniel · KL wedding</div>
               </div>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 16, marginTop: 16 }}>
+              {TESTIMONIALS.map((t) => (
+                <figure key={t.name} className="ih-rv" style={{ display: "flex", flexDirection: "column", margin: 0, padding: 24, borderRadius: 18, ...glassSm }}>
+                  <blockquote style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: "rgba(90,69,80,.9)" }}>
+                    “{t.quote}”
+                  </blockquote>
+                  <figcaption style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid rgba(90,50,40,.1)" }}>
+                    <div style={{ fontWeight: 700, fontSize: 14, color: "#2A1B24" }}>{t.name}</div>
+                    <div style={{ fontSize: 12.5, color: "#B5654A" }}>{t.event}</div>
+                  </figcaption>
+                </figure>
+              ))}
             </div>
           </section>
 
