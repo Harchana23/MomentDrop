@@ -49,3 +49,6 @@ Example/
 # Local-only secrets / reference material — never commit
 Console Code/
 Stripe/
+
+# Internal handover doc — kept out of the repo, shared directly
+HANDOVER.md
