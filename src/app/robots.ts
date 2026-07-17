@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       // Guest event pages are private to the host, and the rest is signed-in
       // or machine-only. Crawling them serves nobody and leaks event links.
-      disallow: ["/api/", "/e/", "/dashboard", "/onboarding", "/auth/", "/demo"],
+      disallow: ["/api/", "/e/", "/dashboard", "/onboarding", "/auth/"],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
   };

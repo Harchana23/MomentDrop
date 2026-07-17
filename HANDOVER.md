@@ -162,8 +162,8 @@ Marketing pages (/, /pricing, /faq, use-cases...)     ──► ZIP (archiver) o
 ## 8. Feature / route map
 
 **Marketing (public):**
-`/` (immersive homepage), `/pricing`, `/how-it-works`, `/faq`, `/contact`, `/demo`,
-`/use-cases/{wedding,birthday,party,corporate}`.
+`/` (immersive homepage), `/pricing`, `/how-it-works`, `/faq`, `/contact`,
+`/use-cases/{wedding,birthday,party,corporate}`, `/terms`, `/privacy`, `/security`.
 
 **Guest (public, per event):**
 `/e/[slug]` (upload page + in-app camera), `/e/[slug]/wall` (Live Photo Wall).

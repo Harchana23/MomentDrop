@@ -33,14 +33,14 @@ const script = Caveat({
   display: "swap",
 });
 
-const TITLE = "MomentDrop — collect every guest's photos with one QR scan";
+const TITLE = "MomentDrop | collect every guest's photos with one QR scan";
 const DESCRIPTION =
   "Create an event, share a QR code, and let guests upload photos and videos from their phones — no app, no account. Download everything as one album.";
 
 export const metadata: Metadata = {
   // Without metadataBase, relative OG/canonical URLs resolve to localhost.
   metadataBase: new URL(SITE_URL),
-  title: { default: TITLE, template: "%s — MomentDrop" },
+  title: { default: TITLE, template: "%s | MomentDrop" },
   description: DESCRIPTION,
   applicationName: "MomentDrop",
   alternates: { canonical: "/" },
