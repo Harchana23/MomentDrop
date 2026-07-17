@@ -76,6 +76,7 @@ const FOOTER_COLS: { title: string; links: [string, string][] }[] = [
     links: [
       ["How it works", "/how-it-works"],
       ["Pricing", "/pricing"],
+      ["Guides", "/guides"],
       ["FAQ", "/faq"],
     ],
   },

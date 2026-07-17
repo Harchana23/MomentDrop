@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
+import { GUIDES } from "@/lib/guides";
 
 /**
  * Public marketing routes only. Event pages (/e/*) are private by design and
@@ -14,6 +15,7 @@ const ROUTES: { path: string; priority: number; changeFrequency: MetadataRoute.S
   { path: "/use-cases/party", priority: 0.7, changeFrequency: "monthly" },
   { path: "/use-cases/corporate", priority: 0.7, changeFrequency: "monthly" },
   { path: "/faq", priority: 0.6, changeFrequency: "monthly" },
+  { path: "/guides", priority: 0.7, changeFrequency: "monthly" },
   { path: "/contact", priority: 0.5, changeFrequency: "yearly" },
   { path: "/terms", priority: 0.3, changeFrequency: "yearly" },
   { path: "/privacy", priority: 0.3, changeFrequency: "yearly" },
@@ -21,10 +23,21 @@ const ROUTES: { path: string; priority: number; changeFrequency: MetadataRoute.S
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return ROUTES.map((r) => ({
+  const now = new Date();
+  const staticRoutes = ROUTES.map((r) => ({
     url: `${SITE_URL}${r.path}`,
-    lastModified: new Date(),
+    lastModified: now,
     changeFrequency: r.changeFrequency,
     priority: r.priority,
   }));
+  // Derived from the guide registry, so a new guide is listed without touching this file.
+  // lastModified is the guide's own `updated` date, not the build time — a guide that
+  // hasn't changed shouldn't claim it has.
+  const guideRoutes = GUIDES.map((g) => ({
+    url: `${SITE_URL}/guides/${g.slug}`,
+    lastModified: new Date(g.updated),
+    changeFrequency: "yearly" as const,
+    priority: 0.6,
+  }));
+  return [...staticRoutes, ...guideRoutes];
 }
