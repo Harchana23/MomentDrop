@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Caveat, Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import { GlobalLoader, RouteProgress } from "@/components/global-loader";
 import { ChatWidget } from "@/components/chat-widget";
-import { JsonLd, graph, organizationSchema, websiteSchema, SITE_URL } from "@/lib/seo";
+import { JsonLd, graph, organizationSchema, websiteSchema, SITE_URL, IS_INDEXABLE } from "@/lib/seo";
 import "./globals.css";
 
 const grotesk = Space_Grotesk({
@@ -44,6 +44,10 @@ export const metadata: Metadata = {
   description: DESCRIPTION,
   applicationName: "MomentDrop",
   alternates: { canonical: "/" },
+  // Staging deployments carry noindex as well as the robots.txt block: if the
+  // vercel.app link ever gets shared somewhere crawlable, robots.txt alone
+  // wouldn't stop a URL-only result from appearing.
+  robots: IS_INDEXABLE ? undefined : { index: false, follow: false },
   // No title/description here on purpose: Next fills og:title and og:description
   // from each page's own title/description when they're absent, so every page
   // gets its own preview card instead of inheriting the homepage's.
