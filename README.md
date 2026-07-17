@@ -7,9 +7,9 @@ downloads the lot as a single ZIP.
 Multi-tenant SaaS, priced one-time per event, built for Malaysian celebrations.
 **Private and proprietary — not open source.**
 
-> **The full picture lives in [HANDOVER.md](HANDOVER.md)** — architecture, environment
-> variables, third-party accounts, and current status. This file only covers getting the
-> app running on your machine.
+> This file covers getting the app running. The full handover — architecture,
+> third-party accounts, and runbook — is kept **outside this repo** and shared
+> directly; ask Harchana for it.
 
 ## Stack
 
@@ -33,9 +33,25 @@ pnpm dev
 
 Then open http://localhost:3000.
 
-`.env.local` is gitignored and holds live secrets. The variables you need are listed in
-[HANDOVER.md](HANDOVER.md#6-environment-variables) — deliberately not duplicated here, so
-there is only one list to keep true.
+`.env.local` is gitignored and holds live secrets — **never commit it**. Ask Harchana for
+the values; the variables it must define are:
+
+| Variable | Purpose |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key (browser-safe) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service-role key (**server-only**) |
+| `STRIPE_SECRET_KEY` | Stripe secret key (test mode for now) |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret |
+| `GDRIVE_CLIENT_ID` / `GDRIVE_CLIENT_SECRET` | Google OAuth app for Drive |
+| `GDRIVE_REFRESH_TOKEN` | Long-lived Drive access (**server-only**) |
+| `GDRIVE_ROOT_FOLDER_ID` | Drive folder holding all event uploads |
+| `MAKE_CONTACT_WEBHOOK_URL` | Make.com webhook behind the contact form |
+| `GEMINI_API_KEY` | Gemini key powering the chat widget (**server-only**) |
+| `NEXT_PUBLIC_SITE_URL` | Public origin, no trailing slash. Feeds canonical URLs, `sitemap.xml`, `robots.txt`, OG images, and JSON-LD. See the gotcha below |
+
+Only the three `NEXT_PUBLIC_*` values reach the browser. The rest are read server-side
+only — the chat widget talks to `/api/chat`, never to Gemini directly.
 
 ```bash
 pnpm build     # production build
@@ -97,5 +113,3 @@ survive the proxy), so interactive checks silently fail. Test against `pnpm buil
 Live, with two known caveats: **Stripe is in test mode** pending business verification, and
 the homepage testimonials are **placeholders** flagged in `src/app/immersive-home.tsx` —
 they must be replaced with genuine, permissioned quotes before launch.
-
-See [HANDOVER.md](HANDOVER.md) for the full list.

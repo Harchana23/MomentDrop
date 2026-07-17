@@ -10,7 +10,8 @@
 > `SESSION_SECRET`/`ADMIN_EMAIL` variables below were ever used in production.
 >
 > **Do not follow the setup steps or environment variables in this file.**
-> The current documentation is [`HANDOVER.md`](../../HANDOVER.md).
+> Current setup is in [`README.md`](../../README.md); the full handover is kept
+> outside this repo and shared directly.
 >
 > Kept because it records why the name, the tagline, and the Drive-storage
 > decision are what they are.
