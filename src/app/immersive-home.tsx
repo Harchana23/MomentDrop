@@ -34,9 +34,6 @@ const PHOTOS = [
 // Stride 5 (coprime with the pool) spreads variety so neighbours rarely repeat.
 const WALL = Array.from({ length: 40 }, (_, i) => PHOTOS[(i * 5 + 3) % PHOTOS.length]);
 
-// A few sharp thumbnails for the phone mock.
-const THUMBS = ["gallery-1", "gallery-3", "gallery-5", "event-party"].map((n) => `/marketing/${n}.jpg`);
-
 const STEPS = [
   { n: "1", icon: "🎟️", title: "Create your event", body: "Sign up, name it, and get a QR code plus a link in seconds." },
   { n: "2", icon: "📲", title: "Guests scan & upload", body: "They open a web page and add photos and videos — no app, no account." },
@@ -298,26 +295,16 @@ export default function ImmersiveHome() {
                 <a href="/signup" style={{ alignSelf: "flex-start", marginTop: 10, display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 28px", borderRadius: 100, fontWeight: 700, fontSize: 16, color: "#fff", background: "linear-gradient(135deg,#C97F52,#B5654A)" }}>Create your event — free →</a>
               </div>
 
-              {/* static phone mock */}
+              {/* phone mockup showing the real MomentDrop screens */}
               <div className="how-phone ih-rv" style={{ justifySelf: "center" }}>
-                <div style={{ position: "relative", width: 300, height: 620, borderRadius: 48, padding: 12, background: "linear-gradient(160deg,#1a1922,#0c0b11)", border: "1px solid rgba(255,255,255,.14)", boxShadow: "0 50px 120px -30px rgba(201,127,82,.4), 0 20px 50px -20px rgba(90,50,40,.5)" }}>
-                  <div style={{ position: "absolute", top: 22, left: "50%", transform: "translateX(-50%)", width: 96, height: 28, borderRadius: 20, background: "#0c0b11", zIndex: 10 }} />
-                  <div style={{ position: "relative", width: "100%", height: "100%", borderRadius: 37, overflow: "hidden", background: "#F7F2EC", display: "flex", flexDirection: "column", padding: "34px 22px 22px", color: "#2A1B24" }}>
-                    <div style={{ height: 10 }} />
-                    <div style={{ width: 54, height: 54, borderRadius: 16, background: "linear-gradient(135deg,#C97F52,#E8B85C)", display: "grid", placeItems: "center", color: "#fff", fontSize: 24, marginBottom: 16 }}>💍</div>
-                    <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "#B07A5E" }}>You&apos;re invited to add photos</div>
-                    <h3 style={{ margin: "6px 0 4px", fontSize: 24, fontWeight: 700 }}>Aisyah &amp; Daniel</h3>
-                    <div style={{ fontSize: 14, color: "#7A6570", marginBottom: 22 }}>KL Wedding · 12 July</div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 12, width: "100%", padding: 15, borderRadius: 15, background: "linear-gradient(135deg,#C97F52,#B5654A)", color: "#fff", fontWeight: 700, fontSize: 15, marginBottom: 11 }}><span style={{ fontSize: 20 }}>📷</span> Take photo or video</div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 12, width: "100%", padding: 15, border: "1px solid #E4D9CF", borderRadius: 15, background: "#fff", color: "#2A1B24", fontWeight: 700, fontSize: 15, marginBottom: 20 }}><span style={{ fontSize: 20 }}>🖼️</span> Upload from gallery</div>
-                    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "#9B8676", marginBottom: 9 }}>Just added</div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 7, marginTop: "auto" }}>
-                      {THUMBS.map((t) => (
-                        <div key={t} style={{ aspectRatio: "1", borderRadius: 9, backgroundImage: `url(${t})`, backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#E4D3BF" }} />
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/marketing/PhoneMockup.png"
+                  alt="Two phones showing MomentDrop — the event homepage and a guest's upload page"
+                  width={900}
+                  height={900}
+                  style={{ width: 460, maxWidth: "100%", height: "auto", display: "block" }}
+                />
               </div>
             </div>
           </section>
