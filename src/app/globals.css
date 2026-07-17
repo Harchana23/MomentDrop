@@ -162,6 +162,21 @@ html {
   }
 }
 
+/* ── Footer photo band ──────────────────────────────────────
+   Desktop: the composite (phone mockup dissolving into the crowd).
+   Small screens: `cover` would crop the phones off the left edge, so we
+   fall back to the plain celebration photo. */
+.footer-band {
+  background-image: url("/marketing/footer.jpg");
+  background-position: center;
+}
+@media (max-width: 860px) {
+  .footer-band {
+    background-image: url("/marketing/hero.jpg");
+    background-position: center 35%;
+  }
+}
+
 /* ── Legal / policy pages prose ─────────────────────────────── */
 .legalprose { color: #4A3540; font-size: 15.5px; line-height: 1.75; }
 .legalprose h2 { font-family: var(--font-grotesk), "Space Grotesk", sans-serif; font-size: 22px; font-weight: 700; color: #2A1B24; letter-spacing: -0.01em; margin: 40px 0 12px; }

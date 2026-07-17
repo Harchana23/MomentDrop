@@ -199,13 +199,8 @@ export function SiteFooter() {
       <div className="relative">
         <div
           aria-hidden="true"
-          className="w-full"
-          style={{
-            height: "clamp(190px, 26vw, 300px)",
-            backgroundImage: "url(/marketing/hero.jpg)",
-            backgroundSize: "cover",
-            backgroundPosition: "center 35%",
-          }}
+          className="footer-band w-full"
+          style={{ height: "clamp(190px, 26vw, 300px)", backgroundSize: "cover" }}
         />
         {/* melt the cream panel into the top of the photo */}
         <div
