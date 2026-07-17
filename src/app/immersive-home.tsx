@@ -67,6 +67,12 @@ const FAQS = [
 const TESTIMONIALS = [
   {
     quote:
+      "We got hundreds of photos we’d never have seen otherwise — the dance floor, the kids’ table, all of it. The QR on every table just worked.",
+    name: "Aisyah & Daniel",
+    event: "Wedding · KL",
+  },
+  {
+    quote:
       "Letak QR atas setiap meja, tetamu scan terus upload — tak payah install apa-apa. Lepas majlis, download semua jadi satu ZIP. Tak payah kejar orang dalam group WhatsApp dah.",
     name: "Nurul H.",
     event: "Majlis kahwin · Shah Alam",
@@ -92,7 +98,6 @@ const TESTIMONIALS = [
 ];
 
 /* ─────────── reusable style bits ─────────── */
-const glassLg = { background: "rgba(255,251,246,.6)", border: "1px solid rgba(255,255,255,.75)", boxShadow: "0 24px 60px -22px rgba(90,50,40,.3)" } as const;
 const glassSm = { background: "rgba(255,251,246,.55)", border: "1px solid rgba(255,255,255,.68)", boxShadow: "0 14px 40px -22px rgba(90,50,40,.25)" } as const;
 const gradText = { background: "linear-gradient(135deg,#C97F52,#E8B85C)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" } as const;
 const eyebrow = { fontWeight: 700, fontSize: 13, letterSpacing: ".18em", textTransform: "uppercase", color: "#B5654A" } as const;
@@ -181,10 +186,13 @@ export default function ImmersiveHome() {
           -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
           mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
         }
-        .ih .tmarquee-track { display: flex; width: max-content; animation: t-scroll 48s linear infinite; }
+        .ih .tmarquee-track { display: flex; width: max-content; animation: t-scroll 60s linear infinite; }
         .ih .tmarquee:hover .tmarquee-track,
         .ih .tmarquee:focus-within .tmarquee-track { animation-play-state: paused; }
         @keyframes t-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        /* every card the same width, or the loop maths stops landing cleanly */
+        .ih .tcard { flex: 0 0 400px; }
+        @media (max-width: 520px) { .ih .tcard { flex: 0 0 84vw; } }
 
         @media (prefers-reduced-motion: reduce) {
           .ih .ih-rv { opacity: 1; transform: none; transition: none; }
@@ -394,31 +402,28 @@ export default function ImmersiveHome() {
           </section>
 
           {/* TESTIMONIALS */}
-          <section style={{ maxWidth: 1200, margin: "0 auto", padding: "20px 24px 110px" }}>
-            <div className="ih-rv" style={{ maxWidth: 900, margin: "0 auto", padding: "56px 48px", borderRadius: 28, textAlign: "center", ...glassLg }}>
-              <div style={{ color: "#E8B85C", fontSize: 20, letterSpacing: 3, marginBottom: 22 }}>★★★★★</div>
-              <p className="g" style={{ margin: 0, fontWeight: 500, fontSize: "clamp(23px,3.2vw,38px)", lineHeight: 1.3, letterSpacing: "-.01em" }}>&ldquo;We got hundreds of photos we&apos;d never have seen otherwise — the dance floor, the kids&apos; table, all of it. The QR on every table just worked.&rdquo;</p>
-              <div style={{ marginTop: 30, display: "flex", alignItems: "center", justifyContent: "center", gap: 14 }}>
-                <div role="img" aria-label="A happy MomentDrop couple" style={{ width: 56, height: 56, borderRadius: "50%", backgroundImage: "url(/marketing/testimonial.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#E4D3BF", border: "2px solid rgba(255,255,255,.85)", boxShadow: "0 10px 24px -10px rgba(90,50,40,.5)" }} />
-                <div style={{ fontWeight: 700, color: "#B5654A" }}>Aisyah &amp; Daniel · KL wedding</div>
-              </div>
+          <section style={{ padding: "20px 0 110px" }}>
+            <div className="ih-rv" style={{ textAlign: "center", marginBottom: 44, padding: "0 24px" }}>
+              <div style={{ ...eyebrow, marginBottom: 14 }}>From our hosts</div>
+              <h2 className="g" style={h2Style}>What they say</h2>
             </div>
 
-            <div className="tmarquee ih-rv" style={{ marginTop: 16 }}>
+            <div className="tmarquee ih-rv">
               <div className="tmarquee-track">
                 {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
                   <figure
                     key={i}
+                    className="tcard"
                     /* the duplicate set is decorative — don't read it twice */
                     aria-hidden={i >= TESTIMONIALS.length}
-                    style={{ flex: "0 0 320px", display: "flex", flexDirection: "column", margin: "0 16px 0 0", padding: 24, borderRadius: 18, ...glassSm }}
+                    style={{ display: "flex", flexDirection: "column", margin: "0 20px 0 0", padding: 30, borderRadius: 20, ...glassSm }}
                   >
-                    <blockquote style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: "rgba(90,69,80,.9)" }}>
+                    <blockquote style={{ margin: 0, fontSize: 16, lineHeight: 1.65, color: "rgba(90,69,80,.9)" }}>
                       “{t.quote}”
                     </blockquote>
-                    <figcaption style={{ marginTop: "auto", paddingTop: 14, borderTop: "1px solid rgba(90,50,40,.1)" }}>
-                      <div style={{ fontWeight: 700, fontSize: 14, color: "#2A1B24" }}>{t.name}</div>
-                      <div style={{ fontSize: 12.5, color: "#B5654A" }}>{t.event}</div>
+                    <figcaption style={{ marginTop: "auto", paddingTop: 18, borderTop: "1px solid rgba(90,50,40,.1)" }}>
+                      <div style={{ fontWeight: 700, fontSize: 15, color: "#2A1B24" }}>{t.name}</div>
+                      <div style={{ fontSize: 13, color: "#B5654A" }}>{t.event}</div>
                     </figcaption>
                   </figure>
                 ))}
