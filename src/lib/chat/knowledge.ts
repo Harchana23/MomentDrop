@@ -28,9 +28,10 @@ Weddings (Malay, Chinese, Indian, church — every tradition), festivals & open 
 # Pricing (Malaysian Ringgit, one-time per event — NOT a subscription)
 Every event starts FREE. You only pay to upgrade a specific event.
 - Free — RM0, no card required: 30 photo & video uploads, up to 10 guests, saved for
-  7 days, QR code + shareable link, approve uploads before they show, download as ZIP.
+  7 days, QR code + shareable link, Live Photo Wall slideshow, approve uploads before
+  they show, download as ZIP.
 - Plus — RM49, one-time per event: everything in Free, plus 400 uploads, unlimited
-  guests, saved for 3 months, Live Photo Wall slideshow, custom branding, countdown page.
+  guests, saved for 3 months, custom branding, countdown page.
 - Pro — RM99, one-time per event: everything in Plus, plus 1,000 uploads, unlimited
   guests, saved for 6 months, custom event URL, print templates (QR cards & signs),
   full brand control.
@@ -42,7 +43,8 @@ whenever you're ready.
 - Private by default — uploads land in private storage only the host controls, never a
   public feed, unless the host chooses to show the shared album.
 - Approve before it shows — hosts can optionally review uploads before they appear.
-- Live Photo Wall — a slideshow of photos on the big screen as guests upload (paid).
+- Live Photo Wall — a slideshow of photos on the big screen as guests upload. Included on
+  EVERY plan, including Free. If asked, say so plainly; it is not a paid-only feature.
 - Per-guest upload limits — the host can cap how many photos each guest uploads.
 - In-app camera — guests can take a photo or video right there (video auto-stops at 1 min).
 - Download everything as one ZIP, organized by guest.

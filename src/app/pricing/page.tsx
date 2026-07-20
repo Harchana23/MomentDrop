@@ -25,8 +25,12 @@ type Plan = {
 };
 
 /* Plan facts come from lib/plans.ts so the cards and the JSON-LD offers can't drift.
-   The extra bullets below (Photo Wall, branding, print templates) are copy, not
-   facts, so they stay written out here. */
+   The extra bullets below (branding, countdown, print templates) are copy, not facts,
+   so they stay written out here.
+
+   The Photo Wall sits in the Free list on purpose: it isn't gated in code, and a wall
+   running at an event is what makes guests upload in the first place. Advertising it as
+   a Plus feature while shipping it to everyone would be a claim we don't honour. */
 const free = planBy("Free");
 const plus = planBy("Plus");
 const pro = planBy("Pro");
@@ -43,6 +47,7 @@ const PLAN_CARDS: Plan[] = [
       { label: "Up to **10 guests**" },
       { label: `Saved for **${free.retentionLabel}**` },
       { label: "QR code + shareable link" },
+      { label: "Live **Photo Wall** slideshow" },
       { label: "Approve uploads before they show" },
       { label: "Download everything as a ZIP" },
     ],
@@ -58,7 +63,6 @@ const PLAN_CARDS: Plan[] = [
       { label: `**${plus.uploadsLabel}** photo & video uploads` },
       { label: "**Unlimited** guests" },
       { label: `Saved for **${plus.retentionLabel}**` },
-      { label: "Live **Photo Wall** slideshow" },
       { label: "**Custom branding**" },
       { label: "**Countdown** page" },
     ],

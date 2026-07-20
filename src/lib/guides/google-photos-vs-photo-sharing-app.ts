@@ -52,7 +52,7 @@ export const googlePhotosVs: Guide = {
       heading: "The short version",
       body: [
         "Small, casual, low stakes: use the free Google Photos album. You will not regret it and you will not miss the features.",
-        "A few hundred guests, relatives who are not signed in to anything, a photo wall on a screen, and a day that does not have a second take: that is what the paid version is for. The question is not which tool is better. It is whether your wedding puts weight on the places where free gives way.",
+        "A few hundred guests, relatives who are not signed in to anything, and a day that does not have a second take: that is what the paid tiers are for. The question is not which tool is better. It is whether your wedding puts weight on the places where free gives way.",
       ],
     },
   ],

@@ -45,9 +45,11 @@ press; auto-hide after 3s idle. Keyboard: space = pause/play, arrows = prev/next
   be added later without changing the schema.
 - **No video on the wall.** The wall already filters to photos; unchanged here.
 - **No per-guest or per-album filtering.** Not asked for.
-- **No plan gating in code.** The wall is marketed as Plus/Pro but is not currently
-  gated, and adding entitlement checks is a separate concern from settings. Out of scope,
-  flagged below.
+- **No plan gating.** Decided: **the Photo Wall is free on every plan, including Free.**
+  It was advertised as Plus/Pro while being ungated in code — the marketing copy has been
+  corrected to match the behaviour rather than the reverse. Rationale: a wall running at
+  an event is the strongest driver of guest uploads, and uploads are what push a host into
+  needing a bigger plan. Gating the thing that creates demand is backwards.
 
 ## Architecture
 
@@ -128,11 +130,9 @@ No test framework in this repo, so verification is the loop used throughout: `ts
   fetch to display photos.
 - **Migration drift.** The columns will not exist on a database where 009 has not been
   run. Handled by defaults, and surfaced in the dashboard rather than silently.
-- **Feature gating gap (pre-existing, out of scope).** Verified: there is no plan or
-  entitlement check anywhere in `/e/[slug]/wall` or its API route, so the Photo Wall is
-  reachable on any event — including free ones — while `/pricing` sells it as a Plus and
-  Pro feature. `events.plan` exists (`003_multitenant.sql`, default `'trial'`), so the
-  data is there to gate on. This design deliberately does not change it: adding
-  entitlement checks is a separate piece of work with its own edge cases (what happens to
-  a wall already projected when a plan lapses mid-event?). Recorded here so it is a known
-  gap rather than a surprise.
+- **Gating gap: closed by decision, not by code.** There is no plan check anywhere in
+  `/e/[slug]/wall` or its API route, and there now should not be — the wall is free for
+  everyone. What was fixed instead was the copy: `/pricing`, `faqs.ts`, `knowledge.ts`,
+  and the Google Photos guide all claimed or implied the wall was a paid feature. Selling
+  something as paid while shipping it free is a misleading claim under the Consumer
+  Protection Act 1999, so those four were corrected in the same change.
