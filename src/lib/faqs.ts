@@ -100,7 +100,7 @@ export const PARTY_FAQS: FaqItem[] = [
   },
   {
     q: "Can we show the photos on a TV during the party?",
-    a: "Yes, on Plus and Pro. The Live Photo Wall is a full-screen slideshow you can put on a TV or projector, and it refreshes as new photos arrive. It also turns out to be the best nudge there is — people upload once they see it running.",
+    a: "Yes, and it's included on every plan including Free. The Live Photo Wall is a full-screen slideshow you can put on a TV or projector, and it refreshes as new photos arrive. It also turns out to be the best nudge there is — people upload once they see it running.",
   },
   {
     q: "Do guests need an app or an account?",
@@ -180,7 +180,7 @@ export const GENERAL_FAQS: FaqItem[] = [
   },
   {
     q: "What's a Photo Wall?",
-    a: "A live, full-screen slideshow of published photos you can put on a projector or TV at the venue. It auto-advances and refreshes as new photos come in. Available on Plus and Pro.",
+    a: "A live, full-screen slideshow of published photos you can put on a projector or TV at the venue. It auto-advances and refreshes as new photos come in. Included on every plan, including Free.",
   },
   {
     q: "Can I password-protect my event?",
