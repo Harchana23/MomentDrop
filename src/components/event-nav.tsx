@@ -5,6 +5,7 @@ const ITEMS = [
   { key: "media", label: "Media", path: "/media" },
   { key: "albums", label: "Albums", path: "/albums" },
   { key: "guests", label: "Guests", path: "/guests" },
+  { key: "wall", label: "Photo Wall", path: "/wall" },
   { key: "countdown", label: "Countdown", path: "/countdown" },
   { key: "print", label: "Print", path: "/print" },
   { key: "access", label: "Access", path: "/access" },
