@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SOCIAL_LINKS } from "@/lib/social";
 
 export const OCCASIONS = [
   { href: "/use-cases/wedding", label: "Weddings", icon: "💍", blurb: "Malay, Chinese, Indian, church" },
@@ -107,11 +108,11 @@ const FOOTER_COLS: { title: string; links: [string, string][] }[] = [
   },
 ];
 
-/* Social profiles — add your real URLs to show these icons (leave "" to hide). */
-const SOCIALS: { label: string; href: string; icon: React.ReactNode }[] = [
+/* Icons for the profiles in lib/social.ts. URLs live there, not here, so the footer
+   and the Organization `sameAs` in JSON-LD can never disagree about who we are. */
+const SOCIAL_ICONS: { label: string; icon: React.ReactNode }[] = [
   {
     label: "Instagram",
-    href: "",
     icon: (
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="3" y="3" width="18" height="18" rx="5" />
@@ -122,7 +123,6 @@ const SOCIALS: { label: string; href: string; icon: React.ReactNode }[] = [
   },
   {
     label: "TikTok",
-    href: "",
     icon: (
       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M16.5 3c.3 2 1.5 3.6 3.5 3.9V9c-1.3 0-2.5-.4-3.5-1.1v6.5a5.4 5.4 0 1 1-5.4-5.4c.3 0 .6 0 .9.1v2.3a3.1 3.1 0 1 0 2.2 3V3z" />
@@ -131,7 +131,6 @@ const SOCIALS: { label: string; href: string; icon: React.ReactNode }[] = [
   },
   {
     label: "Facebook",
-    href: "",
     icon: (
       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M14 9h3l.4-3H14V4.2c0-.9.3-1.5 1.6-1.5H17V.1C16.7.05 15.7 0 14.6 0 12.2 0 10.6 1.4 10.6 4v2H8v3h2.6v9H14z" />
@@ -145,7 +144,11 @@ const iconBtn =
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
-  const socials = SOCIALS.filter((s) => s.href);
+  // Join the icons here to the URLs in lib/social.ts; unconfigured profiles drop out.
+  const socials = SOCIAL_LINKS.filter((s) => s.href).map((s) => ({
+    ...s,
+    icon: SOCIAL_ICONS.find((i) => i.label === s.label)?.icon ?? null,
+  }));
   return (
     <footer className="relative mt-24 overflow-hidden rounded-t-[32px] bg-[#EDE4D8] text-[#2A1B24]">
       {/* content panel */}

@@ -1,4 +1,5 @@
 import { PLANS } from "@/lib/plans";
+import { socialUrls } from "@/lib/social";
 
 /**
  * SEO foundation: canonical origin, JSON-LD emitter, and the schema builders.
@@ -73,6 +74,9 @@ export const organizationSchema = {
   description:
     "MomentDrop lets event hosts collect every guest's photos and videos with one QR scan — no app and no account for guests.",
   areaServed: { "@type": "Country", name: "Malaysia" },
+  // Ties this site to our official profiles as one entity. Omitted entirely while
+  // no profiles are configured — an empty sameAs array is noise, not a signal.
+  ...(socialUrls().length ? { sameAs: socialUrls() } : {}),
 };
 
 /** The website node. Also emitted once, site-wide. */
@@ -99,6 +103,38 @@ export function breadcrumbSchema(trail: { name: string; path: string }[]) {
       name: item.name,
       item: abs(item.path),
     })),
+  };
+}
+
+/**
+ * An editorial page (the /guides articles).
+ *
+ * Article still earns rich results, and it is one of the clearest signals an answer
+ * engine has that a page is a written piece worth citing rather than a landing page.
+ *
+ * `datePublished` and `dateModified` are both the guide's `updated` date on purpose:
+ * guides are evergreen and edited in place, so the only date we can state truthfully
+ * is when it was last correct. Inventing a separate publish date would be a lie in
+ * markup, and a stale one is worse than none.
+ */
+export function articleSchema(a: {
+  headline: string;
+  description: string;
+  updated: string;
+  path: string;
+}) {
+  return {
+    "@type": "Article",
+    headline: a.headline,
+    description: a.description,
+    datePublished: a.updated,
+    dateModified: a.updated,
+    inLanguage: "en-MY",
+    author: { "@id": ORG_ID },
+    publisher: { "@id": ORG_ID },
+    image: abs("/og.jpg"),
+    mainEntityOfPage: { "@type": "WebPage", "@id": abs(a.path) },
+    isPartOf: { "@id": SITE_ID },
   };
 }
 
