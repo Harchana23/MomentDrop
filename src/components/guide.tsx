@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
-import { JsonLd, graph, breadcrumbSchema } from "@/lib/seo";
+import { JsonLd, graph, breadcrumbSchema, articleSchema } from "@/lib/seo";
 import { getGuide, type Guide } from "@/lib/guides";
 
 /** Shared shell for /guides/[slug]. Mirrors LegalPage. */
@@ -10,6 +10,12 @@ export function GuideLayout({ guide }: { guide: Guide }) {
     <div className="min-h-screen bg-[#F4ECE3] text-[#2A1B24]">
       <JsonLd
         schema={graph(
+          articleSchema({
+            headline: guide.title,
+            description: guide.description,
+            updated: guide.updated,
+            path: `/guides/${guide.slug}`,
+          }),
           breadcrumbSchema([
             { name: "Guides", path: "/guides" },
             { name: guide.title, path: `/guides/${guide.slug}` },
