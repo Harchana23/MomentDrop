@@ -220,6 +220,12 @@ export default async function EventOverviewPage({
             >
               Open photo wall
             </a>
+            <Link
+              href={`/dashboard/events/${event.id}/wall`}
+              className="inline-flex h-11 items-center justify-center rounded-full border border-[#E4D9CF] px-5 text-sm font-bold text-[#4A3540] hover:border-[#B5654A] hover:text-[#B5654A]"
+            >
+              Settings
+            </Link>
           </div>
         </section>
       </div>
