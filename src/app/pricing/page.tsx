@@ -87,7 +87,7 @@ const PLAN_CARDS: Plan[] = [
 ];
 
 const TRUST = [
-  { icon: "🔒", label: "Money-back guarantee" },
+  { icon: "🔒", label: "Secure Stripe checkout" },
   { icon: "🗓️", label: "Buy now, use anytime" },
   { icon: "🇲🇾", label: "Made for Malaysian celebrations" },
 ];
