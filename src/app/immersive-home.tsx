@@ -401,6 +401,39 @@ export default function ImmersiveHome() {
             </div>
           </section>
 
+          {/* AI PHOTOBOOTH — coming soon teaser */}
+          <section style={{ maxWidth: 1200, margin: "0 auto", padding: "20px 24px 110px" }}>
+            <div
+              className="ih-rv"
+              style={{
+                position: "relative",
+                overflow: "hidden",
+                borderRadius: 28,
+                padding: "clamp(36px,6vw,72px)",
+                textAlign: "center",
+                background: "linear-gradient(135deg, #2A1B24 0%, #5A3242 55%, #B5654A 120%)",
+                color: "#FBF3EC",
+              }}
+            >
+              {/* soft glow, purely decorative */}
+              <div aria-hidden="true" style={{ position: "absolute", top: "-30%", left: "50%", width: 520, height: 520, transform: "translateX(-50%)", background: "radial-gradient(circle, rgba(232,184,92,.35), transparent 70%)", pointerEvents: "none" }} />
+              <div style={{ position: "relative" }}>
+                <span style={{ display: "inline-block", padding: "6px 14px", borderRadius: 100, fontSize: 12.5, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", background: "rgba(251,243,236,.14)", border: "1px solid rgba(251,243,236,.25)" }}>
+                  New · Coming soon
+                </span>
+                <h2 className="g" style={{ margin: "22px auto 0", fontWeight: 700, fontSize: "clamp(32px,4.8vw,60px)", lineHeight: 1.03, letterSpacing: "-.02em", maxWidth: "16ch", color: "#FBF3EC", WebkitTextFillColor: "#FBF3EC" }}>
+                  AI Photobooth
+                </h2>
+                <p style={{ margin: "18px auto 0", maxWidth: "44ch", fontSize: "clamp(15px,2vw,18px)", lineHeight: 1.6, color: "rgba(251,243,236,.85)" }}>
+                  Guests snap a photo and get it reimagined — a golden-hour portrait, a festive scene, a fairytale poster — with their faces kept, ready to share. No booth to rent, no operator.
+                </p>
+                <p style={{ margin: "20px auto 0", fontSize: 13.5, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(251,243,236,.55)" }}>
+                  In the works for Malaysian celebrations
+                </p>
+              </div>
+            </div>
+          </section>
+
           {/* TESTIMONIALS */}
           <section style={{ padding: "20px 0 110px" }}>
             <div className="ih-rv" style={{ textAlign: "center", marginBottom: 44, padding: "0 24px" }}>
