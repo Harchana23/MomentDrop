@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { Faq } from "@/components/marketing";
-import NotifyForm from "@/components/notify-form";
 import { PRICING_FAQS } from "@/lib/faqs";
 import { planBy } from "@/lib/plans";
 import { JsonLd, graph, breadcrumbSchema, softwareApplicationSchema } from "@/lib/seo";
@@ -247,8 +246,6 @@ export default function PricingPage() {
             ))}
           </div>
           <p className="mt-2.5 text-xs text-[#FBF3EC]/50">Illustration — real AI output from one photo.</p>
-
-          <NotifyForm feature="AI Photobooth (pricing)" />
         </div>
       </section>
 
