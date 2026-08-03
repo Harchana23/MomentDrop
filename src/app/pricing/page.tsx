@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { Faq } from "@/components/marketing";
+import NotifyForm from "@/components/notify-form";
 import { PRICING_FAQS } from "@/lib/faqs";
 import { planBy } from "@/lib/plans";
 import { JsonLd, graph, breadcrumbSchema, softwareApplicationSchema } from "@/lib/seo";
@@ -219,6 +220,35 @@ export default function PricingPage() {
             Let guests reimagine their photo as a golden-hour portrait, a festive scene, or a
             fairytale poster — faces kept, ready to share. A paid add-on we&apos;re still building.
           </p>
+
+          {/* before → after examples (illustrative AI output from a stock photo) */}
+          <div className="mx-auto mt-6 grid max-w-md grid-cols-3 gap-2.5">
+            {[
+              { src: "/marketing/photobooth-before.jpg", tag: "Photo", original: true },
+              { src: "/marketing/photobooth-wedding.jpg", tag: "Golden hour" },
+              { src: "/marketing/photobooth-fantasy.jpg", tag: "Fairytale" },
+            ].map((s) => (
+              <figure key={s.src} className="relative m-0 aspect-square overflow-hidden rounded-xl border border-white/20">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={s.src}
+                  alt={s.original ? "A guest's original photo" : `AI photobooth example — ${s.tag}`}
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
+                <figcaption
+                  className={`absolute bottom-1.5 left-1.5 rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                    s.original ? "bg-[#FBF3EC]/90 text-[#2A1B24]" : "bg-[#2A1B24]/70 text-[#FBF3EC]"
+                  }`}
+                >
+                  {s.tag}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <p className="mt-2.5 text-xs text-[#FBF3EC]/50">Illustration — real AI output from one photo.</p>
+
+          <NotifyForm feature="AI Photobooth (pricing)" />
         </div>
       </section>
 
