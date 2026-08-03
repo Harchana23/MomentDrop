@@ -5,6 +5,7 @@ import { getSiteUrl } from "@/lib/site-url";
 import { qrDataUrl } from "@/lib/qr";
 import { EventNav } from "@/components/event-nav";
 import { CopyLinkButton } from "@/components/copy-link-button";
+import NotifyForm from "@/components/notify-form";
 import { startCheckout } from "@/lib/billing/actions";
 import { stripeConfigured } from "@/lib/billing/stripe";
 import { PLANS, isPaidPlan, ringgit } from "@/lib/billing/plans";
@@ -227,6 +228,42 @@ export default async function EventOverviewPage({
               Settings
             </Link>
           </div>
+        </section>
+
+        {/* AI Photobooth — coming-soon teaser for event owners */}
+        <section className="mt-6 overflow-hidden rounded-2xl bg-gradient-to-br from-[#2A1B24] to-[#5A3242] p-6 text-[#FBF3EC] md:p-8">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center">
+            <div className="flex-1">
+              <span className="inline-block rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.14em]">
+                Coming soon
+              </span>
+              <h2 className="font-serif mt-3 text-xl font-bold md:text-2xl">AI Photobooth</h2>
+              <p className="mt-2 max-w-md text-sm leading-6 text-[#FBF3EC]/80">
+                Let your guests turn a selfie into a golden-hour portrait, a festive scene, or a
+                fairytale poster — faces kept, ready to share. A paid add-on we&apos;re building.
+                Want it for your next event? Leave your email and we&apos;ll tell you when it lands.
+              </p>
+              <NotifyForm feature="AI Photobooth (dashboard)" />
+            </div>
+            <div className="grid shrink-0 grid-cols-3 gap-2 md:w-64">
+              {[
+                { src: "/marketing/photobooth-before.jpg", tag: "Photo", original: true },
+                { src: "/marketing/photobooth-wedding.jpg", tag: "Golden" },
+                { src: "/marketing/photobooth-fantasy.jpg", tag: "Fairytale" },
+              ].map((s) => (
+                <figure key={s.src} className="relative m-0 aspect-square overflow-hidden rounded-lg border border-white/20">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={s.src}
+                    alt={s.original ? "Original photo" : `AI photobooth example — ${s.tag}`}
+                    loading="lazy"
+                    className="h-full w-full object-cover"
+                  />
+                </figure>
+              ))}
+            </div>
+          </div>
+          <p className="mt-3 text-xs text-[#FBF3EC]/45">Illustration — example AI output.</p>
         </section>
       </div>
     </main>
