@@ -207,6 +207,19 @@ export default function PricingPage() {
           Every event starts free — upgrade from your dashboard whenever you&apos;re ready. Prices in
           Malaysian Ringgit (MYR), one-time per event.
         </p>
+
+        {/* AI Photobooth — coming-soon add-on. No price yet, no date: don't promise
+            what isn't decided. */}
+        <div className="mx-auto mt-12 max-w-3xl overflow-hidden rounded-3xl border border-[#E4D9CF] bg-gradient-to-br from-[#2A1B24] to-[#5A3242] p-8 text-center text-[#FBF3EC]">
+          <span className="inline-block rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.14em]">
+            Coming soon
+          </span>
+          <h2 className="font-serif mt-4 text-2xl font-bold md:text-3xl">AI Photobooth add-on</h2>
+          <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[#FBF3EC]/80">
+            Let guests reimagine their photo as a golden-hour portrait, a festive scene, or a
+            fairytale poster — faces kept, ready to share. A paid add-on we&apos;re still building.
+          </p>
+        </div>
       </section>
 
       <section className="mx-auto max-w-3xl px-5 pb-16">
