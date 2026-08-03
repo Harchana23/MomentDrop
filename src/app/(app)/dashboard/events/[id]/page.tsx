@@ -5,7 +5,6 @@ import { getSiteUrl } from "@/lib/site-url";
 import { qrDataUrl } from "@/lib/qr";
 import { EventNav } from "@/components/event-nav";
 import { CopyLinkButton } from "@/components/copy-link-button";
-import NotifyForm from "@/components/notify-form";
 import { startCheckout } from "@/lib/billing/actions";
 import { stripeConfigured } from "@/lib/billing/stripe";
 import { PLANS, isPaidPlan, ringgit } from "@/lib/billing/plans";
@@ -240,10 +239,9 @@ export default async function EventOverviewPage({
               <h2 className="font-serif mt-3 text-xl font-bold md:text-2xl">AI Photobooth</h2>
               <p className="mt-2 max-w-md text-sm leading-6 text-[#FBF3EC]/80">
                 Let your guests turn a selfie into a golden-hour portrait, a festive scene, or a
-                fairytale poster — faces kept, ready to share. A paid add-on we&apos;re building.
-                Want it for your next event? Leave your email and we&apos;ll tell you when it lands.
+                fairytale poster — faces kept, ready to share. A paid add-on we&apos;re building for
+                your next event.
               </p>
-              <NotifyForm feature="AI Photobooth (dashboard)" />
             </div>
             <div className="grid shrink-0 grid-cols-3 gap-2 md:w-64">
               {[

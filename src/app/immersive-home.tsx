@@ -3,7 +3,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { OCCASIONS, SiteFooter } from "@/components/site-chrome";
-import NotifyForm from "@/components/notify-form";
 
 /* Illustrative AI Photobooth examples — real model output from one uploaded stock
    photo (Pexels), shown as examples. Not customer photos. */
@@ -455,9 +454,7 @@ export default function ImmersiveHome() {
                   Illustration — real AI output from one uploaded photo.
                 </p>
 
-                <NotifyForm feature="AI Photobooth" />
-
-                <p style={{ margin: "16px auto 0", fontSize: 12.5, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(251,243,236,.45)" }}>
+                <p style={{ margin: "24px auto 0", fontSize: 12.5, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(251,243,236,.45)" }}>
                   In the works for Malaysian celebrations
                 </p>
               </div>
