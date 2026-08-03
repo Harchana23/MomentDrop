@@ -3,6 +3,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import { OCCASIONS, SiteFooter } from "@/components/site-chrome";
+import NotifyForm from "@/components/notify-form";
+
+/* Illustrative AI Photobooth examples — real model output from one uploaded stock
+   photo (Pexels), shown as examples. Not customer photos. */
+const BOOTH_SHOTS = [
+  { src: "/marketing/photobooth-before.jpg", tag: "Their photo", original: true },
+  { src: "/marketing/photobooth-wedding.jpg", tag: "Golden hour" },
+  { src: "/marketing/photobooth-fantasy.jpg", tag: "Fairytale" },
+  { src: "/marketing/photobooth-festive.jpg", tag: "Festive" },
+];
 
 /* ─────────── data ─────────── */
 
@@ -177,6 +187,7 @@ export default function ImmersiveHome() {
         .ih details summary::-webkit-details-marker { display: none; }
         .ih details[open] summary span.ih-plus { transform: rotate(45deg); }
         @media (max-width: 860px) { .ih .how-grid { grid-template-columns: 1fr !important; justify-items: center; } }
+        @media (max-width: 560px) { .ih .booth-grid { grid-template-columns: repeat(2, 1fr) !important; } }
 
         /* Testimonials marquee — loops seamlessly, pauses on hover/focus.
            Cards carry their own right margin (not a flex gap) so one full set
@@ -427,7 +438,26 @@ export default function ImmersiveHome() {
                 <p style={{ margin: "18px auto 0", maxWidth: "44ch", fontSize: "clamp(15px,2vw,18px)", lineHeight: 1.6, color: "rgba(251,243,236,.85)" }}>
                   Guests snap a photo and get it reimagined — a golden-hour portrait, a festive scene, a fairytale poster — with their faces kept, ready to share. No booth to rent, no operator.
                 </p>
-                <p style={{ margin: "20px auto 0", fontSize: 13.5, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(251,243,236,.55)" }}>
+
+                {/* before → after showcase */}
+                <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(4, 1fr)", marginTop: 32 }} className="booth-grid">
+                  {BOOTH_SHOTS.map((s) => (
+                    <figure key={s.src} style={{ margin: 0, position: "relative", borderRadius: 16, overflow: "hidden", border: s.original ? "2px solid rgba(251,243,236,.55)" : "1px solid rgba(251,243,236,.2)", aspectRatio: "1", background: "rgba(0,0,0,.2)" }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={s.src} alt={s.original ? "A guest's original photo" : `AI photobooth example — ${s.tag} style`} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                      <figcaption style={{ position: "absolute", left: 8, bottom: 8, padding: "3px 9px", borderRadius: 100, fontSize: 11, fontWeight: 700, letterSpacing: ".04em", background: s.original ? "rgba(251,243,236,.92)" : "rgba(42,27,36,.72)", color: s.original ? "#2A1B24" : "#FBF3EC", backdropFilter: "blur(4px)" }}>
+                        {s.tag}
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+                <p style={{ margin: "12px auto 0", fontSize: 12, color: "rgba(251,243,236,.5)" }}>
+                  Illustration — real AI output from one uploaded photo.
+                </p>
+
+                <NotifyForm feature="AI Photobooth" />
+
+                <p style={{ margin: "16px auto 0", fontSize: 12.5, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(251,243,236,.45)" }}>
                   In the works for Malaysian celebrations
                 </p>
               </div>
