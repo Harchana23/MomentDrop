@@ -169,3 +169,25 @@ export async function getPublicGallery(eventId: string, max = 200): Promise<Gall
       guestName: (r.guest_name as string) ?? "Guest",
     }));
 }
+
+/**
+ * Drive file id for a single published video in an event, or null.
+ *
+ * The video-streaming route uses this to enforce that only a *published* *video*
+ * *belonging to this event* can be streamed — never an arbitrary Drive file id.
+ */
+export async function getPublishedVideoDriveId(
+  eventId: string,
+  uploadId: string,
+): Promise<string | null> {
+  const sb = getSupabaseAdmin();
+  if (!sb) return null;
+  const { data } = await sb
+    .from("uploads")
+    .select("storage_path, media_type, review_status")
+    .eq("event_id", eventId)
+    .eq("id", uploadId)
+    .maybeSingle();
+  if (!data || data.review_status !== "published" || data.media_type !== "video") return null;
+  return (data.storage_path as string) ?? null;
+}
