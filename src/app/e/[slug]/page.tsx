@@ -215,9 +215,21 @@ export default async function GuestEventPage({
                       loading="lazy"
                       className="w-full transition duration-500 group-hover:scale-[1.04]"
                     />
+                  ) : g.mediaType === "video" ? (
+                    // poster = the Drive thumbnail; preload="none" so nothing streams
+                    // until a guest taps the native play button.
+                    <video
+                      src={`/api/e/${slug}/video/${g.id}`}
+                      poster={g.url ?? undefined}
+                      preload="none"
+                      playsInline
+                      controls
+                      controlsList="nodownload"
+                      className="w-full"
+                    />
                   ) : (
                     <span className="flex aspect-square w-full items-center justify-center text-xs font-semibold uppercase tracking-wide text-[#9B8676]">
-                      {g.mediaType === "video" ? "▶ Video" : "File"}
+                      File
                     </span>
                   )}
                   <figcaption
