@@ -205,7 +205,8 @@ export default async function GuestEventPage({
                 key={g.id}
                 className="group relative mb-3 break-inside-avoid overflow-hidden rounded-2xl border border-[#E4D9CF] bg-[#EFE4D8]"
               >
-                <a href={g.url ?? "#"} target="_blank" rel="noreferrer" className="block">
+                {/* Not a link: guests view the album but can't open/enlarge a photo. */}
+                <div className="block select-none">
                   {g.mediaType === "photo" && g.url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -228,7 +229,7 @@ export default async function GuestEventPage({
                     </span>
                     {g.guestName}
                   </figcaption>
-                </a>
+                </div>
               </figure>
             ))}
           </div>
