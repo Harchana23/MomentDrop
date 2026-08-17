@@ -68,7 +68,7 @@ export const WEDDING_FAQS: FaqItem[] = [
   },
   {
     q: "Can guests upload video too, or only photos?",
-    a: "Both. Guests can upload video from their camera roll or record on the spot — clips recorded in the page stop at one minute, and any single file can be up to 50MB.",
+    a: "Both. Guests can upload video from their camera roll or record on the spot — clips recorded in the page stop at one minute, and any single file can be up to 500MB.",
   },
 ];
 
@@ -80,7 +80,7 @@ export const BIRTHDAY_FAQS: FaqItem[] = [
   },
   {
     q: "Can friends add videos, not just photos?",
-    a: "Yes — the singing, the candles, the speech that went on too long. Guests can upload clips from their camera roll or record one right in the page (those stop at a minute). Any single file can be up to 50MB.",
+    a: "Yes — the singing, the candles, the speech that went on too long. Guests can upload clips from their camera roll or record one right in the page (those stop at a minute). Any single file can be up to 500MB.",
   },
   {
     q: "Do my friends need to download anything?",
@@ -188,7 +188,7 @@ export const GENERAL_FAQS: FaqItem[] = [
   },
   {
     q: "How big can uploads be?",
-    a: "Each file can be up to 50MB — plenty for photos and short videos. Videos recorded in the page itself stop at one minute.",
+    a: "Each file can be up to 500MB — plenty for photos and short videos. Videos recorded in the page itself stop at one minute.",
   },
   {
     q: "Can I limit how much each guest uploads?",
