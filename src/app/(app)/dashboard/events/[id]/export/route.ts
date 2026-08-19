@@ -10,9 +10,14 @@ function safe(part: string): string {
   return part.replace(/[\\/:*?"<>|]+/g, "-").replace(/\s+/g, " ").trim() || "file";
 }
 
-/** Build a ZIP of every non-hidden upload for the owner's event, grouped by guest. */
+/**
+ * Build a ZIP for the owner's event, grouped by guest.
+ * - No `ids` param: every non-hidden upload (the "Download all" button).
+ * - `?ids=a,b,c`: exactly those uploads, whatever their status — the owner explicitly
+ *   picked them, so an intentionally-hidden one is still included when selected.
+ */
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
@@ -20,8 +25,15 @@ export async function GET(
     const event = await getEventForOwner(id); // RLS: null unless the caller owns it
     if (!event) return new Response("Not found", { status: 404 });
 
+    const idsParam = new URL(request.url).searchParams.get("ids");
+    const idFilter = idsParam
+      ? new Set(idsParam.split(",").map((s) => s.trim()).filter(Boolean))
+      : null;
+
     const uploads = await getEventUploads(id);
-    const files = uploads.filter((u) => u.storagePath && u.reviewStatus !== "hidden");
+    const files = uploads.filter((u) =>
+      u.storagePath && (idFilter ? idFilter.has(u.id) : u.reviewStatus !== "hidden"),
+    );
     if (files.length === 0) return new Response("No uploads to export yet.", { status: 404 });
 
     const archive = archiver("zip", { store: true });
