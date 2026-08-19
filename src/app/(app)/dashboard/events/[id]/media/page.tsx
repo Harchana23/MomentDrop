@@ -7,9 +7,8 @@ import {
   type ReviewStatus,
 } from "@/lib/uploads/queries";
 import { driveThumbUrl, driveViewUrl } from "@/lib/gdrive";
-import { setUploadStatus } from "@/lib/uploads/actions";
 import { EventNav } from "@/components/event-nav";
-import { DeleteUploadButton } from "@/components/delete-upload-button";
+import { MediaGrid } from "./media-grid";
 
 export const dynamic = "force-dynamic";
 
@@ -18,37 +17,6 @@ const TABS: { key: ReviewStatus; label: string }[] = [
   { key: "pending", label: "Approval" },
   { key: "hidden", label: "Hidden" },
 ];
-
-function StatusButton({
-  uploadId,
-  eventId,
-  status,
-  label,
-  primary,
-}: {
-  uploadId: string;
-  eventId: string;
-  status: ReviewStatus;
-  label: string;
-  primary?: boolean;
-}) {
-  return (
-    <form action={setUploadStatus}>
-      <input type="hidden" name="uploadId" value={uploadId} />
-      <input type="hidden" name="eventId" value={eventId} />
-      <input type="hidden" name="status" value={status} />
-      <button
-        className={
-          primary
-            ? "h-9 rounded-full btn-grad px-4 text-xs font-bold text-white transition"
-            : "h-9 rounded-full border border-[#E4D9CF] px-4 text-xs font-bold text-[#4A3540] transition hover:border-[#B5654A] hover:text-[#B5654A]"
-        }
-      >
-        {label}
-      </button>
-    </form>
-  );
-}
 
 export default async function MediaPage({
   params,
@@ -69,7 +37,10 @@ export default async function MediaPage({
   const counts = await getUploadCounts(id);
   const uploads = await getEventUploads(id, tab);
   const items = uploads.map((u) => ({
-    ...u,
+    id: u.id,
+    guestName: u.guestName,
+    originalFileName: u.originalFileName,
+    mediaType: u.mediaType,
     url: u.storagePath ? driveThumbUrl(u.storagePath, 600) : null,
     viewUrl: u.storagePath ? driveViewUrl(u.storagePath) : null,
   }));
@@ -134,52 +105,7 @@ export default async function MediaPage({
                 : "No photos yet — they'll appear here as guests upload."}
           </div>
         ) : (
-          <div className="mt-6 columns-2 gap-4 sm:columns-3 lg:columns-4 [column-fill:_balance]">
-            {items.map((u) => (
-              <div
-                key={u.id}
-                className="mb-4 break-inside-avoid overflow-hidden rounded-2xl glass"
-              >
-                <a
-                  href={u.viewUrl ?? "#"}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="block bg-[#EFE4D8]"
-                >
-                  {u.mediaType === "photo" && u.url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={u.url}
-                      alt={u.originalFileName ?? "photo"}
-                      loading="lazy"
-                      className="w-full"
-                    />
-                  ) : (
-                    <span className="flex aspect-square w-full items-center justify-center text-xs font-semibold uppercase tracking-wide text-[#9B8676]">
-                      {u.mediaType === "video" ? "▶ Video" : "File"}
-                    </span>
-                  )}
-                </a>
-                <div className="p-3">
-                  <p className="truncate text-sm font-bold">{u.guestName}</p>
-                  <p className="truncate text-xs text-[#7A6570]">
-                    {u.originalFileName ?? u.mediaType}
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {tab === "pending" && (
-                      <StatusButton uploadId={u.id} eventId={id} status="published" label="Approve" primary />
-                    )}
-                    {tab === "hidden" ? (
-                      <StatusButton uploadId={u.id} eventId={id} status="published" label="Restore" />
-                    ) : (
-                      <StatusButton uploadId={u.id} eventId={id} status="hidden" label="Hide" />
-                    )}
-                    <DeleteUploadButton uploadId={u.id} eventId={id} />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <MediaGrid items={items} eventId={id} tab={tab} />
         )}
       </div>
     </main>
