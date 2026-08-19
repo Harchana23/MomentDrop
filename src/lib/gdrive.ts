@@ -144,6 +144,13 @@ export async function downloadDriveFile(fileId: string): Promise<Buffer | null> 
   return Buffer.from(await r.arrayBuffer());
 }
 
+/** Permanently delete a single file from Drive by its id. */
+export async function deleteDriveFile(fileId: string): Promise<void> {
+  if (!fileId) return;
+  const h = await authHeaders();
+  await fetch(`${DRIVE}/files/${fileId}`, { method: "DELETE", headers: h });
+}
+
 /** Trash a Drive folder by its id (preferred — survives slug changes). */
 export async function deleteDriveFolderById(folderId: string): Promise<void> {
   if (!folderId) return;
