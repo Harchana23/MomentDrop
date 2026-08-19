@@ -9,6 +9,7 @@ import {
 import { driveThumbUrl, driveViewUrl } from "@/lib/gdrive";
 import { setUploadStatus } from "@/lib/uploads/actions";
 import { EventNav } from "@/components/event-nav";
+import { DeleteUploadButton } from "@/components/delete-upload-button";
 
 export const dynamic = "force-dynamic";
 
@@ -173,6 +174,7 @@ export default async function MediaPage({
                     ) : (
                       <StatusButton uploadId={u.id} eventId={id} status="hidden" label="Hide" />
                     )}
+                    <DeleteUploadButton uploadId={u.id} eventId={id} />
                   </div>
                 </div>
               </div>
