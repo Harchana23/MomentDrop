@@ -298,7 +298,7 @@ export default function GuestUploader({
               Tap to choose from your camera roll
             </span>
             <span className="mt-1 block text-xs text-[#9B8676]">
-              JPG · PNG · HEIC · MP4 · MOV · up to 500MB each
+              JPG · PNG · HEIC · MP4 · MOV · up to 300MB each
             </span>
           </span>
         </label>

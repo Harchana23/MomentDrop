@@ -3,7 +3,7 @@ import { getSupabaseAdmin } from "./supabase";
 export const MEDIA_BUCKET = "event-media";
 
 /** Per-file ceiling. Stored on Google Drive, so we allow larger files (incl. video). */
-export const MAX_FILE_BYTES = 500 * 1000 * 1000;
+export const MAX_FILE_BYTES = 300 * 1000 * 1000;
 
 export const ALLOWED_MIME_PREFIXES = ["image/", "video/"] as const;
 
